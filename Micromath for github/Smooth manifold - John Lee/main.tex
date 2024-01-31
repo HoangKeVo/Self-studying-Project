@@ -1,0 +1,814 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{fullpage}
+\usepackage{mathrsfs}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{quiver}
+
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{lemma}{Lemma}
+
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+\makeatletter
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Hs}{\mathbb{H}}
+\newcommand{\A}{\mathscr{A}}
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\U}{\mathscr{U}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\set}[1]{\mathbb{#1}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\mB}{\mathbb{B}}
+\newcommand{\mS}{\mathbb{S}}
+\def\phi{\varphi}
+
+\newcommand{\card}{\mathbf{card}}
+\DeclareMathOperator{\inter}{Int} 
+\DeclareMathOperator{\Id}{Id} 
+\DeclareMathOperator{\im}{Im} 
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Int}{Int} 
+\DeclareMathOperator{\rank}{rank} 
+\DeclareMathOperator{\supp}{supp} 
+
+
+
+\def\tilde{\widetilde}
+\def\epsilon{\varepsilon}
+
+
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{float}
+\newenvironment{exercise}[2][Exercise]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+    
+\newenvironment{problem}[2][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+
+
+\title{Answer to Introduction to Smooth Manifolds by John M. Lee}
+\author{Hoang Vo Ke}
+\date{\today}
+
+\begin{document}
+\maketitle
+\pagebreak
+
+\section{Smooth Manifolds}
+
+\subsection{Exercises}
+
+\begin{exercise}{1.1}
+    Show that equivalent definitions of locally Euclidean spaces are obtained if, instead of requiring $U$ to he homeomorphic to an open subset of $\R^n$, we require it to be homeomorphic to an open ball in $\R^n$, or to $\R^n$ itself.
+\end{exercise}
+    \begin{proof}
+        Let $X$ be a topological space. Assume that $X$ is locally Euclidean in the open set sense, that is, there exist a homeomorphism $\phi\colon U\to \tilde U$ where $U$ is a neighborhood of $p$ and $\tilde U$ is an open subset of $\R^n$. Because the set of open balls generates the Euclidean topology of $\R^n$, we can find an $\epsilon>0$ such that $B(p,\epsilon)\subset \tilde U$. So $\phi^{-1}(B(p,\epsilon))$ is a neighborhood of $p$ that is isomorphic to an open ball.
+
+        Conversely, if $X$ is locally Euclidean in the open ball sense, then since any open ball is an open set, we get $X$ to be locally Euclidean in the open set sense. Thus the open subset and open ball definitions are equivalent. 
+        
+        Obviously the open ball is equivalent to the $\R^n$ itself because any open ball is isomorphic to $\R^n$, we get the conclusion.
+    \end{proof}
+
+\begin{exercise}{1.2}
+    Show that any topological subspace of a Hausdorff space is Hausdorff, and any finite product of Hausdorff spaces is Hausdorff.
+\end{exercise}
+    \begin{proof}
+        Let $Y\subset X$ be a subspace of a Hausdorff topological space. For any $a,b\in Y, a\neq b$, because $X$ is Hausdorff, there exist open subsets $A,B$ of $X$ that separate $a$ and $b$. Hence $A\cap Y$ and $B\cap Y$ are open subsets of $Y$ that separate $a$ and $b$.
+
+        Let $X_1\times X_2$ be the product of two Hausdorff spaces. Let $(a_1,a_2)$ and $(b_1,b_2)$ be two different elements of $X_1\times X_2$. So at least there is one component is different. Without lost of generality, assume that $a_1\neq b_1$, then they are separated by $A_1$ and $B_1$. Thus $A_1\times X_2$ and $B_1\times X_2$ are two disjoint open subsets of $X_1\times X_2$ that separate $(a_1,a_2)$ and $(b_1,b_2)$. 
+    \end{proof}
+
+\begin{exercise}{1.3}
+    Show that any topological subspace of a second countable space is second countable, and any finite product of second countable spaces is second countable.
+\end{exercise}
+    \begin{proof}
+        Let $\B$ be a countable basis for a topological space $X$, and $Y\subset X$. Then 
+        \[
+        \B' = \{X\cap Y:X\in\B\}
+        \]
+        is a countable basis for $Y$. The second part is by the definition of the product topology and the finite product of countable sets is countable.
+    \end{proof}
+
+\begin{exercise}{1.4}
+    Show that $\set{P}^n$ is Hausdorff and second countable, and is therefore a topological $n$-manifold.
+\end{exercise}  
+    \begin{proof}
+        We know that $\set{P}^n$ is a topological manifold from \cite{Lee1}. So this space is Hausdorff and second countable.
+    \end{proof}
+
+\begin{exercise}{1.5}
+    Prove Lemma 1.4(b). That is two smooth atlases for $M$ determine the same maximal smooth atlas if and only if their union is a smooth atlas.
+\end{exercise}
+    \begin{proof}
+        Let $\A_1$ and $\A_2$ be two smooth atlases for $M$. Assume that $\A_1$ and $\A_2$ determine the same maximal smooth atlas $\A$ for $M$. Then any two charts in $\A_1\cup \A_2$ are also charts in $\A$, thus smoothly compatible with each other. So $\A_1\cup \A_2$ is a smooth atlas for $M$.
+
+        Conversely, assume that $\A_1\cup \A_2$ is a smooth atlas. By Lemma 1.4(a), $\A_1$ and $\A_1\cup \A_2$ generates the same smooth structure on $M$. And the same thing holds for $\A_2$ and $\A_1\cup \A_2$. Thus $\A_1$ and $\A_2$ generate the same smooth structure.
+    \end{proof}
+
+\begin{exercise}{1.6}
+    If $k$ is an integer between $0$ and $\min(m,n)$, show that the set of $m\times n$ matrices whose rank is at least $k$ is open submanifold of $M(m\times n,\R)$.
+\end{exercise}
+    \begin{proof}
+        Let $M_k(m\times n,\R)$ be the set of matrices of rank $k$ or above. Since $M(m\times n,\R)$ is a smooth manifold, it is sufficient to show that $M_k(m\times n,\R)$ is an open subset of $M(m\times n,\R)$. For any $A\in M_k(m\times n,\R)$, we get $\rank(A)=k$. Thus there is a nonsigular $k\times k$ minor $\phi$ of $A$. Because $\det$ is a continuous function, so is this minor $\phi$. We have $\phi^{-1}(\R\setminus\{0\})$ is open in $M(m\times n,\R)$. Notice that any $M\in \phi^{-1}(\R\setminus\{0\})$ has rank greater or equal to $k$, thus this coimage is an open subset of $M_k(m\times n,\R)$, and thus is a neighborhood of $A$. So $M_k(m\times n,\R)$ is a subspace of $M(m\times n,\R)$ thus is a smooth submanifold of $M(m\times n,\R)$.
+    \end{proof}
+    
+\pagebreak
+
+\begin{exercise}{1.7}
+    By identifying $\R^2$ with $\C$ in the usual way, we can think of the unit circle $\set{S}^1$ as a subset of the complex plane. An angle function on a subset $U\subset \set{S}^1$ is a continuous function $\theta\colon U\to \R$ such that $e^{i\theta(p)}=p$ for all $p\in U$. Show that there exists an angle function $\theta$ on an open subset $U\subset \set{S}^1$ if and only if $U\neq \set{S}^1$. For any such angle function, show that $(U,\theta)$ is a smooth coordinate chart for $\set{S}^1$ with its standard smooth structure.
+\end{exercise}
+    \begin{proof}
+        Recall that the function $\epsilon\colon \R\to \set{S}^1$ that maps $x\mapsto e^{ix}$ is a covering map. We want to find a function $\theta\colon U\to \R$ such that $\epsilon\circ\theta(p) = e^{i\theta(p)}=p$, or the following diagram commutes.
+        % https://q.uiver.app/#q=WzAsMyxbMCwxLCJVIl0sWzEsMSwiXFxzZXR7U31eMSJdLFsxLDAsIlxcUiJdLFsyLDEsIlxcZXBzaWxvbiJdLFswLDEsIlxcSWQiLDJdLFswLDIsIlxcdGhldGEiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	& \R \\
+	U & {\set{S}^1}
+	\arrow["\epsilon", from=1-2, to=2-2]
+	\arrow["\Id"', from=2-1, to=2-2]
+	\arrow["\theta", dashed, from=2-1, to=1-2]
+\end{tikzcd}\]
+        In another words, we need to find the condition of $U$ such that $\Id$ has a lift. But $\pi_1(\R)=0$, thus $\epsilon_*\pi_1(\R)=0$. So $\theta$ exists if and only if $\Id_*\pi_1(U,u_0)=0$ for some $u_0\in U$. But this is synonymous with $U\neq \set{S}^1$ (because $\pi_1(\set{S}^1)=\Z$ and $\pi_1(\set{S}^1\setminus\{*\})=\pi_1(I)=0$). So $\theta$ exists if and only if $U\neq \set{S}^1$.
+
+        For the second part, we first show that $(U,\theta)$ is a chart, that is, $\theta$ is a homeomorphism onto its image. Clearly $\theta$ is continuous and injective (because $\epsilon\circ \theta=\Id$). The inverse function $\theta^{-1}$ makes the following diagram commutes.
+% https://q.uiver.app/#q=WzAsMyxbMCwxLCJVIl0sWzEsMSwiXFxzZXR7U31eMSJdLFsxLDAsIlxcdGhldGEoVSkiXSxbMiwxLCJcXGVwc2lsb24iXSxbMCwxLCJcXElkIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiYXJyb3doZWFkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwyLCJcXHRoZXRhXnstMX0iLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJhcnJvd2hlYWQifSwiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\[\begin{tikzcd}
+	& {\theta(U)} \\
+	U & {\set{S}^1}
+	\arrow["\epsilon", from=1-2, to=2-2]
+	\arrow["\Id"', tail reversed, no head, from=2-1, to=2-2]
+	\arrow["{\theta^{-1}}", dashed, tail reversed, no head, from=2-1, to=1-2]
+\end{tikzcd}\]
+    So $\theta^{-1}(x)=\epsilon(x)=e^{ix}$ for $x\in \theta(U)\subset\R$. This map is also continuous. So we conclude that $(U,\theta)$ is a chart. 
+
+    Now we show that $(U,\theta)$ is a smooth coordinate chart for $\set{S}^1$ with the standard smooth structure. Recall that the standard smooth structure is generated by $4$ charts $(U_i,\phi_i)$ as in Example 1.11. By Lemma 1.4, it is sufficient to show that $(U,\theta)$ is smoothly compatible with $(U_i,\phi_i)$ for any $i$. Indeed, if $U\cap U_1\neq \varnothing$, then 
+    \[
+    \theta\circ(\phi_1^+)^{-1}(x)=\theta(\sqrt{1-|x|^2},x).
+    \]
+    Notice that the Euler formula implies that
+    \begin{align*}
+    e^{i\sin^{-1}(x)}&= \cos(\sin^{-1}(x)) + i\sin(\sin^{-1}(x))\\
+    &= \sqrt{1-\sin(\sin^{-1}(x))^2}+ix\\
+    &= \sqrt{1-|x|^2}+ix.
+    \end{align*}
+    Thus 
+    \[
+    \theta\circ (\phi_1^+)^{-1}(x)=\theta(\sqrt{1-|x|^2},x)=\sin^{-1}(x),
+    \]
+    which is smooth on its domain. Moreover,
+    \[
+    (\phi_1^+)\circ\theta(x) = \phi_1^+(e^{ix})=\phi_1^+(\cos(x),\sin(x))=\sin(x).
+    \]
+    This function is also smooth on its domain. Similarly for other pairs, we conclude that $(U_i,\phi_i)$ is smoothly compatible with $(U,\theta)$ for all $i$. So $(U,\theta)$ is a smooth coordinate chart for $\set{S}^1$ with its standard smooth structure.
+
+    \end{proof}
+
+\begin{exercise}{1.8}
+    Let $0<k<n$ be integers, and let $P,Q\subset \R^n$ be the subspaces spanned by $(e_1,\cdots,e_k)$ and $(e_{k+1},\cdots,e_n)$, respectively, where $e_i$ is the $i$th standard basis vector. For any $k$-dimensional subspace $S\subset\R^n$ that has trivial intersection with $Q$, show that the coordinate representation $\phi(S)$ constructed in the preceding example is the unique $(n-k)\times k$ matrix $B$ such that $S$ is spanned by the columns of the matrix $\begin{pmatrix}
+        I_k\\
+        B
+    \end{pmatrix}$, where $I_k$ denotes the $k\times k$ identity matrix.
+\end{exercise}
+    \begin{proof}
+        Any such space $S$ has the form $\{x+Ax\colon x\in P\}$ where $A\colon P\to Q$ is a linear map. Let $B\in M_{(n-k)\times k}(\R)$ such that $A(e_i)=B_{.,i}$ the $i$-th column of $B$. Then $\begin{pmatrix}
+            e_i\\
+            B_{.,i}
+        \end{pmatrix}=e_i+Ae_i\in S$. Actually this matrix $B$ is unique for the same reason, that is, because the $i$-th column is a vector in $S$, it has to have the form $e_i+Ae_i$. It is left to prove that these columns span $S$. Because $S$ has dimension $k$, $A$ has rank $k$. Thus $B$ has rank $k$ and so is $\begin{pmatrix}
+            I_k\\
+            B
+        \end{pmatrix}.$ Since there are $k$ column vectors in this matrix, which has rank $k$, we deduce that these vectors are linearly independent. So $S$ is spanned by the columns of the matrix $\begin{pmatrix}
+            I_k\\
+            B
+        \end{pmatrix}.$
+    \end{proof}
+
+
+\subsection{Problems}
+
+
+\begin{problem}{1-1}
+    Let $X$ be the set of all points $(x,y)\in \R^2$ such that $y=\pm1$, and let $M$ be the quotient of $X$ by the equivalence relation generated by $(x,-1)\sim (x,1)$ for all $x\neq 0$. Show that $M$ is locally Euclidean and second countable, but not Hausdorff.
+\end{problem}
+\begin{proof}
+	First, we will show that $X/\sim$ is locally Euclidean. Let $q: X\rightarrow X/\sim$ be a quotient map, and define $f:(X/\sim) \rightarrow \R$ maps $q(x,-1)$ and $q(x,1)$ to $x$. Any element of $X/\sim$ has the form $q(x,-1)$ or $q(x,1)$. If $x\neq 0\in \R$, then there exists an open neighborhood of $x$ that doesn't contain $0$, say $(a,b)$. Now we will show that $Q=\{q(x,-1):x\in (a,b)\}$ is open in $(X/\sim)$. Indeed, $q^{-1}(Q)=\{q^{-1}(q(x)):x\in (a,b)\}=(a,b)\times\{-1\}\cup (a,b)\times \{1\}$ which is open in $(\R\times \{-1\})\cup (\R\times \{1\})$, so $Q$ is open. Since $q(x,1)=q(x,-1)\in Q$, this is a neighborhood of $q(x,1)=q(x,-1)$. Next, we will show that $f|_Q:Q\rightarrow f(Q)=(a,b)\subset \R$ is a homeomorphism. For any $q(u,-1),q(v,-1)\in Q$, $f|_Q(u)=f|_Q(v)$, implies $u=v$. So $f|_Q$ is one to one. For any open set $U\subset (a,b)$, $f|_Q^{-1}(U)= \{q(x,\epsilon):x\in U, \epsilon\in\{-1,1\}$, which is open because $q^{-1}(f|_Q^{-1}(U))=(U\times\{-1\})\cup (U\times\{1\})$ is open in $(\R\times \{-1\})\cup (\R\times \{1\})$. So $f|_Q$ is continuous. Moreover, because $Q$ is open, a set $V\subset Q$ is open in $Q$ if and only if $V$ is open in $X/\sim$, that is $q^{-1}(V)=(V'\times \{-1\})\cup (V'\times \{1\})$ is open in $X$. But this implies $f|_Q(V)=V'$ is open in $\R$. So $Q$ is homeomorphic to an open set in $\R$.
+	
+	Now consider $q(0,-1)$, let $P=\{q(x,-1):x\in (-1,1)\}\subset X/\sim$. Because $q^{-1}(P)=((-1,1)\times\{-1\})\cup ((-1,0)\times \{1\})\cup((0,1)\times \{1\})$, which is a union of 3 open sets thus open, we get $P$ is open in $X/\sim$. Let $g:P\rightarrow (-1,1)\subset \R$ maps $q(x,-1)\mapsto x$, we will show that $g$ is a homeomorphism. We can see $g$ is one to one and surjective by the definition of $g$. For any open set $E\subset (-1,1)$, we have $g^{-1}(E)=q(E\times\{-1\})$. But this set is open because 
+	\[
+	q^{-1}(q(E)\times\{-1\})=[(E\times\{-1\})\cup (E\times\{1\})]\setminus \{(0,1)\}
+	\]
+	is open in $X$. So $g$ is continuous. Moreover, any open set of $P=q((-1,1)\times \{-1\})$ has the form $q(O\times \{-1\})$ where $O$ is open in $\R$. Thus $g(q(O\times \{-1\}))=O$ is open in $\R$, which means $P$ is a coordinate neighborhood of $q(0,-1)$. Similarly for the case $q(0,1)$, we conclude that $X/\sim$ is locally Euclidean.
+	
+	Since $\R^2$ is second countable, we get $X\subset \R^2$ is second countable. Moreover, any neighborhood of $q(0,-1)$ has the form $q(V_0\times \{-1\})$ where $V_0$ is a neighborhood of $0$ in $\R$, and any neighborhood of $q(0,1)$ has the form $q(V_1\times \{-1\})$ where $V_1$ is a neighborhood of $0$ in $\R$. But then $V_0\cap V_1$ is a nonempty neighborhood of $0$, thus contain an $\epsilon\neq 0$. So $q(\epsilon,-1)\in  q(V_0\times \{-1\})\cap q(V_1\times \{-1\})\neq \varnothing$. So $X/\sim$ is not Hausdorff.
+	\end{proof}
+
+\pagebreak
+
+\begin{problem}{1-3}
+    Let $N=(0,\cdots,0,1)$ be the "north pole" and $S=-N$ the "south pole". Define stereographic projection $\sigma\colon \set{S}^n\setminus\{N\}\to \R^n$ by
+    \[
+    \sigma(x^1,\cdots,x^{n+1})=\frac{(x^1,\cdots,x^n)}{1-x^{n+1}}.
+    \]
+    Let $\tilde\sigma(x)=\sigma(-x)$ for $x\in \set{S}^n\setminus\{S\}$.
+    \begin{enumerate}[label=(\roman*)]
+        \item Show that $\sigma$ is bijective, and
+        \[
+        \sigma^{-1}(u^1,\cdots,u^n)=\frac{(2u^1,\cdots,2u^n,|u|^2-1)}{|u|^2+1}.
+        \]
+        \item Compute the transition map $\tilde\sigma\circ \sigma^{-1}$ and verify that the atlas consisting of the two charts $(\set{S}^n\setminus\{N\},\sigma)$ and $(\set{S}^n\setminus\{S\},\tilde\sigma)$ defines a smooth structure on $\set{S}^n$.
+        \item Show that this smooth structure is the same as the one defined in Example 1.11.
+    \end{enumerate}
+\end{problem}   
+    \begin{proof}
+        \begin{enumerate}[label=(\roman*)]
+            \item Assume that $\sigma(x_1,\cdots,x_{n+1})=\sigma(y_1,\cdots,y_{n+1})$, we will prove that 
+            $$(x_1,\cdots,x_{n+1})=(y_1,\cdots,y_{n+1}).$$
+            Let $x=(x_1,\cdots,x_n)$ and $y=(y_1,\cdots,y_n)$ in $\R^n$. Because $(x_1,\cdots,x_{n+1})\in \set{S}^n$, we get $$x_{n+1}=\pm \sqrt{1-|x|^2}.$$
+            Similarly, 
+            \[
+            y_{n+1}=\pm\sqrt{1-|y|^2}.
+            \]
+            So our assumption implies that
+            \begin{equation}{\label{3-1.4}}
+            \frac{x}{1\pm\sqrt{1-|x|^2}}=\frac{y}{1\pm\sqrt{1-|y|^2}}.                
+            \end{equation}
+            Therefore
+            \begin{equation}{\label{1-3.1}}
+                \frac{|x|}{1\pm\sqrt{1-|x|^2}}=\frac{|y|}{1\pm\sqrt{1-|y|^2}}.
+            \end{equation}
+            
+            Notice that 
+            \[
+            |x|^2=\sum_{i=1}^{n}{x_i^2}\leq \sum_{i=1}^{n+1}=1,
+            \]
+            thus
+            \begin{equation}{\label{1-3.2}}
+            \frac{|x|}{1+\sqrt{1-|x|^2}}< |x|\leq 1.
+            \end{equation}
+            And 
+            \begin{equation}{\label{1-3.3}}
+            \frac{|x|}{1-\sqrt{1-|x|^2}}\geq 1,                
+            \end{equation}
+            which can be proven by force as follow.
+            \begin{align*}
+                (|x|+\sqrt{1-|x|^2})^2&=x^2+1-x^2+2|x|\sqrt{1-|x|^2}\\
+                &=1+2|x|\sqrt{1-|x|^2}\\
+                &\geq 1.
+            \end{align*}
+            So 
+            \[
+            |x|+\sqrt{1-|x|^2}\geq 1
+            \]
+            or 
+            \[
+            \frac{|x|}{1-\sqrt{1-|x|^2}}\geq 1.
+            \]
+            From (\ref{1-3.1}), (\ref{1-3.2}), and (\ref{1-3.3}), there are just two cases that can occur, which are
+            \[
+            \frac{|x|}{1+\sqrt{1-|x|^2}}=\frac{|y|}{1+\sqrt{1-|y|^2}},
+            \]
+            and
+            \[
+            \frac{|x|}{1-\sqrt{1-|x|^2}}=\frac{|y|}{1-\sqrt{1-|y|^2}}.
+            \]
+            Notice that both $\frac{t}{1-\sqrt{1-t^2}}$ and $\frac{t}{1+\sqrt{1-t^2}}$ are strict monotone functions, we claim that $|x|=|y|$. Apply this to (\ref{3-1.4}), we get $x=y$. Also (\ref{1-3.1}), (\ref{1-3.2}), and (\ref{1-3.3}) imply $x_{n+1}$ and $y_{n+1}$ to have the same sign. Thus $x_{n+1}=y_{n+1}$. So $\sigma$ is injective.
+
+            For surjective part, let $v\in \R^n$. Let $$\alpha=\frac{2}{1+|v|^2},$$
+            we will prove that $(\alpha v, \sqrt{1-\alpha^2v^2})\in \set{S}^n$ and $\sigma(\alpha v, \sqrt{1-\alpha^2v^2})=v$. The first part obvious by the distribution. Again, by force, we can check that
+            \[
+            \frac{\alpha}{1-\sqrt{1-\alpha^2v^2}}=1.
+            \]
+            So the second part is checked, that is $\sigma$ is surjective. So it is bijective.
+
+            \item It is sufficient to prove that $\sigma$ and $\tilde\sigma$ are smoothly compatible. Let $u\in \R^n$, then
+            \begin{align*}
+                \tilde\sigma\circ \sigma^{-1}(u)&=\tilde\sigma\left(\frac{2}{|u|^2+1}u,\frac{|u|^2-1}{|u|^2+1}\right)\\
+                &=\sigma\left(\frac{-2}{|u|^2+1}u,\frac{1-|u|^2}{|u|^2+1}\right)\\
+                &=\frac{\frac{-2}{|u|^2+1}u}{1-\frac{1-|u|^2}{|u|^2+1}}\\
+                &=\frac{-2}{|u|^2+1-1+|u|^2}u\\
+                &=\frac{-1}{|u|^2}\cdot u.
+            \end{align*}
+            But this function is smooth with respect to each entry. Similarly for $\sigma\tilde\sigma^{-1}$, we conclude that the two charts $(\set{S}^n\setminus\{N\},\sigma)$ and $(\set{S}^n\setminus\{S\},\tilde\sigma)$ define a smooth structure on $\set{S}^n$.
+            \item Assume that $(U_i,\phi_i)$ and $(\set{S}^n\setminus\{N\},\sigma)$ be two charts of $\set{S}^n$ such that $U_i\cap \set{S}^n\setminus\{N\}\neq \varnothing$. We have
+            $\phi_i\circ \sigma^{-1}$ to be the function that drop the $i$-th coordinate of $\sigma^{-1}(u)$. But $\sigma^{-1}(u)$ is smooth to each coordinate. So $\phi\circ\sigma^{-1}$ is smooth to each coordinate. Now consider $\sigma\circ \phi^{-1}(u)$. What $\sigma$ does is forgeting the last entry and multiplying each other entry to a constant (which is $\frac{1}{1-x_{n+1}}$). But $\phi^{-1}(u)$ is smooth to each coordinate, thus so is $\sigma\circ\phi_i^{-1}$. 
+
+            Similarly for other pairs of $(U_i,\phi_i)$, with $(\set{S}^n\setminus\{N\},\sigma)$ and $(\set{S}^n\setminus\{S\},\tilde\sigma)$, we claim that these smooth structures are the same.
+            
+        \end{enumerate}
+    \end{proof}
+
+\begin{problem}{1-4}
+    Let $M$ be a smooth $n$-manifold with boundary. Show that $\Int M$ is a smooth $n$-manifold and $\partial M$ is a smooth $(n-1)$-manifold (both without boundary).
+\end{problem}
+    \begin{proof}
+        We first prove that if $f\colon U\to \R$ is smooth where $U\subset \R^n$ (not necessarily open), then $f\colon \Int U\to \R$ is smooth. By the definition, there is an extension $\tilde f\colon\tilde U\to \R$ of $f$ such that $\tilde U$ is open in $\R^n$ and that $\tilde f$ is smooth. Notice that $\Int U$ is an open subset of $\tilde U$. Hence $f|_{\Int U}=\tilde f|_{\Int U}$, which is obviously smooth. So for any open subset $V$ or $\R^n$ such that $V\subset U$, we have $f|_V$ is smooth.
+
+        Assume that $M$ is a smooth $n$-manifold, and that $\{(U_i,\phi_i):i\in I\}$ defines a smooth structure on $M$, we will show that $\{(U_i',\phi_i):i\in I, U_i'=U_i\cap\Int M=\Int U_i\}$ defines an atlas on $\Int M$. (Notice that $\phi_i$ here is the restriction of $\phi_i$ onto $U_i'$, but no relabelling is required.) Because
+        \[
+        \bigcup_{i\in I}U_i'=\bigcup_{i\in I}(U_i\cap \Int M)=\Int M\cap \bigcup_{i\in I}U_i = \Int M\cap M = \Int M,
+        \]
+        the $U_i'$ cover $\Int M$. For any $(U_i',\phi_i)$ and $(U_j',\phi_j)$ such that $U_i'\cap U_j'\neq \varnothing$, we have $\phi_i\circ\phi_j^{-1}$ is smooth on $\phi_j(U_i\cap U_j)\subset \set{H}^n$. But $\phi_j$ is a homeomorphism, thus $\phi_j(U'_j\cap U'_i)$ is an open subset of $\R^n$ such that $\phi_j(U'_j\cap U'_i)\subset \phi(U_i\cap U_j)$. By our remark in the first paragraph, $\phi_i\circ \phi_j^{-1}$ is smooth (in the open set  sense). Similarly, we have $\phi_j\circ \phi_i^{-1}$ smooth. So $\{(U_i',\phi_i):i\in I, U_i'=U_i\cap\Int M=\Int U_i\}$ defines an atlas on $\Int M$ or $\Int M$ is a smooth $n$-manifold.
+
+        If $m\in \partial M$, then there is a chart $(U_m,\phi_m)$ where $U_m$ is a neighborhood of $m$, and $\phi_m(m)\in \partial \set{H}^n=\R^{n-1}$. And actually, by the Invariance of the Boundary, we have $\phi_m\colon U_m\cap \partial M\to \partial \set{H}^n=\R^{(n-1)}$.
+        Define $\phi_m'={\phi_m}|_{\partial M}$ and $U'_m=U_m\cap\partial M$ for each $m\in\partial M$, we will show that $\{(U'_m,\phi_m'):m\in\partial M\}$ is an atlas on $\partial M$. Because $m$ runs all over $\partial M$ and $U'_m$ contains $m$, it is clear that this set covers $\partial M$. Moreover, for any two charts $(U'_m,\phi'_m)$ and $(U'_n,\phi'_n)$ such that $U'_m\cap U'_n\neq \varnothing$, we consider the map $\phi'_m\circ (\phi'_n)^{-1}$. Notice that
+        \[
+        \phi'_m\circ (\phi'_n)^{-1}=\phi_m\circ (\phi_n)^{-1}|_{\partial \set{H}^n},
+        \]
+        which is just the same as $\phi_m\circ (\phi_n)^{-1}$ on every coordinate save the last one (which is eliminated). So this function restricted to $\partial\set{H}^n$ is smooth, which is synonymous with saying $\phi'_m\circ (\phi'_n)^{-1}$ is smooth. Hence $(U'_m,\phi'_m)$ and $(U'_n,\phi'_n)$ are smoothly compatible for every $m,n\in\partial M$. So $\partial M$ is a smooth $(n-1)$-manifold.
+    \end{proof}
+
+
+\section{Smooth Maps}
+
+\subsection{Exercises}
+
+
+\begin{exercise}{2.1}
+    Let $F\colon M\to N$ be a map between smooth manifolds, and suppose each point $p\in M$ has a neighborhood $U$ such that $F|_U$ is smooth. Show that $F$ is smooth.
+\end{exercise}
+    \begin{proof}
+        Assume that each point $p\in M$ has a neighborhood $U$ such that $F|_U$ is smooth. So there is a chart $(U_p,\phi_p)$ of $M$ such that $F\colon U_p\to N$ is smooth, and $U_p\subset U$. (If not, then just take $U_p\cap U$.) Notice that $\{U_p:p\in M\}$ covers $M$, thus $\{(U_p,\phi_p):p\in M\}$ is an atlas on $M$. For any chart $(V_q,\psi_q)$ of $N$, obviously $\phi_p\circ F\circ \psi_q^{-1}$ is smooth by our assumption. Thus by Lemma 2.2, we get $F$ to be smooth.
+    \end{proof}
+
+
+\begin{exercise}{2.2}
+    Prove the following claim. Let $M,N$ be smooth manifolds and let $F\colon M\to N$ be any map. If $\{(U_\alpha,\phi_\alpha)\}$ and $\{(V_\beta,\psi_\beta)\}$ are smooth atlases for $M$ and $N$, respectively, and if for each $\alpha$ and $\beta$, $\psi_\beta\circ F\circ \phi^{-1}_\alpha$ is smooth on its domain of defininition, then $F$ is smooth.
+\end{exercise} 
+    \begin{proof}
+        For any two charts $(U,\phi)$ and $(V,\psi)$ of $M$ and $N$ respectively, we can find $(U_\alpha,\phi_\alpha)$ and $(V_\beta,\psi_\beta)$ in the atlases for $M$ and $N$ such that $\phi$ and $\phi_\alpha$ are smoothly compatible, and so are $\psi$ and $\psi_\beta$. Thus we have
+        \begin{align*}
+        \psi\circ F\circ\phi &= \psi\circ (\psi_\beta^{-1}\circ \psi_\beta)\circ F\circ (\phi_\alpha^{-1}\circ \phi_\alpha)\circ \phi^{-1}\\
+        &=(\psi\circ \psi_\beta^{-1})\circ (\psi_\beta\circ F\circ \phi_\alpha^{-1})\circ (\phi_\alpha\circ \phi^{-1}).
+        \end{align*}
+        But the last term is a composition of three smooth maps, thus smooth. So $\psi\circ F\circ \phi$ is smooth on its domain of definition. Thus $F$ is smooth.
+    \end{proof}
+
+
+\begin{exercise}{2.3}
+    Let $M_1,\cdots,M_k$ and $N$ be smooth manifolds. Show that a map $F\colon N\to M_1\times \cdots\times M_k$ is smooth if and only if each of the "component maps" $F_i=\pi_i\circ F\colon N\to M_i$ is smooth.
+\end{exercise}
+    \begin{proof}
+        For the sake of clean notation, we will prove for the case $k=2$. The general case can be done similarly. Let $\{(A_i,\alpha_i)\}$ and $\{(B_j,\beta_j)\}$ be atlases for $M_1$ and $M_2$. From Example 1.13, we know that $\{(A_i\times B_j,\alpha_i\times\beta_j)\}$ defines an atlas on $M_1\times M_2$. 
+
+        Assume that $F\colon N\to M_1\times M_2$ is smooth, we will show that $F_1=\pi_1\circ F$ is smooth. Indeed, for any $(A_i,\alpha_i)$ in the atlas for $M_1$ and $(U,\phi)$ a chart of $N$, we have 
+        \[
+        \alpha_i\circ \pi_1\circ F\circ \phi^{-1}=(\alpha_i\circ \pi_1\circ(\alpha_i\times\beta_j)^{-1})\circ ((\alpha_i\times\beta_j)\circ F\circ \phi^{-1})
+        \]
+        for some $(B_j,\beta_j)$ in the atlas for $M_2$. Since $F$ is smooth, we get $(\alpha_i\times\beta_j)\circ F\circ \phi^{-1}$ to be smooth. So it is sufficient to check that $\alpha_i\circ \pi_1\circ(\alpha_i\times\beta_j)^{-1}$ is smooth. But this is just the identity function on $\R^N$ by the following diagram, thus smooth.
+        % https://q.uiver.app/#q=WzAsNCxbMCwxLCJcXFJeTiJdLFsyLDEsIk1fMVxcdGltZXMgTV8yIl0sWzMsMCwiTV8xIl0sWzMsMiwiTV8yIl0sWzAsMiwiXFxhbHBoYV9pXnstMX0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwzLCJcXGJldGFfal57LTF9IiwyLHsiY3VydmUiOjJ9XSxbMSwyLCJcXHBpXzEiLDJdLFsxLDMsIlxccGlfMiJdLFswLDEsIihcXGFscGhhX2lcXHRpbWVzXFxiZXRhX2opXnstMX0iXV0=
+\[\begin{tikzcd}
+	&&& {M_1} \\
+	{\R^N} && {M_1\times M_2} \\
+	&&& {M_2}
+	\arrow["{\alpha_i^{-1}}", curve={height=-12pt}, from=2-1, to=1-4]
+	\arrow["{\beta_j^{-1}}"', curve={height=12pt}, from=2-1, to=3-4]
+	\arrow["{\pi_1}"', from=2-3, to=1-4]
+	\arrow["{\pi_2}", from=2-3, to=3-4]
+	\arrow["{(\alpha_i\times\beta_j)^{-1}}", from=2-1, to=2-3]
+\end{tikzcd}\]
+
+    Conversely, assume that $F_1$ and $F_2$ are smooth, we show that $F$ is also smooth. By Exercise 2.2, it is sufficient to check that $(\alpha_i\times \beta_j)\circ F\circ \phi^{-1}$ is smooth. But
+    \begin{align*}
+        (\alpha_i\times \beta_j)\circ F\circ \phi^{-1}&=(\alpha_i\circ\pi_1\circ F\circ\phi^{-1})\times (\beta_j\circ \pi_2\circ F\circ\phi^{-1}),
+    \end{align*}
+    which is a product of two smooth functions thus smooth. So $F$ is smooth if and only if $F_1$ and $F_2$ are smooth.
+    \end{proof}
+
+
+\begin{exercise}{2.4}
+    Show that "diffeomorphic" is an equivalence relation.
+\end{exercise}
+    \begin{proof}
+        Assume that $M\cong N$, then there exists $F\colon M\to N$ a diffeomorphism. Thus $F^{-1}\colon N\to M$ is a diffeomorphism, which implies $N\cong M$. Clearly $Id_M\colon M\to M$ is a diffeomorphism, thus $M\cong M$. Lastly, if $M\cong N$ and $N\cong P$, then there exist $F\colon M\to N$ and $G\colon N\to P$ to be diffeomorphisms. It is not hard to see that $G\circ F\colon M\to P$ is a diffeomorphism. Thus $M\cong P$. So diffeomorphic is an equivalence relation.
+    \end{proof}
+
+
+\begin{exercise}{2.5}
+    Show that a map $F\colon M\to N$ is a diffeomorphism if and only if it is a bijective local diffeomorphism.
+\end{exercise}
+    \begin{proof}
+        Assume that $F\colon M\to N$ is a diffeomorphism, then obviously $F$ is bijective. For any $m\in M$, $M$ itself is a neighborhood $m$ and $M\cong N = F(M)$. So $F$ is locally diffeomorphism. 
+
+        Conversely, assume that $F\colon M\to N$ is a bijective local diffeomorphism. For any $m\in M$, our hypothesis implies the existence of a neighborhood $U_m$ that is diffeomorphic to $F(U_m)$. Assume that $(M_i,\phi_i)$ is an atlas for $M$, then there is some $M_i$ that contain $m$. Let $\bar U_m=M_i\cap U_m$, then $\bar U_m$ is diffeomorphic to $F(\bar U_m)$ and $\{(\bar U_m,\phi_i)\}$ defines an atlas on $M$. For any chart $(V,\psi)$ of $N$ that has $m$, because $F$ is a diffeomorphism restricting on $\bar U_m$, we get $\psi\circ F\circ\phi_i^{-1}$ to be smooth. So $F$ is smooth. Similarly, we can check that $F^{-1}$ is smooth. So $F$ is a diffeomorphism.
+    \end{proof}
+
+
+
+\begin{exercise}{2.6}
+    Prove that
+    \begin{enumerate}[label=(\roman*)]
+        \item Any smooth covering map is local diffeomorphism and an open map.
+        \item An injective smooth covering map is a diffeomorphism.
+        \item A topological covering map is a smooth covering map if any only if it is a local diffeomorphism.
+    \end{enumerate}
+\end{exercise}
+    \begin{proof}
+        \begin{enumerate}[label=(\roman*)]
+            \item Assume that $\pi\colon \tilde M\to M$ is a smooth covering map. For any $m\in \tilde M$, consider $\pi(m)\in M$. There is a neighborhood $U$ of $\pi(m)$ that is diffeomorphic to a neighborhood $V$ of $m$ through $\pi$. So $\pi$ is a local diffeomorphism.
+
+            For any $m\in \tilde M$, construct such $V_m$ as above, we get an open covering $\{V_m\}$ of $\tilde M$ such that $V_m$ is diffeomorpic to $\pi(V_m)$. So for open subset $U\subset \tilde M$, we have
+            \[
+            \pi(U)=\pi\left(\bigcup_m (U\cap V_m)\right)=\bigcup_m \pi(U\cap V_m).
+            \]
+            But the right hand side is a union of open sets, thus open. So $\pi$ is an open map.
+            \item Assume that $\pi\colon \tilde M\to M$ is an injective smooth covering map, then (i) implies $\pi$ to be a local diffeomorphism. Since $\pi$ is surjective, it is also bijective. Exercise 2.5 yields $\pi$ to be a diffeomorphism.
+            \item Assume that $\pi\colon \tilde M\to M$ is a topological covering map. If $\pi$ is a smooth covering map, then part (i) implies that $\pi$ is a local diffeomorphism. Conversely, if $\pi$ is a local diffeomorphism, then we show that $\pi$ is a smooth covering. Indeed, for any $m\in M$, there is a neighborhood $U_m$ of $M$ such that each component of $\pi^{-1}(U_m)$ is homeomorphic to $U_m$. But homeomorphisms are bijective; combining with the fact that $\pi$ is locally diffeomorphic, we get each component of $\pi^{-1}(U_m)$ to be diffeomorphic to $U_m$. So $\pi$ is a smooth covering.
+        \end{enumerate}
+    \end{proof}
+
+
+\begin{exercise}{2.7}
+    Prove that the smooth structure constructed above on $\tilde M$ is the unique one such that $\pi$ is a smooth covering map.
+\end{exercise}
+    \begin{proof}
+        We will recall the construction of the smooth structure of $\tilde M$. Let $\{(U,\phi)\}$ be an atlas of $M$, let $\tilde U$ be as sheet of $U$ and $\tilde\phi=\phi\circ\pi$. Then $\{(\tilde U,\tilde\phi)\}$ defines an atlas for $\tilde M$.
+
+        Assume that $(V_m,\psi)$ is a chart of $\tilde M$ that makes $\pi$ smooth, we get $\phi\circ\pi\circ\psi^{-1}$ to be smooth for any chart $(U,\phi)$ of $M$. But this is the same as $\tilde\phi\circ \psi^{-1}$ to be smooth. Conversely, for any chart $(U_m,\phi)$ of $M$ such that $\pi(V_m)\cap U_m\neq \varnothing$, there is a smooth local section $\sigma\colon U_m\to \tilde M$. That means $\psi\circ \sigma\circ \phi^{-1}$ is smooth. But since $\sigma=\pi^{-1}$ on its domain, we get $\psi\circ \tilde\phi^{-1}$ to be smooth. So $(V_m,\psi)$ is smoothly compatible with any $(\tilde U,\tilde \phi)$. Thus the smooth structure on $\tilde M$ is unique.
+    \end{proof}
+
+
+\begin{exercise}{2.8}
+    Prove the following claim. Suppose $G$ is a smooth manifold with agroup structure such that the map $G\times G\to G$ given by $(g,h)\mapsto gh^{-1}$ is smooth. Then $G$ is a Lie group.
+\end{exercise}
+    \begin{proof}
+        Assume that the map $\phi\colon(g,h)\mapsto gh^{-1}$ is smooth for any $g,h\in G$. Let $\psi\colon G\to G\times G$ that maps $h\mapsto(e,h)$. Because $\psi$ is smooth on each component, that is, $\psi=1\times \Id_G$, it is also smooth. So $\phi\circ\psi\colon G\to G$ that maps $h\to h^{-1}$ is smooth. 
+
+        For the same reason, we get the map $(g,h)\mapsto (g,h^{-1})$ to be smooth (that is, because the map is smooth on each component). Because the composition of smooth maps are smooth, we get the map
+        \[
+        (g,h)\mapsto (g,h^{-1})\mapsto g(h^{-1})^{-1}=gh
+        \]
+        is smooth. So $G$ is a Lie group.
+    \end{proof}
+
+
+\begin{exercise}{2.9}
+    Show that a cover $\{U_\alpha\}$ of $X$ by precompact open sets is locally finite if and only if each $U_\alpha$ intersects $U_\beta$ for only finitely many $\beta$. Give a counterexample if the sets of the cover are not assumed to be open.
+\end{exercise}
+    \begin{proof}
+        Assume that $\{U_\alpha\}$ is an open cover of $X$ such that each set intersects only finitely many others. For any point $p\in X$, there is some $\alpha$ such that $p\in U_\alpha$. By the hypothesis, $U_\alpha$ is a neighborhood of $p$ that intersects finitely many sets of $\{U_\alpha\}$. So $\{U_\alpha\}$ is locally finite.
+
+        Conversely, assume that $\U=\{U_\alpha\}$ is an open cover of $X$ by precompact sets, and $\{U_\alpha\}$ is also locally finite. For any $U\in \U$, we show that it intersects only finitely many elements of $\U$. For any $x\in U$, because $\U$ is locally finite, there is some neighborhood $V_x$ that intersects with finitely many elements of $\U$. Because $U$ is paracompact, it is covered by finitely many such $V_x$'s. So $\bigcup V_x$ intersects with finitely many elements of $\U$. But $U\subset \bigcup V_x$, thus it intersects with finitely many $\U$.  
+
+        This result doesn't hold if we remove the open requirement. Let $X=\R$, and $\U=\{\{r\}\subset \R\}$. Clearly $\U$ is a cover of $\R$ and any element of $\U$ intersect with no other element, thus finite. However, any open neighborhood of $0$ must have infinitely many elements, thus $\U$ is not locally finite.
+    \end{proof}
+
+
+\begin{exercise}{2.10}
+    Show that the assumption that $A$ is closed is necessary in the extension lemma, by giving an example of a smooth function on a nonclosed subset of a manifold that admits no smooth extension to the whole manifold.
+\end{exercise}
+    \begin{proof}
+        Let $f\colon (0,\infty)\to \R$ define by $x\mapsto \frac{1}{x}$. Clearly $f$ is smooth on the open set $A:=(0,\infty)$. Since $\R$ is an open set that contains $A$, if the conclusion of Lemma 2.20 is correct, then $f$ can be extended to a function $\tilde f$ where $\supp \tilde f\subset \R$. Notice that
+        \[
+        [0,\infty) = \overline{\supp f}\subset \overline{\supp\tilde f}=\supp\tilde f
+        \]
+        so $\tilde f$ is defined at $0$. But $\tilde f$ is smooth, we get $\lim_{x\to 0}\frac{1}{x}=\tilde f(0)$, which is impossible. So the closed property of $A$ in Lemma 2.20 is necessary. 
+    \end{proof}
+
+\subsection{Problems}
+
+
+    
+\begin{problem}{2-1}
+    Compute the coordinate representation for each of the following maps, using stereographic coordinates for shperes; use this to conclude that the map $A\colon \set{S}^n\to\set{S}^n$ is the antipodal map $A(x)=-x$ is smooth.
+\end{problem}
+    \begin{proof}
+        From Problem 1-3, there are two charts in the atlas of $\set{S}^n$, which are $(\set{S}^n\setminus\{N\},\sigma)$ and $(\set{S}\setminus\{S\},\tilde\sigma)$. So it is sufficient to show that $\psi\circ A\circ \phi^{-1}$ is smooth for $\psi,\phi\in \{\sigma,\tilde\sigma\}$.
+        We have
+        \begin{align*}
+            \sigma\circ A\circ\sigma^{-1}(x) &= \sigma\circ A \left(\frac{(2u^1,\cdots,2u^n,|u|^2-1)}{|u|^2+1} \right)\\
+            &=\sigma\left(-\frac{(2u^1,\cdots,2u^n,|u|^2-1)}{|u|^2+1} \right)\\
+            &=-\frac{(2u^1,\cdots,2u^n,|u|^2-1)}{|u|^2(|u|^2+1)}.
+        \end{align*}
+        Clearly this function is smooth by each component, thus smooth. Similarly for other three cases, we can conclude that $A$ is smooth.
+    \end{proof}
+
+
+\begin{problem}{2-4}
+    For any topological space $M$, let $C(M)$ denote the vector space of continuous functions $f\colon M\to \R$. If $F\colon M\to N$ is continuous map, define $F^*\colon C(N)\to C(M)$ by $F^*(f)= f\circ F$.
+    \begin{enumerate}[label=(\alph*)]
+        \item Show that $F^*$ is linear.
+        \item If $M$ and $N$ are smooth manifolds, show that $F$ is smooth if and only if $F^*(C^\infty(N))\subset C^\infty(M)$.
+        \item If $F\colon M\to N$ is a homeomorphism between smooth manifolds, show that it is a diffeomorphism if and only if $F^*\colon C^{\infty}(N)\to C^{\infty}(M)$ is an isomorphism. 
+    \end{enumerate}
+    Thus in a certain sense the entire smooth structure of $M$ is encoded in the space $C^{\infty}(M)$.
+\end{problem}
+    \begin{proof}
+        \begin{enumerate}[label=(\alph*)]
+            \item For $f,g\in C(N)$ and $\alpha\in \R$, we have
+            \[
+            F^*(f+g)=(f+g)\circ F=f\circ F+g\circ F=F^*(f)+F^*(g),
+            \]
+            and
+            \[
+            F^*(\alpha f)=(\alpha f)\circ F = \alpha (f\circ F) = \alpha F^*(f).
+            \]
+            So $F^*$ is linear.
+            \item Assume that $F\colon M\to N$ is smooth, then for any charts $(U,\phi)$ and $(V,\psi)$ of $M$ and $N$ respectively, we have $\psi\circ F\circ \phi^{-1}$ to be smooth. If $f\in C^{\infty}(N)$, then $f\circ \psi^{-1}$ is smooth. Because the composition of smooth function is smooth, we get
+            \[
+            (f\circ \psi^{-1})\circ (\psi\circ F\circ \phi^{-1})=f\circ F\circ \phi^{-1}=F^*(f)\circ \phi
+            \]
+            to be smooth. So $F^*(f)\in C^{\infty}(M)$ or $F^*(C^{\infty}(N))\subset C^{\infty}(M)$.
+
+            Conversely, assume that $F^*(C^{\infty}(N))\subset C^{\infty}(M)$. For any charts $(U,\phi)$ and $(V,\psi)$ of $M$ and $N$ respectively, clearly $\psi$ is in $C^{\infty}(N)$. Therefore, we have $F^*(\psi)\in C^{\infty}(M)$ or 
+            \[
+            F^*(\psi)\circ \phi^{-1} = \psi\circ F\circ \phi
+            \]
+            is smooth. So $F$ is smooth.
+            \item Assume that $F\colon M\to N$ is a homeomorphism that is also a diffeomorphism. By part (b), we get $F^*(C^\infty(N))\subset C^{\infty}(M)$, so $F^*\colon C^{\infty}(N)\to C^{\infty}(M)$ is well defined. It is sufficient to check that $F^*$ is a bijection. Since $F^{-1}\colon N\to M$ is also a diffeomorphism, we get $(F^{-1})^*\colon C^\infty(M)\to C^\infty(N)$ to be well defined. Notice that
+            \[
+            (F^*)\circ (F^{-1})^*(f)=F^*(f\circ F^{-1})=f\circ F^{-1}\circ F = f,
+            \]
+            and
+            \[
+            (F^{-1})^*\circ F^*(f)=(F^{-1})^*(f\circ F)=f\circ F\circ F^{-1}=f.
+            \]
+            So $(F^{-1})^*$ is the two sided inverse of $F^*$. Thus $F$ is an isometry.
+
+            Conversely, if $F^*\colon C^\infty(N)\to C^\infty(M)$ is an isometry, then we have $F^*(C^{\infty}(N))\subset C^{\infty}(M)$ and $(F^{-1})^*(C^\infty(M))\subset C^\infty(N)$. From part (b), we claim that both $F$ and $F^{-1}$ are smooth. So $F$ is a diffeomorphism.
+        \end{enumerate}
+    \end{proof}
+
+
+\section{The Tangent Bundle}
+
+\subsection{Exercises}
+
+\begin{exercise}{3.1}
+    Prove Lemma 3.4. Suppose $M$ is a smooth manifold, $p\in M$, and $X\in T_p(M)$.
+    \begin{enumerate}[label=(\alph*)]
+        \item If $f$ is a constant function, then $Xf=0$.
+        \item If $f(p)=g(p)=0$, then $X(fg)=0$.
+    \end{enumerate}
+\end{exercise}
+    \begin{proof}
+        \begin{enumerate}[label=(\alph*)]
+            \item Assume that $f$ is a constant function. For any $g\in C^{\infty}(M)$, because $X$ is a linear function, we get
+            \[
+            X(fg)=f(p)Xg.
+            \]
+            But because $X$ is a derivation, we have
+            \[
+            X(fg)=f(p)Xg + g(p)Xf.
+            \]
+            So $g(p)Xf=0$ for any $g\in C^{\infty}(M)$. We can let $g$ varies among the constant functions to deduce that $Xf=0$.
+            \item If $f(p)=g(p)=0$, then by the derivation formula, we have
+            \[
+            X(fg)=f(p)Xg+g(p)Xf=0+0=0.
+            \]
+        \end{enumerate}
+    \end{proof}
+
+\begin{exercise}{3.2}
+    Prove Lemma 3.5. Let $F\colon M\to N$ and $G\colon N\to P$ be smooth maps and let $p\in M$.
+    \begin{enumerate}[label=(\alph*)]
+        \item $F_*\colon T_pM\to T_{F(p)}N$ is linear.
+        \item $(G\circ F)_*=G_*\circ F_*\colon T_pM\to T_{G\circ F(p)}P$.
+        \item $(\Id_M)_*=\Id_{T_pM}\colon T_pM\to T_pM.$
+        \item If $F$ is a diffeomorphism, then $F_*\colon T_pM\to T_{F(p)}N$ is an isomorphism.
+    \end{enumerate}
+\end{exercise}
+    \begin{proof}
+        \begin{enumerate}[label=(\alph*)]
+            \item Let $X,Y\in T_p(M)$ be derivations at $p$ and $c\in R$. Then for any $f\in C^{\infty}(N)$, we have
+            \begin{align*}
+            F_*(X+Y)(f)&=(X+Y)(f\circ F)\\
+            &=X(f\circ F)+Y(f\circ F)\\
+            &=F_*(X)(f)+F_*(Y)(f)\\
+            &=(F_*(X)+F_*(Y))(f).
+            \end{align*}
+            Moreover, 
+            \begin{align*}
+                F_*(cX)(f)&= (cX)(f\circ F)\\
+                &= c\cdot X(f\circ F)\\
+                &= c\cdot F_*(X)(f).
+            \end{align*}
+            So $F_*$ is linear.
+            \item For any $X\in T_pM$, it is sufficient to show that 
+            \[
+            (G\circ F)_*(X)=G_*\circ F_*(X).
+            \]
+            For any $f\in C^{\infty}(P)$, we have
+            \begin{align*}
+                (G\circ F)_*(X)(f)&= X(f\circ G\circ F)\\
+                &= F_*(X)(f\circ G)\\
+                &= G_*\circ F_*(X)(f).
+            \end{align*}
+            So $(G\circ F)_*=G_*\circ F_*$.
+            \item It is sufficient to show that $(\Id_M)_*(X)=X$ for all $X\in T_pM$. Indeed, for any $f\in C^\infty(M)$, we have
+            \[
+            (\Id_M)_*(X)(f)=X(f\circ\Id_M)=X(f). 
+            \]
+            So $(\Id_M)_*(X)=X$ or $(\Id_M)_*=\Id_{T_pM}$.
+            \item Let $X\in T_pM$, if $F_*X=0$, we show that $X=0$. Indeed, for any $f\in C^\infty(M)$, we have $f\circ F^{-1}\in C^\infty(N)$. Since $F_*X=0$, we get
+            \begin{align*}
+                0 &= F_*X(f\circ F^{-1})\\
+                &=X(f\circ F^{-1}\circ F)\\
+                &= X(f).
+            \end{align*}
+            So $X(f)=0$ for all $f\in C^\infty(M)$, that is, $X=0$. Therefore, $F_*$ is injective.
+
+            For any $Y\in T_{F(p)}N$, we define $\tilde Y\in T_pM$ as follow. For any $f\in C^\infty(M)$, we let $\tilde Y(f)=Y(f\circ F^{-1})$. This is well defined because $f\circ F^{-1}\colon N\to \R$ is smooth, and $Y\colon C^\infty(N)\to \R$. Moreover, we have
+            \[
+            F_*\tilde Y(f) = F_*Y(f\circ F^{-1})=Y(f).
+            \]
+            So it is sufficient to prove that $\tilde Y\in T_pM$. Clearly the base point is at $p$. For any $f,g\in C^\infty(M)$, we have
+            \begin{align*}
+                \tilde Y(fg)&= Y(fg\circ F^{-1})\\
+                &=Y((f\circ F^{-1})(g\circ F^{-1})\\
+                &=f\circ F^{-1}(F(p))\cdot Y(g\circ F^{-1})+g\circ F^{-1}(F(p))\cdot Y(f\circ F^{-1})\\
+                &=f(p)\tilde Y(g)+g(p)\tilde Y(f).
+            \end{align*}
+            So our proof is done.
+        \end{enumerate}
+    \end{proof}
+
+\begin{exercise}{3.3}
+    If $F\colon M\to N$ is a local diffeomomrphism, show that $F_*\colon T_pM\to T_{F(p)}N$ is an isomorphism for every $p\in M$.
+\end{exercise}
+    \begin{proof}
+        Assume that $F\colon M\to N$ is a local diffeomorphism. For any $p\in M$, there is some neighborhood $U_p$ such that $F(U_p)$ is open and $U_p$ is diffeomorphic to $F(U_p)$. By Exercise 3.2 (d), we have $T_pU_p$ isomorphic to $T_{F(p)}F(U_p)$. But by Proposition 3.7, we have $T_pM$ and $T_{F(p)}N$ are isomorphic to $T_pU_p$ and $T_{F(p)}F(U_p)$ respectively. Because isomorphism is an equivalent relation, we get $T_pM$ to be isomorphic to $T_{F(p)}N$.
+    \end{proof}
+
+\begin{exercise}{3.4}
+    Suppose $F\colon M\to N$ is a smooth map. By examining the local expression (3.5) for $F_*$ in coordinates, show that $F_*\colon TM\to TN$ is a smooth map.
+\end{exercise}
+
+\begin{exercise}{3.5}
+    Show that the zero section of any smooth vector bundle is smooth.
+\end{exercise}
+
+\begin{exercise}{3.6}
+    Show that $T\R^n$ is isomorphic to the trivial bundle $\R^n\times \R^n$.
+\end{exercise}
+
+\begin{exercise}{3.7}
+    If $f\in C^\infty(M)$ and $Y\in \T(M)$, show that $fY$ is a smooth vector field.
+\end{exercise}
+
+\begin{exercise}{3.8}
+    Show that $\T(M)$ is a module over the ring $C^\infty(M)$.
+\end{exercise}
+\subsection{Problems}
+
+\begin{problem}{3-1}
+    Suppose $M$ and $N$ are smooth manifolds with $M$ connected, and $F\colon M\to N$ is a smooth map such that $F_*\colon T_*M\to T_{F(p)}N$ is the zero map for each $p\in M$. Show that $F$ is a constant map.
+\end{problem}
+
+\begin{problem}{3-2}
+    Let $M_1,\cdots,M_k$ be smooth manifolds, and let $\pi_j\colon M_1\times\cdots\times M_k\to M_j$ be the projection onto the $j$-th factor. For any choices of points $p_i\in M_i$, $i=1,\cdots,k$, show that the map
+    \[
+    \alpha\colon T_{(p_1,\cdots,p_k)}(M_1\times\cdots\times M_k)\to T_{p_1}(M_1)\times\cdots\times T_{p_k}M_k
+    \]
+    defined by 
+    \[
+    \alpha(X)=(\pi_{1*}X,\cdots,\pi_{k*}X)
+    \]
+    is an isomorphism, with inverse
+    \[
+    \alpha^{-1}(X_1,\cdots,X_k)=(j_{1*}X_1,\cdots,j_{k*}X_k),
+    \]
+    where $j_i\colon M_i\to M_1\times\cdots\times M_k$ is given by $j_i(q)=(p_1,\cdots,p_{i-1},q,p_{i+1},\cdots ,p_k)$. [Using this isomorphism, we will routinely identify $T_pM$, for example, as a subspace of $T_{(p,q)}(M\times N)$.]
+\end{problem}
+
+\begin{problem}{3-3}
+    If a nonempty $n$-manifold is diffeomorphic to an $m$-manifold, prove that $n=m$.
+\end{problem}
+
+
+\begin{problem}{3-4}
+    Show that there is a smooth vector field on $\set{S}^2$ that vanishes at exactly one point.
+\end{problem}
+
+\begin{problem}{3-5}
+    Let $E$ be a smooth vector bundle over $M$. Show that $E$ admits a local frame over an open subset $U\subset M$ if and only if it admits a local trivialization over $U$, and $E$ admits a global frame if and only if it is trivial.
+\end{problem}
+
+\begin{problem}{3-6}
+    Show that $\set{S}^1,\set{S}^3$, and $\T^n=\set{S}^1\times\cdots\times \set{S}^1$ are all parallelizable.
+\end{problem}
+
+% \section{The Cotangent Bundle}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Submanifolds}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Embedding and Approximation Theorems}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Lie Group Actions}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Tensors}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Differential Forms}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Integration on Manifolds}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{De Rham Cohomology}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Integral Curves and Flows}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Lie Derivatives}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Integral Manifolds and Foliations}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{Lie Algebras and Lie Groups}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+% \section{The Cotangent Bundle}
+
+% \subsection{Exercises}
+
+% \subsection{Problems}
+
+
+
+\bibliographystyle{abbrv} 
+\bibliography{refs} 
+
+\end{document}

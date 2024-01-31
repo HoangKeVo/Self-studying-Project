@@ -1,0 +1,1254 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{fullpage}
+\usepackage{mathrsfs}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{quiver}
+
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{lemma}{Lemma}
+
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\makeatletter
+\providecommand*{\dif}%
+   {\@ifnextchar^{\DIfF}{\DIfF^{}}}
+\def\DIfF^#1{%
+   \mathop{\mathrm{\mathstrut d}}%
+      \nolimits^{#1}\gobblespace
+}
+\def\gobblespace{%
+   \futurelet\diffarg\opspace}
+\def\opspace{%
+   \let\DiffSpace\!%
+   \ifx\diffarg(%
+      \let\DiffSpace\relax
+   \else
+      \ifx\diffarg\[%
+         \let\DiffSpace\relax
+      \else
+         \ifx\diffarg\{%
+            \let\DiffSpace\relax
+         \fi\fi\fi\DiffSpace}
+\makeatother
+
+\setcounter{section}{1}
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+\makeatletter
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Hs}{\mathbb{H}}
+\newcommand{\A}{\mathscr{A}}
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\U}{\mathscr{U}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\set}[1]{\mathbb{#1}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\mB}{\mathbb{B}}
+\newcommand{\mS}{\mathbb{S}}
+\def\phi{\varphi}
+
+
+\newcommand{\card}{\mathbf{card}}
+\DeclareMathOperator{\inter}{Int} 
+\DeclareMathOperator{\Id}{Id} 
+\DeclareMathOperator{\im}{Im} 
+\DeclareMathOperator{\Ker}{Ker} 
+\DeclareMathOperator{\diam}{diam} 
+
+
+
+\def\tilde{\widetilde}
+\def\epsilon{\varepsilon}
+
+
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{float}
+\newenvironment{exercise}[2][Exercise]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+    
+\newenvironment{problem}[2][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+
+
+\title{Answer to The Elements of Integration and Lebesgue Measure by Bartle}
+\author{Hoang Vo Ke}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+
+\setcounter{section}{2}
+\section{Measures}
+
+
+\begin{exercise}{3.A}
+    If $\mu$ is a measure on $X$ and $A$ is a fixed set in $X$, then the function $\lambda$, defined for $E\in X$ by $\lambda(E)=\mu(A\cap E)$, is a measure on $X$.
+\end{exercise}
+    \begin{proof}
+        First we have $\lambda(\varnothing) = \mu(A\cap \empty) = \mu(\empty) = 0$, and $\lambda(E)=\mu(A\cap E)\geq 0$. Second, let $(E_n)$ be a disjoint sequence of sets of $X$, then
+        \begin{align*}
+            \lambda\left(\bigcup_{n=1}^{\infty}E_n\right) &= \mu \left(A\cap \left(\bigcup_{n=1}^{\infty}E_n\right)\right)\\
+            &=\mu\left(\bigcup_{n=1}^{\infty}(A\cap E_n)\right)\\
+            &= \sum_{n=1}^{\infty}\mu(A\cap E_n)\\
+            &= \sum_{n=1}^{\infty}\lambda(E_n).
+        \end{align*}
+        So $\lambda$ is indeed a measure on $X$.
+    \end{proof}
+
+\pagebreak
+
+\begin{exercise}{3.B}
+    If $\mu_1,\cdots,\mu_n$ are measures on $X$ and $a_1,\cdots,a_n$ are nonnegative real numbers, then the function $\lambda$, defined for $E\in X$ by 
+    \[
+    \lambda(E) = \sum_{j=1}^{n}a_j\mu_j(E),
+    \]
+    is a measure on $X$.
+\end{exercise}
+    \begin{proof}
+        We have $\lambda(\empty) = \sum_{j=1}^n a_j\mu(\empty) =\sum_{j=1}^n 0= 0$. And since $a_j\mu(E)\geq 0$ for any $j$ and $E\subset X$, we get $\lambda(E)\geq 0$. Lastly, for any disjoint sequence $(E_i)$ of sets of $X$, we have
+        \begin{align*}
+            \lambda\left(\bigcup_{i=1}^{\infty}E_i \right) &= \sum_{j=1}^n a_j\mu_j\left(\bigcup_{i=1}^\infty E_i \right)\\
+            &=\sum_{j=1}^n a_j\left(\sum_{i=1}^{\infty}\mu_j(E_i)\right)\\
+            &=\sum_{i=1}^\infty \left(\sum_{j=1}^n a_j\mu_j(E_i)\right)\\
+            &=\sum_{i=1}^\infty \lambda(E_i).
+        \end{align*}
+        So $\lambda$ defines a measure on $X$.
+    \end{proof}
+
+
+\begin{exercise}{3.D}
+    Let $X=N$ and let $X$ be the $\sigma$-algebra of all subsets of $N$. If $(a_n)$ is a sequence of nonnegative real numbers and if we define $\mu$ by 
+    \[
+    \mu(\empty)=0; \mu(E) = \sum_{n\in E}a_n, E\neq \empty;
+    \]
+    then $\mu$ is a measure on $X$. Conversely, every measure on $X$ is ontained in this way for some sequence $(a_n)$ in $\bar \R^+$.
+\end{exercise}
+
+\pagebreak
+
+\section{The Integral}
+
+\begin{exercise}{4.A}
+    If the simple function $\phi$ in $M^+(X,X)$ has the (not necessarily standard) representation
+    \[
+    \phi = \sum_{k=1}^{m}b_k\chi_{F_k},
+    \]
+    where $b_k\in\R$ and $F_k\in X$, show that 
+    \[
+    \int \phi \dif\mu = \sum_{k=1}^{m}b_k\mu(F_k).
+    \]
+\end{exercise}
+    \begin{proof}
+        Let $\sum a_k\chi_{E_k}$ be the standard representation of $\phi$, then there exists a "finer" representation of $\phi$, namely
+        \[
+        \phi = \sum a_i\chi_{E_i} = \sum b_j\chi_{F_j} = \sum c_{ij}\chi_{E_i\cap F_j}.
+        \]
+        So 
+        \[
+        \int\phi\dif\mu = \sum a_i\mu(E_i) = \sum c_{ij}\mu(E_i\cap F_j) = \sum b_j\mu(F_j).
+        \]
+    \end{proof}
+
+\begin{exercise}{4.B}
+    The sum, scalar multiple, and product of simple functions are simple functions.
+\end{exercise}
+    \begin{proof}
+        Let $\phi = \sum_{i=1}^{n}a_i\chi_{E_i}$ and $\psi = \sum_{j=1}^{m}b_j\chi_{F_j}$ be simple functions with their standard representations. We have
+        \[
+        \phi+\psi = \sum_{i=1}^{n}a_i\chi_{E_i}+\sum_{j=1}^{m}b_j\chi_{F_j} = \sum_{i,j}(a_i+b_j)\chi_{E_i\cap F_j}.
+        \]
+        So $\phi+\psi$ is a simple function. Moreover, for any scalar $c$, we have
+        \[
+        c\phi = \sum_{i=1}^{n}c a_i\chi_{E_i}.
+        \]
+        Thus $c\phi$ is also a simple function. Lastly, we have
+        \[
+        \phi\psi = \sum_{i,j}(a_i b_j)\chi_{E_i\cap F_j}.
+        \]
+        So $\phi\psi$ is also a simple function.
+    \end{proof}
+
+\begin{exercise}{4.G}
+    Let $X=\N$, let $\B_X$ be all subsets of $\N$, and let $\mu$ be the counting measure on $X$. If $f$ is a nonnegative function on $\N$, then $f\in M^+(X,\B_X)$ and
+    \[
+    \int f\dif\mu = \sum_{n=1}^{\infty} f(n).
+    \]
+\end{exercise}
+    \begin{proof}
+        We have $f(n) = (f\chi_n)(n)$, where $\chi_n = \chi_{\{n\}}$. Thus
+        \[
+        \int f\dif\mu = \sum_{n=1}^{\infty} f(n)\mu(\{n\}) = \sum_{n=1}^{\infty} f(n).
+        \]
+    \end{proof}
+
+
+\begin{exercise}{4.H}
+    Let $X=\R, \B_X = Borel$, and let $\lambda$ be the Lebesgue measure on $\B$. If $f_n=\chi_{[0,n]}$, then the sequence is monotone increasing to $f=\chi_{[0,\infty)}$. Although the functions are uniformly bounded by $1$ and the integrals of the $f_n$ are all finite, we have
+    \[
+    \int f\dif\lambda = \infty.
+    \]
+    Does the Monotone Convergence Theorem apply?
+\end{exercise}
+    \begin{proof}
+        Yeah we can apply the Monotone Convergence Theorem here and get
+        \[
+        \int f\dif\lambda = \lim_{n\to \infty}\int f_n\dif\lambda = \lim_{n\to\infty} n = \infty.
+        \]
+    \end{proof}
+
+
+\begin{exercise}{4.I}
+    Let $X=\R$, $\B$ be the Borel set, and $\lambda$ be the Lebesgue measure on $X$. If $f_n(1/n)\chi_{[n,\infty)}$, then the sequence $(f_n)$ is monotone decreasing and converges uniformly to $f=0$, but
+    \[
+    0 = \int f\dif\lambda\neq \lim\int f_n\dif\lambda = \infty.
+    \]
+\end{exercise}
+    \begin{proof}
+        We have $\|f_n-f\|_\infty = \frac{1}{n}\to 0$, thus $f_n$ uniformly converges to $f$. However, because $\lambda[n,\infty) = \infty$, we get 
+        \[
+        \lim_{n\to\infty}\int f_n\dif \lambda = \infty.
+        \]
+        So the Monotone Convergence Theorem doesn't hold for decreasing sequence in $M^+.$
+    \end{proof}
+
+
+\begin{exercise}{4.J}
+    \begin{enumerate}[label=(\alph*)]
+    \item Let $f_n = (1/n)\chi_{[0,n]}$, $f=0$. Show that the sequence $(f_n)$ converges uniformly to $f$, but that
+    \[
+    \int f\dif\lambda \neq \lim\int f_n\dif\lambda.
+    \]
+    Why does this not contradict to Monotone Convergence Theorem? Does Fatou's Lemma apply?
+    
+    \item Let $g_n=n\chi_{[1/n,2/n]},g=0$. Show that
+    \[
+    \int g\dif\lambda\neq \lim\int g_n\dif\lambda.
+    \]
+    Does the sequence $(g_n)$ converge uniformly to $g$? Does the Monotone Convergence Theorem apply? Does Fatou's Lemma apply?
+    \end{enumerate}
+\end{exercise}
+    \begin{proof}
+        \begin{enumerate}[label=(\alph*)]
+            \item Because $\|f_n-f\|_\infty = 1/n\to 0$ as $n\to \infty$, $f_n$ converges uniformly to $f$. For the same reason as the previous exercise, for any $n$, we have
+            \[
+            \int f_n\dif\lambda = \lambda([0,n]) = n \to \infty.
+            \]
+            But 
+            \[
+            \int f\dif\lambda = 0,
+            \]
+            so we cannot exchange limit in this case. This is not a contradiction for the Monotone Convergence Theorem because number one, it's a theorem thus there is no counter example, number two, $f_n$ is decreasing. Because $f_n\in M^+$, we can apply Fatou's Lemma. For any $x\in \R$, we have
+            \[
+            \liminf f_n(x) = 0. 
+            \]
+            Thus 
+            \[
+            \int(\liminf f_n)\dif\lambda = 0 < \infty = \liminf \int f_n\dif\lambda.
+            \]
+            So Fatou's Lemma works.
+
+            \item Because $\|g_n-g\|_\infty = n\not\to 0$, the sequence $g_n$ does not converge uniformly to $g$. We cannot apply the Monotone because $g_n$ is not monotone. Indeed, it is not hard to see that $g_1(1/2) = 1 > 0 = g_3(1/2)$. We can check that $\liminf g_n = g$, and 
+            \[
+            \int g_n\dif\lambda = n\lambda\left(\left[\frac{1}{n},\frac{2}{n}\right]\right) = 1.
+            \]
+            So 
+            \[
+            \int g\dif\lambda = 0 < 1 = \liminf\int g_n\dif\lambda,
+            \]
+            which coincides with what Fatou has said.
+        \end{enumerate}
+    \end{proof}
+
+
+\begin{exercise}{4.K}
+    If $(X,\B,\mu)$ is a finite measure space, and if $(f_n)$ is a real-valued sequence in $M^+(X,\B)$ which converges uniformly to a function $f$, then $f$ belongs to $M^+(X,\B)$, and 
+    \[
+    \int f\dif\mu = \lim\int f_n\dif\mu.
+    \]
+\end{exercise}
+    \begin{proof}
+        Because $f_n\to f$ uniformly, Fatou's Lemma implies that
+        \[
+        \int f\dif\mu = \int\liminf f_n\dif\mu \leq \liminf \int f_n\dif\mu \leq \lim\int f_n\dif\mu.
+        \]
+        Moreover, there exists $n_0>0$ such that $|f(x)-f_{n_0}(x)|<1$ for all $x\in X$. Thus $f(x)<f_{n_0}(x)+1$ for all $x\in X$. So
+        \[
+        \int f\dif\mu \leq \int f_{n_0}(x)+1\dif\mu = \int f_{n_0}(x)\dif\mu + \mu(X)<\infty.
+        \]
+        Hence $f\in M^+(X,\B)$. What is more, for any $\epsilon>0$, because $f_n$ converges uniformly to $f$, we get $f_n(x)<f(x)+\epsilon$ for all $x\in X$ and $n$ big enough. Thus
+        \[
+        \int f_n\dif\mu < \int f+\epsilon\dif\mu = \int f\dif\mu + \epsilon\mu(X)
+        \]
+        for $n$ sufficiently large, which means
+        \[
+        \lim \int f_n\dif\mu \leq \int f\dif\mu + \epsilon\mu(X).
+        \]
+        Since $\mu(X)$ is finite, $\epsilon\mu(X)\to 0$ as $\epsilon\to 0$. Thus
+        \[
+        \lim\int f_n\dif\mu \leq \int f\dif\mu,
+        \]
+        which complete our proof.
+        
+    \end{proof}
+
+
+\begin{exercise}{4.L}
+    Let $X$ be a finite closed interval $[a,b]$ in $\R$, let $X$ be the collection of Borel sets in $X$, and let $\lambda$ be the Lebesgue measure on $X$. If $f$ is a nonnegative continuous function on $X$, show that
+    \[
+    \int f\dif\lambda = \int_a^b f(x)\dif x,
+    \]
+    where the right side denotes the Riemann integral of $f$.
+\end{exercise}
+
+
+\begin{exercise}{4.Q}
+    If $f\in M^+(X,\B)$ and
+    \[
+    \int f\dif\mu < \infty,
+    \]
+    then $\mu\{x\in X\mid f(x)=\infty\}=0$.
+\end{exercise}
+
+\section{Integrable Functions}
+
+\begin{exercise}{5.A}
+    If $f\in L(X,\B,\mu)$ and $a>0$, show that the set $\{x\in X:|f(x)|\geq a\}$ has finite measure. In addition, the set $\{x\in X:f(x)\neq 0\}$ has $\sigma$-finite measure.
+\end{exercise}
+    \begin{proof}
+        Let $E=\{x\in X:|f(x)|\geq a\}$. Because $f$ is integrable, we get $|f|$ is integrable. Because $a\chi_E\leq |f|$, we get 
+        \[
+        a\mu(E) = \int a\chi(E)\dif\mu \leq \int|f|\dif\mu <\infty.
+        \]
+        Since $a>0$, we get $\mu(E)$ is finite. Since $f(x)\neq 0$ is the same as $|f(x)|>a$ for some $a>0$, we get
+        \[
+        \{x\in X:f(x)\neq 0\} = \bigcup_{n\in\N}\{x\in X:|f(x)|>\frac{1}{n}\}.
+        \]
+        Since the right hand side is a union of measurable sets, the set on the left is $\sigma$-finite.
+    \end{proof}
+
+\begin{exercise}{5.B}
+    If $f$ is an $\B$-measurable real-valued function and if $f(x)=0$ for $\mu$-almost all $x$ in $X$, then $f\in L(X,\B,\mu)$ and
+    \[
+    \int f\dif\mu = 0.
+    \]
+\end{exercise}
+    \begin{proof}
+        Because $f(x)=0$ a.e., thus $f^+=0$ a.e. too. This implies that $\int f^+\dif\mu = 0$, and so is $\int f^-\dif\mu$. Hence, $f$ is integrable and
+        \[
+        \int f\dif \mu = \int f^+\dif\mu - \int f^-\dif\mu = 0.
+        \]
+    \end{proof}
+
+\section{The Lebesgue Spaces $L_p$}
+
+\begin{exercise}{6.A}
+    Let $C[0,1]$ be the linear space of continuous functions on $[0,1]$ to $\R$. Define $N_0$ for $f$ in $C[0,1]$ by $N_0(f)=|f(0)|$. Show that $N_0$ is a semi-norm on $C[0,1]$.
+\end{exercise}
+    \begin{proof}
+        This is a semi-norm because $N_0(f)\geq 0$, $N_0(af)=|af(0)|=|a|\cdot|f(0)|$, and $N_0(f+g)=|f(0)+g(0)|\leq |f(0)|+|g(0)|=N_0(f)+N_0(g)$.
+    \end{proof}
+
+\begin{exercise}{6.G}
+    Let $X=\N$, and let $\mu$ be the counting measure on $\N$. If $f$ is defined on $N$ by $f(n)=1/n$, then $f$ does not belong to $L_1$, but it does belong to $L_p$ for $1<p\leq \infty$.
+\end{exercise}
+    \begin{proof}
+        Because 
+        \[
+        \int f\dif\mu = \sum_{n=1}^{\infty}\frac{1}{n}=\infty,
+        \]
+        we get $f\notin L^1$. But for any $p>1$, we can use the integral test to easily derive that
+        \[
+        \int |f|^p\dif \mu = \sum_{n=1}^{\infty}\frac{1}{n^p} < \infty.
+        \]
+        So $f\in L^p$ for all $1<p< \infty$. And clearly $f\in L^\infty$ since $f$ is bounded by $1$.
+    \end{proof}
+
+\begin{exercise}{6.H}
+    Let $X=\N$, and let $\lambda$ be the measure on $\N$ which has measure $1/n^2$ at the point $n$. Show that $\lambda(X)<\infty$. Let $f$ be defined on $X$ by $f(n)=\sqrt{n}$. Show that $f\in L^p$ if and only if $1\leq q<2$.
+\end{exercise}
+    \begin{proof}
+        We have
+        \[
+        \lambda(\N) = \sum_{n\in\N}\frac{1}{n^2} = \frac{\pi^2}{6}<\infty.
+        \]
+        For any $p$, we have
+        \[
+        \int |\sqrt{n}|^p\dif\mu = \sum_{n=1}^\infty \frac{n^{p/2}}{n^2} = \sum_{n=1}^\infty n^{p/2-2}.
+        \]
+        Therefore, $f\in L^p$ if and only if $p/2-2<-1$, which is synonymous with $p<2$.
+    \end{proof}
+
+\begin{exercise}{6.I}
+    Modify the Exercise 6.H to obtain a function on a finite measure space which belongs to $L^p$ if and only if $1\leq p<p_0$.
+\end{exercise}
+
+\begin{exercise}{6.K}
+    If $(X,\B,\mu)$ is a finite measure space and $f\in L^p$, then $f\in L^r$ for $1\leq r\leq p$. Apply Holder's Inequality to $|f|^r$ in $L^{p/r}$ and $g=1$ to obtain the inequality
+    \[
+    \|f\|_r\leq \|f\|_p\mu(X)^s,
+    \]
+    where $s=(1/r)-(1/p)$. Therefore, if $\mu(X)=1$, then $\|f\|_r\leq \|f\|_p$.
+\end{exercise}
+    \begin{proof}
+        For any $1\leq r\leq p$ and $x\in X$, if $|f(x)|\leq 1$ or $|f(x)|>1$, we both get $|f(x)|^r\leq |f(x)|^p+1$. Therefore,
+        \[
+        \int |f|^r\dif\mu\leq \int|f|^p+1\dif\mu =\|f\|_p+\mu(X)<\infty.
+        \]
+        So $f\in L^r$. Now let $s=\frac{1}{r}-\frac{1}{p}$, then we can easily check that $\frac{r}{p}+rs=1$. Applying the Holder's inequality, we get
+        \begin{align*}
+            \int |f|^r\dif\mu &\leq \left(\int (|f|^r)^{\frac{p}{r}}\dif\mu \right)^\frac{r}{p}\cdot \left(\int (1^{rs})^{\frac{1}{rs}}\dif\mu \right)^{rs}\\
+            &=\left(\int |f|^p\dif\mu \right)^\frac{r}{p}\cdot \left(\int 1\dif\mu \right)^s\\
+            &=\|f\|_p^r\cdot\mu(X)^{rs}.
+        \end{align*}
+        Therefore, $\|f\|_r\leq \|f\|_p\cdot\mu(X)^s$. When $\mu(X)=1$, then the previous equation becomes $\|f\|_r\leq \|f\|_p$.
+    \end{proof}
+
+\begin{exercise}{6.L}
+    Suppose that $X=\N$ and $\mu$ is the counting measure on $\N$. If $f\in L^p$, then $f\in L^s$ with $1\leq p\leq s\leq \infty$, and $\|f\|_s\leq \|f\|_p$.
+\end{exercise}
+
+\begin{exercise}{6.N}
+    Let $(X,\B,\mu)$ be any measure space and let $f$ belong to both $L^{p_1}$ and $L^{p_2}$, with $1\leq p_1<p_2<\infty$. Prove that $f\in L^p$ for any value of $p$ such that $p_1\leq p\leq p_2$.
+\end{exercise}
+
+
+\section{Modes of Convergence}
+
+\begin{exercise}{7.A}
+    Let $f_n=n^{-1/p}\chi_{[0,n]}$. Show that the sequence $(f_n)$ converges uniformly to the $0$-function, but that it does not converge in $L^p(\R,\B,\lambda)$.
+\end{exercise}
+    \begin{proof}
+        We have
+        \[
+        |f_n(x)-0| \leq n^{-1/p}\to 0
+        \]
+        as $n\to \infty$ for all $x\in \R$. Thus $(f_n)$ converges uniformly to $0$. However, 
+        \[
+        \int |f_n-0|^p\dif\mu = n^{-1}\mu[0,n] = 1.
+        \]
+        So $f_n$ does not converge in $L^p$.
+    \end{proof}
+
+\begin{exercise}{7.B}
+    Let $f_n=n\chi_{[1/n,2/n]}$. Show that the sequence $(f_n)$ converges everywhere to the $0$-function, but that it does not converge in $L^p(\R,\B,\lambda)$.
+\end{exercise}
+    \begin{proof}
+        For any $x\in \R$, if $x\leq 0$, then $f_n(x)=0$ for all $n$. If $x>0$, there exists an $n_0$ such that $\frac{2}{n_0}<x$. Since $f_n(x)=0$ for all $n>n_0$, we get $f_n(x)\to 0$. So $(f_n)$ converges everywhere to $0$. However, 
+        \[
+        \int f_n\dif\mu = n\cdot\frac{1}{n}=1,
+        \]
+        thus doesn't converge in $L^p$.
+    \end{proof}
+
+\begin{exercise}{7.C}
+    Show that both of the sequences in Exercise 7.A and 7.B converge in measure to their limits.
+\end{exercise}
+    \begin{proof}
+        First, let $f_n=n^{-1/p}\chi_{[0,n]}$ as in Exercise 7.A. For any $\alpha>0$, there exists $n_0$ big enough such that 
+        \[
+        n^{\frac{1}{p}}<\alpha
+        \]
+        for $n>n_0$. Thus when $n>n_0$, we have
+        \[
+        \mu(\{x\in X: |f_n(x)-0|\geq \alpha\}) = \mu(\varnothing)=0.
+        \]
+        Second, let $f_n=n\chi_{[1/n,2/n]}$ as in Exercise 7.B. For any $\alpha>0$, 
+        \[
+        \mu(\{x\in X: |f_n(x)-0|\geq \alpha\})\leq \mu(\chi_{[1/n,2/n]} = \frac{1}{n}\to 0
+        \]
+        as $n\to 0$. So in either cases, $f_n\to f$ in measure.
+    \end{proof}
+
+\begin{exercise}{7.D}
+    Let $f_n=\chi_{[n,n+1]}$. Show that the sequence $(f_n)$ converges everywhere to the $0$-function, but that it does not converge in measure.
+\end{exercise}
+    \begin{proof}
+    For any $x\in \R$, we can choose $n_0>x$, then $f_n(x) = 0$ for $n>n_0(>x)$. So $f_n$ converge a.e. to $0$. So if $f_n$ converges in measure, it must converge to $0$. However, for $\alpha=\frac{1}{2}$, and any $n>0$, we have
+    \[
+    \mu(\{x\in \R: |f_n(x)-0| \geq \frac{1}{2}\})=\mu(\chi_{[n,n+1]})=1.
+    \]
+    So $f_n$ doesn't converge in measure.
+    \end{proof}
+
+\begin{exercise}{7.E}
+    The sequence in 7.B shows that convergence in measure does not imply $L^p$-convergence, even for a finite measure space.
+\end{exercise}
+    \begin{proof}
+        Exercise 7.C shows that $f_n$ converges in measure to the $0$ function. And Exercise 7.B shows that $f_n$ doesn't converge in $L^p$. And since we can just consider $X=[0,2]$ rather than $\R$, this holds even for a finite measure space.
+    \end{proof}
+
+\begin{exercise}{7.G}
+    If a sequence $(f_n)$ converges in measure to a function $f$, then every subsequence of $(f_n)$ converges in measure to $f$. More generally, if $(f_n)$ is Cauchy in measure, then every subsequence is Cauchy in measure.
+\end{exercise}
+
+\begin{exercise}{7.M}
+    Let $f_n=n\chi_{[0,1]}$. Show that the hypothesis that the limit function be finite (at least almost everywhere) cannot be dropped in Egoroff's Theorem.
+\end{exercise}
+    \begin{proof}
+        Assume that $f_n\to f$ a.e., then $f(x)=\infty$ for $x\in [0,1]$. Now let $\epsilon = \frac{1}{2}$, the almost uniform convergence reads there is a subset $E$ of $[0,1]$ of measure less than $\frac{1}{2}$ such that $f_n$ uniformly converges to $f$ on $E^c$. But this is impossible since $f$ is not finite on $E^c$.
+    \end{proof}
+
+\begin{exercise}{7.N}
+    Show that Fatou's Lemma holds if almost everywhere convergence is replaced by convergence in measure.
+\end{exercise}
+    \begin{proof}
+        We first show that $\liminf f_n\to f$ almost everywhere.
+    \end{proof}
+
+\begin{exercise}{7.O}
+    Show that the Lebesgue Dominated Convergence Theorem holds if almost everywhere convergence is replaced by convergence in measure.
+\end{exercise}
+    \begin{proof}
+        We will show that if $f_n\in L^1$, $f_n\to f$ in measure, and $|f_n|\leq g$ for some $g\in L^1$, then 
+        \[
+        \int f\dif\mu = \lim\int f_n\dif\mu.
+        \]
+        let $g_k$ be a subsequence of $f_n$ such that $g_k\to f$ almost everywhere, then by Lebesgue Dominated Theorem, we get $f\in L^1$.
+        Assume that
+        \[
+        \int f\dif\mu\neq \lim\int f_n\dif\mu,
+        \]
+        then there is a subsequence (no relabeling) of $f_n$ such that 
+        \[
+        \int f_n-f\dif\mu = \lim f_n\dif\mu-\lim f\dif\mu >\epsilon>0
+        \]
+        for all $n\in \N$.
+        Let $h_k$ be a subsequence of $f_n$ such that $h_k\to f$ almost everywhere, then Lebesgue Dominated Theorem implies that 
+        \[
+        \int h_k \dif\mu - \int f\dif \mu
+        \]
+        can be sufficiently small, contradiction.
+    \end{proof}
+
+\pagebreak
+
+\begin{exercise}{7.Q}
+    Let $(X,\B,\mu)$ be a finite measure space. If $f$ is an $X$-measurable function, let 
+    \[
+    r(f)=\int \frac{|f|}{1+|f|}\dif\mu.
+    \]
+    Show that a sequence $(f_n)$ of $\B$-measurable functions converges in measure to $f$ if and only if $r(f_n-f)\to 0$.
+\end{exercise}
+    \begin{proof}
+        If $f_n\to f$ in measure, then for any $\alpha,\epsilon>0$, the measure
+        \[
+        \mu(\{x\in X:|f(x)-f_n(x)|\geq \alpha \})<\epsilon
+        \]
+        for $n$ sufficiently large. Notice that for $t>0$, we have $\frac{t}{1+t}\leq 1$ and $\frac{t}{1+t}\to 0$ as $t\to 0$. Let 
+        \[
+        E=\{x\in X:|f(x)-f_n(x)|\geq \alpha \},
+        \]
+        we get
+        \begin{align*}
+            r(f_n-f) &= \int \frac{|f-f_n|}{1+|f-f_n|}\dif\mu\\
+        &= \int_E \frac{|f-f_n|}{1+|f-f_n|}\dif\mu + \int_{E^c} \frac{|f-f_n|}{1+|f-f_n|}\dif\mu\\
+        &\leq  1\cdot\mu(E) + \mu(E^c)\cdot\frac{\alpha}{1+\alpha}\\
+        &\leq \epsilon + \mu(X)\cdot\frac{\alpha}{1+\alpha}
+        \end{align*}
+        for $n$ sufficiently large. Since the last term can be arbitrarily small, as $\epsilon,\alpha$ be super super small, we get $r(f_n-f)\to 0$.
+
+        Conversely, assume that 
+        \[
+        r(f_n-f) = \int \frac{|f-f_n|}{1+|f-f_n|}\dif\mu \to 0
+        \]
+        as $n\to \infty$, and $f_n\not\to f$ in measure, then there exists $\alpha, \epsilon>0$, and a subsequence of $f_n(x)$ (without relabeling) such that 
+        \[
+        \mu(\{x\in X:|f(x)-f_n(x)|\geq \alpha\})>\epsilon
+        \]
+        for all $n\in \N$. Notice that if $t>\alpha$, then
+        \[
+        \frac{t}{1+t} = \frac{1}{\frac{1}{t}+1}\geq \frac{1}{\frac{1}{\alpha}+1} = \frac{\alpha}{1+\alpha}.
+        \]
+        Let $F= \{x\in X:|f(x)-f_n(x)|\geq \alpha\}$, then
+        \[
+        \int\frac{|f-f_n|}{1+|f-f_n|}\dif\mu \geq \int_F \frac{|f-f_n|}{1+|f-f_n|}\dif\mu \geq \mu(F)\cdot \frac{\alpha}{1+\alpha}>0.
+        \]
+        But this is contradict to the assumption that $r(f_n-f)\to 0$. So $f_n\to f$ in measure.
+        
+    \end{proof}
+
+
+\section{Decomposition of Measures}
+
+\begin{exercise}{8.A}
+    If $P$ is postive set with respect to a charge $\lambda$, and if $E\in \B$ and $E\subset P$, then $E$ is positive with respect to $\lambda$.
+\end{exercise}
+    \begin{proof}
+        For any $F\in\B$, because $E\subset P$, we have 
+        \[
+        \lambda(F\cap E) = \lambda((F\cap E)\cap P) \geq 0.
+        \]
+        Therefore, $E$ is positive with respect ot $\lambda$.
+    \end{proof}
+
+\begin{exercise}{8.B}
+    If $P_1$ and $P_2$ are positive sets for a charge $\lambda$, then $P_1\cup P_2$ is positive for $\lambda$.
+\end{exercise}
+    \begin{proof}
+        For any $E\subset \B$, we have 
+        \[
+        \lambda(E\cap (P_1\cup P_2)) = \lambda((E\cap P_1)\cup ((E\setminus P_1)\cap P_2)).
+        \]
+        Since $P_1$ and $P_2$ are positive, the right hand side is positive. Thus $P_1\cup P_2$ is positive with respect to $\lambda$.
+    \end{proof}
+
+\begin{exercise}{8.C}
+    A set $M$ in $\B$ is null set for a charge $\lambda$ if and only if $|\lambda|(M)=0$.
+\end{exercise}
+    \begin{proof}
+        Let $P,N$ be a Hahn decomposition and $M\in \B$. If $M$ is null then obviously
+        \[
+        |\lambda|(M) = \lambda(M\cap P)-\lambda(M\cap N)=0-0=0.
+        \]
+        Conversely, if $|\lambda|(M)=0$, then $\lambda(M\cap P) = \lambda(M\cap N)=0$. So $M\cap P$ and $M\cap N$ are null sets with respect to $\lambda$. This impies that $M=(M\cap P)\cup (M\cap N)$ is null. 
+    \end{proof}
+
+\begin{exercise}{8.D}
+    If $\lambda$ is a charge on $\B$, then the values of $\lambda$ are bounded and 
+    \[
+    \lambda^+(E) = \sup\{\lambda(F):F\subset E,F\in\B\},
+    \]
+    \[
+    \lambda^-(E)=-\inf\{\lambda(F):F\subset E,F\in \B\}.
+    \]
+\end{exercise}
+    \begin{proof}
+        Let $\lambda$ be a charge on $X$, and $P,N$ be the Hahn decomposition of $X$. The key observation here is that $\lambda(A)<\lambda(P)$ for all measurable $A\subset P$, and similarly for $N$. With that in mind, it is not hard to show that $\lambda$ is bounded by $\lambda(P)$ and $\lambda(N)$. For any $E\in B$, we have 
+        \[
+        \sup\{\lambda(F):F\subset E,F\in\B\} = \lambda(E\cap P) = \lambda^+(E).
+        \]
+        The negative version is done similarly.
+    \end{proof}
+
+\begin{exercise}{8.E}
+    Let $\mu_1,\mu_2$, and $\mu_3$ be measures on $(X,\B)$. Show that $\mu_1\ll \mu_1$ and that $\mu_1\ll \mu_2$ and $\mu_2\ll \mu_3$ imply that $\mu_1\ll\mu_3$. Give an example to show that $\mu_1\ll\mu_2$ does not imply that $\mu_2\ll\mu_1$.
+\end{exercise}
+    \begin{proof}
+        For any $\epsilon>0$, just choose $\delta=\epsilon$, we would have $\mu_1(E)<\delta$ implies $\mu_1(E)<\epsilon$ where $E$ is a measurable set. Sounds quite dumb but this is how we prove $\mu_1\ll\mu_1$.
+
+        For the latter part, for any $\epsilon>0$, because $\mu_2\ll\mu_3$, there is a $\delta_1>0$ such that $\mu_2(E)<\delta_1$ implies $\mu_3(E)<\epsilon$. But $mu_1\ll\mu_2$, so there exists $\delta_2>0$ such that $\mu_1(E)<\delta_2$ implies $\mu_2(E)<\delta_1$ (which consequently implies $\mu_3(E)<\epsilon$). So $\mu_1\ll\mu_3$.
+
+        For the example, consider $(\R,\B)$, $\mu_2$ is the Lebesgue measure and $\mu_1(E)=0$ for all Borel set $E$. For any $\epsilon>0$, we have $\mu_2(E)<1$ implies $\mu_1(E)=0<\epsilon$. So $\mu_1\ll\mu_2$. The converse in not true however, because no matter how we choose $\delta>0$, $\mu_1(\R)=0<\delta$, but $\mu_2(\R)=\infty$.
+    \end{proof}
+
+
+\begin{exercise}{8.G}
+    Let $\lambda$ be a charge and let $\mu$ be a measure on $(X,\B)$. If $\lambda\ll\mu$, then $\lambda^+,\lambda^-$, and $|\lambda|$ are absolutely continuous with respect to $\mu$.
+\end{exercise}
+    \begin{proof}
+        Assume that $\lambda\ll\mu$, then for any $E\in\B$ such that $\mu(E)=0$, we would have $|\lambda|(E)=0$. Thus $\lambda\ll\mu$. Since
+        \[
+        0\leq \lambda^+(E),\lambda^-(E) \leq |\lambda|(E)=0,
+        \]
+        we also get $\lambda^+\ll\mu$ and $\lambda^-\ll\mu$.
+    \end{proof}
+
+
+\begin{exercise}{8.H}
+    Show that Lemma 8.8 is true even if $\mu$ is allowed to be an infinite measure. However, it may fail if $\lambda$ is an infinite measure.
+\end{exercise}
+    \begin{proof}
+        Assume that $\mu$ is infinite measure, and $\lambda$ is a finite measure, we will show that $\lambda\ll\mu$ if and only if for any $\epsilon>0$, there exists $\delta>0$ such that $\mu(E)<\delta$ implies $\lambda(E)<\epsilon$. Assume the converse, then there exists an $\epsilon_0$ and $E_n$ such that $\mu(E_n)<1/2^{n}$ and $\lambda(E_n)>\epsilon$. Let 
+        \[
+        F_n = \bigcup_{k\geq n}E_k.
+        \]
+        Because $\mu(F_n)\leq 1$ for all $n$, we get
+        \[
+        \mu\left(\bigcap F_n\right) = \lim_{n\to \infty}\mu(F_n) = 0
+        \]
+        Moreover, because $\lambda$ is a finite measure, we get
+        \[
+        \lambda\left(\bigcap F_n\right) = \lim_{n\to \infty}\lambda(F_n) > \epsilon,
+        \]
+        contradiction. Conversely, if $\mu(E)=0$, then $\lambda(E)<\epsilon$ for all $\epsilon>0$. Thus $\lambda(E) = 0$, which proves that $\lambda\ll\mu$.
+
+        But this is not the case anymore when we allow $\lambda$ to be infinite. Indeed, consider $\mu$ the Lebesgue measure on $\R$ and 
+        \[
+        f(x) = \begin{cases}
+            \infty, &x\in [0,1],\\
+            0, & x\notin [0,1].
+        \end{cases}
+        \]
+        Let $\lambda(E) = \int_Ef\dif\mu$, then this is a measure on $\R$. If $\mu(E)=0$ then clearly $\lambda(E)=0$. However, for any $\delta>0$, we have
+        \[
+        \lambda[0,\delta] = \infty.
+        \]
+        So Lemma 8.8 doesn't hold anymore.
+    \end{proof}
+
+\begin{exercise}{8.I}
+    Let $\mu$ be defined as in Exercise 8.H and if $E\subset \N$, let $\lambda$ be defined by 
+    \[
+    \lambda(E)=\begin{cases}
+        0,& \text{if} E=\varnothing;\\
+        \infty, & \text{if} E\neq \varnothing.
+    \end{cases}
+    \]
+    Show that $\mu$ is a finite measure on the $\sigma$-algebra $\B$ of all subsets of $\N$, and that $\lambda$ is an infinite measure on $\B$. Moreover, $\lambda\ll\mu$ and $\mu\ll\lambda$.
+\end{exercise}
+
+\begin{exercise}{8.J}
+    If $\lambda$ and $\mu$ are $\sigma$-finite and $\lambda\ll\mu$, then the function $f$ in the Randon-Nikodym Theorem can be taken to be finite-valued on $X$.
+\end{exercise}
+    \begin{proof}
+        By the Radon-Nikodym Theorem, there exists a measurable function $f$ such that 
+        \[
+        \lambda(E) = \int_Ef\dif\mu.
+        \]
+        Let $F=\{x\in X:f(x)=\infty\}$, we will show that $\mu(F)=0$. Let $X_n$ be an increasing sequence of finite measure subsets of $X$ with respect to $\lambda$. Because
+        \[
+        \int_{F\cap X_n}h\dif\mu = \lambda(F\cap X_n)\leq \lambda(X_n)<\infty,
+        \]
+        and $h(x)=\infty$ for $x\in F$, we get $\mu(F\cap X_n)=0$. Since $F\cap X_n$ is an increasing sequence, we have
+        \[
+        \mu(F) = \mu\left(F\cap \left(\bigcup X_n\right)\right) = \lim_{n\to\infty} \mu(F\cap X_n) = 0.
+        \]
+        Since $\mu(F)$ is $0$, we can replace $f(x)=0$ for $x\in F$. Our new function $f$ (no relabeling) is finite.
+    \end{proof}
+
+\begin{exercise}{8.K}
+    Let $\mu$ be a finite measure, let $\lambda\ll\mu$, and let $P_n,N_n$ be Hahn decomposition for $\lambda-n\mu$. Let $P=\cap P_n$, $N=\cup N_n$. Show that $N$ is $\sigma$-finite for $\lambda$ and that if $E\subset P$, $E\in\B$, then either $\lambda(E)=0$ or $\lambda(E)=\infty$.
+\end{exercise}
+
+\begin{exercise}{8.L}
+    Use Exercise 8.K to extend the Radon-Nikodym Theorem to the case where $\mu$ is a $\sigma$-finite and $\lambda$ is an arbitrary measure with $\lambda\ll\mu$. Here $f$ is not necessarily finite-valued.
+\end{exercise}
+
+\begin{exercise}{8.M}
+\begin{enumerate}[label=(\alph*)]
+    \item Let $\B$ be an uncountable set and $\B$ be the family of all subsets $E$ of $X$ such that either $E$ or $X\setminus E$ is countable. Let $\mu(E)$ equal the number of elements in $E$ if $E$ is finite and equal $\infty$ if $E$ is uncountable. Then $\lambda\ll\mu$, but the Radon-Nikodym Theorem fails.
+    \item Let $X=[0,1]$ and let $X$ be the Borel subsets of $X$. If $\mu$ is the counting measure on $\B$ and $\lambda$ is Lebesgue measure on $\B$, then $\lambda$ is a finite measure and $\lambda\ll\mu$, but the Radon-Nikodym Theorem fails.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{8.N}
+    Let $\lambda,\mu$ be $\sigma$-finite measures on $(X,\B)$, let $\lambda\ll\mu$, and let $f=\dif\lambda/\dif\mu$. If $g$ belongs to $M^+(X,\B)$, then
+    \[
+    \int g\dif\lambda = \int gf\dif\mu.
+    \]
+\end{exercise}
+    \begin{proof}
+        Let $\phi_n\to g$, where $\phi_n$ are monotone increasing simple functions. For any $\phi_n = \sum a_k\chi_{E_k}$, we have
+        \[
+        \int \phi_n\dif\lambda = \sum a_k\lambda(E_k) = \sum a_k\int_{E_k} f\dif\mu = \int\phi_nf\dif\mu.
+        \]
+        Take $n$ to infinity, the left hand side converges to $\int g\dif\lambda$ by the monotone convergence theorem. For the right hand side, because $|\phi_nf|\leq |gf|$ and $|gf|$ is integrable, applying the Lebesgue Dominated Theorem, we get $\int gf\dif\mu$. Therefore,
+        \[
+        \int gf\dif\mu = \int g\dif\lambda.
+        \]
+    \end{proof}
+
+\pagebreak
+
+\begin{exercise}{8.O}
+    Let $\lambda,\mu,\nu$ be $\sigma$-finite measure on $(X,\B)$. Use Exercise 8.N to show that if $\nu\ll\lambda$ and $\lambda\ll\mu$, then
+    \[
+    \frac{\dif\nu}{\dif\mu} = \frac{\dif\nu}{\dif\lambda}\frac{\dif\lambda}{\dif\mu},
+    \]
+    $\mu$-almost everywhere. Also, if $\lambda_j\ll\mu$ for $j=1,2$, then
+    \[
+    \frac{\dif}{\dif\mu}(\lambda_1+\lambda_2) = \frac{\dif\lambda_1}{\dif\mu}+\frac{\dif\lambda_2}{\dif\mu}, 
+    \]
+    $\mu$-almost everywhere.
+\end{exercise}
+    \begin{proof}
+        Let $\nu=\int f\dif\lambda$ and $\lambda=\int g\dif\mu$. Exercise 8.N says that
+        \[
+        \int f\dif\lambda = \int fg\dif\mu,
+        \]
+        which means $fg=\frac{\dif\nu}{\dif\mu}$. So 
+        \[
+        \frac{\dif\nu}{\dif\mu}=fg=\frac{\dif\nu}{\dif\lambda}\cdot\frac{\dif\lambda}{\dif\mu}.
+        \]
+        Moreover, if $\lambda_i\ll\mu$, then 
+        \[
+        \lambda_i = \int f_i\dif\mu.
+        \]
+        Therefore
+        \[
+        \lambda_1+\lambda_2 = \int f_1+f_2\dif\mu.
+        \]
+        So we get
+        \[
+        \frac{\dif}{\dif\mu}(\lambda_1+\lambda_2) = f_1+f_2 = \frac{\dif\lambda_1}{\dif\mu} + \frac{\dif\lambda_2}{\dif\mu}.
+        \]
+    \end{proof}
+
+\begin{exercise}{8.Q}
+    If $\lambda$ and $\mu$ are measures, with $\lambda\ll\mu$ and $\lambda\perp\mu$, then $\lambda = 0$. 
+\end{exercise}
+    \begin{proof}
+        Because $\lambda\perp\mu$, there is an $E$ such that $\lambda(E)=0$ and $\mu(E^c)=0$. But $\lambda\ll\mu$, thus $\lambda(E^c)=0$. So $\lambda=0$.
+    \end{proof}
+
+
+\pagebreak
+
+\section{Generations of Measures}
+
+
+\begin{exercise}{9.A}
+    Establish that the family $F$ of all finite unions of sets of the form 
+    \[
+    (a,b],(-\infty,b],(a,\infty),(-\infty,\infty)
+    \]
+    is an algebra on sets in $\R$.
+\end{exercise}
+    \begin{proof}
+        Because $0$ is a finite number, $\varnothing\in F$, and $\R = (-\infty,\infty)\in F$. For the complement, we only need to show for the generators. Indeed, we have
+        \[
+        (a,b]^c = (-\infty,a]\cup (b,\infty), (-\infty,b]^c = (b,\infty),(a,\infty)^c=(-\infty,a], (-\infty,\infty)^c = \varnothing.
+        \]
+        Since all of these are elements of $F$, $E^c\in F$ whenever $E\in F$. Lastly, because a finite union of finite subsets is finite, 
+        \[
+        \bigcup_{i=1}^n E_i\in F
+        \]
+        whenever $E_i\in F$. So $F$ is indeed an algebra on subsets of $\R$.
+    \end{proof}
+
+\begin{exercise}{9.B}
+    Show that the family $G$ of all finite unions of sets of the form 
+    \[
+    (a,b),(-\infty,b),(a,\infty),(-\infty,\infty)
+    \]
+    is not an algebra of sets in $\R$. However, the $\sigma$-algebra generated by $G$ is the family of Borel sets.
+\end{exercise}
+    \begin{proof}
+        We have $(-\infty,1)^c=[1,\infty)$. But this cannot be written as a finite union of open sets because $[1,\infty)$ is not open. And since all four sets above are open, $G$ does not define an algebra.
+
+        However, for any $b\in \R$, we have
+        \[
+        (-\infty,b] = (b,\infty)^c,
+        \]
+        which is in the $\sigma$-algebra generated by $G$. Since $G$ generates $F$, the algebra that generates $\B$, and that and element of $G$ is a Borel set, we conclude that $\B$ is the $\sigma$-algebra generated by $G$.
+    \end{proof}
+
+\pagebreak
+
+\begin{exercise}{9.E}
+    If $E$ is a countable subset of $\R$, then it has Lebesgue measure zero.
+\end{exercise}
+    \begin{proof}
+        Let $\mu^*$ be the Lebesgue measure on $\R$. If $E$ is an infinite countable subset of $\R$, then $E = \bigcup_{i\in\N}a_i$, where $a_i$ are distinct singletons of $\R$. Therefore
+        \[
+        \mu^*(E) = \sum_{i\in\N}\mu^*(a_i) = \sum_{i\in\N}\mu(a_i) = 0.
+        \]
+        If $E$ is finite, then it is a subset of some infinite countable subset $F$ of $\R$. Thus
+        \[
+        0\leq \mu^*(E)\leq \mu^*(F) = 0,
+        \]
+        which implies that $\mu^*(E)=0$.
+    \end{proof}
+
+\begin{exercise}{9.G}
+    If $A$ is a Lebesgue measurable subset of $\R$ and $\epsilon>0$, show that there exists an open set $G_\epsilon\supseteq A$ such that
+    \[
+    l^*(A)\leq l^*(G_\epsilon)\leq l^*(A)+\epsilon.
+    \]
+\end{exercise}
+    \begin{proof}
+        If $A$ is a Lebesgue measurable subset of $\R$, then 
+        \[
+        l^*(A) = \inf\left\{\sum_{i\in\N}l(E_i):A\subset \bigcup_{i\in\N} E_i\right\},
+        \]
+        where $E_i$ are sets of the form of Exercise 9.B, which are open. So there exists $E_i$ (no relabeling) such that
+        \[
+        l^*\left(\bigcup_{i\in\N} E_i\right)\leq \sum_{i\in\N}l^*(E_i) \leq l^*(A)+\epsilon.
+        \]
+        But the union of open subsets is an open subset, let $G_\epsilon = \bigcup_{i\in\N}E_i$, we get
+        \[
+        l^*(A)\leq l^*(G_\epsilon)\leq l^*(A)+\epsilon.
+        \]
+    \end{proof}
+
+\pagebreak
+
+\begin{exercise}{9.H}
+    If $B$ is a Lebesgue measurable subset of $\R$, if $\epsilon>0$, and if $B\subseteq I_n=(n,n+1]$, then there exists a compact set $K_\epsilon\subseteq B$ such that 
+    \[
+    l^*(K_\epsilon)\leq l^*(B)\leq l^*(K_\epsilon)+\epsilon.
+    \]
+\end{exercise}
+    \begin{proof}
+        For any $B\subset (n,n+1]$ that is measurable, by Exercise 9.G, there exists $G_e$ open such that $((n,n+1]\setminus B)\subset G_\epsilon$ and
+        \[
+        l^*(G_\epsilon)\leq l^*((n,n+1]\setminus B)+\epsilon.
+        \]
+        Because $B$ and $G_\epsilon$ are Lebesgue measurable, we have
+        \begin{align*}
+        l^*(B)+l^*((n,n+1]\setminus B) &= l^*(n,n+1]\\
+        &= l^*(G_\epsilon\cap(n,n+1])+l^*((n,n+1]\setminus G_\epsilon)\\
+        &\leq l^*(G_\epsilon) + l^*((n,n+1]\setminus G_\epsilon)\\
+        &\leq l^*((n,n+1]\setminus B)+\epsilon +l^*([n,n+1]\setminus G_\epsilon).
+        \end{align*}
+        The first two equals are the expansion of $l^*(n,n+1]$, the first inequality is because $(G_\epsilon\cap (n,n+1])\subset G_\epsilon$, and the last one is because the construction of $G_\epsilon$. Notice that because $G_\epsilon$ is open, thus $[n,n+1]\setminus G_\epsilon$ is closed, and obviously bounded, thus compact. And the calculation above gives
+        \[
+        l^*(B)\leq l^*([n,n+1]\setminus G_\epsilon)+\epsilon.
+        \]
+        Moreover, because $((n,n+1]\setminus B)\subset G_\epsilon$, we have $[n,n+1]\setminus G_\epsilon \subset [n,n+1]\setminus((n,n+1]\setminus B)\subset B$. So
+        \[
+        l^*([n,n+1]\setminus G_\epsilon)\leq l^*(B),
+        \]
+        which completes our proof.
+    \end{proof}
+
+\begin{exercise}{9.I}
+    If $A$ is an arbitrary Lebesgue measurable set in $\R$, apply the preceding exercises to show that
+    \begin{align*}
+        l^*(A) &= \inf\{l^*(G):A\subset G, G \text{ open}\},\\
+        l^*(A) &= \sup\{l^*(K):K\subset A,K\text{ compact}\}.
+    \end{align*}
+\end{exercise}
+    \begin{proof}
+        For any $\epsilon>0$, Exercise 9.G implies the existence of an open set $G_\epsilon$ such that
+        \[
+        l^*(A)\leq l^*(G_\epsilon)\leq l^*(A)+\epsilon.
+        \]
+        So 
+        \[
+        l^*(G_\epsilon)-\epsilon\leq l^*(A).
+        \]
+        Since $\epsilon$ can be arbitrarily small, we get
+        \[
+        \inf\{l^*(G):A\subset G,G\text{ open}\} \leq l^*(A).
+        \]
+        Conversely, because $l^*(A)\leq l^*(G)$ for all $A\subset G$, we get
+        \[
+        l^*(A)\leq \inf\{l^*(G):A\subset G,G\text{ open}\}.
+        \]
+        So we get 
+        \[
+        l^*(A) = \inf\{l^*(G):A\subset G,G\text{ open}\}.
+        \]
+        The proof for $K$ compact is done similarly.
+    \end{proof}
+
+\begin{exercise}{9.M}
+    If $\B$ is the Borel algebra and $\lambda$ is Lebesgue measure on $\B$, show (i) $\lambda(G)>0$ for every open $G\neq\varnothing$, (ii)$\lambda(K)<\infty$ for every compact set $K$, and (iii) $\lambda(x+E)=\lambda(E)$ for all $E\in\B$.
+\end{exercise}
+    \begin{proof}
+        If $G$ is nonempty and open, let $g\in G$, then there is $\epsilon>0$ such that $B_\epsilon(g)\subset G$. This means $\lambda(G)>\lambda(B_\epsilon(g))=2\epsilon>0$.
+
+        If $K$ is compact, then it is closed and bounded. So there exists $N>0$ such that $K\subset B_N(0)$. So $\lambda(K)<\lambda(B_N(0))<2N<\infty$.
+
+        We will show that $\lambda(x+E)=\lambda(E)$ for all the generators. Indeed, for any $x\in\R$, we have
+        \[ 
+        \lambda(x+(a,b])=\lambda(x+a,x+b] = b-a = \lambda(a,b].
+        \]
+        For the other threes, we would get $\infty$. So for any $E\in\B$, we get
+        \[
+        \lambda(x+E)=\lambda(E).
+        \]
+    \end{proof}
+
+\pagebreak
+
+\begin{exercise}{9.T}
+    Consider the following functions defined on $x\in\R$ by:
+    \[
+    g_1(x)=2x, \quad g_2(x)=\arctan x, 
+    \]
+    \[
+    g_3(x) = \begin{cases}
+        0, &x<0,\\
+        1, &x\geq 0,
+    \end{cases},\quad g_4(x) = \begin{cases}
+        0, &x<0,\\
+        x, &x\geq 0.
+        \end{cases}
+    \]
+    Describe the Borel-Stieltjes measures determined by these functions. Which of these measures are absolutely continuous with respect to Borel measure? What are their Radon-Nikodym derivatives? Which of these measure are singular with respect to Borel measure? Which of these measures are finite? With respect to which of these measures is Boreal measure absolutely continuous?
+\end{exercise}
+    \begin{proof}
+        \begin{enumerate}[label=(\roman*)]
+            \item Let $\lambda_1$ be the Borel-Stieltjes measure generated by $g_1(x)=2x$, we get 
+            \[
+            \lambda_1(a,b)=2b-2a=2\lambda(a,b).
+            \]
+            So $\lambda_1(E)=2\lambda(E)$. If $\lambda(E)=0$ then obviously $\lambda_1(E)=0$. Thus $\lambda_1\ll\lambda$. Since
+            \[
+            \int_E2\dif\lambda = 2\lambda(E)=\lambda_1(E),
+            \]
+            the constant function $2$ is the Radon-Nikodym derivative of $\lambda_1$ with respect to $\lambda$. Clearly $\lambda_1$ is not singular with respect to $\lambda$, and neither does it finite. Moreover, if $\lambda_1(E)=0$, then $\lambda(E)=0$. Thus $\lambda\ll\lambda_1$.
+
+            \item Let $\lambda_2$ be the Borel-Stieltjes measure generated by $g_2(x)$, then 
+            \begin{align*}
+                \lambda_2(a,b)&=\arctan(b)-\arctan(a),\\
+                \lambda_2(a,\infty) &= \frac{\pi}{2} - \arctan(a),\\
+                \lambda_2(-\infty,b] & = \arctan(b) +\frac{\pi}{2},\\
+                \lambda_2(-\infty,\infty) & = \pi.
+            \end{align*}
+            By taking the derivative of $\arctan$, we get
+            \[
+            \lambda_2(E) = \int_E\frac{1}{x^2+1}\dif\lambda.
+            \]
+            So $\lambda_2\ll\lambda$. Clearly $\lambda_2$ is not singular with respect to $\lambda$ and $\lambda_2$ is finite. Moreover, if $\lambda_2(E)=0$, then for any $n>0$, because $\frac{1}{x^2+1}>\frac{1}{n^2+1}>0$ on $(-n,n)$, we get
+            \[
+            \frac{1}{n^2+1}\lambda(E\cap (-n,n))\leq \lambda_{E\cap (-n,n)}\frac{1}{x^2+1}\leq \int_E\frac{1}{x^2+1} = 0.
+            \]
+            So $\lambda(E\cap (-n,n))=0$ for all $n>0$. Hence
+            \[
+            \lambda(E) = \lim_{n\to \infty}\lambda(E\cap(-n,n)) = 0.
+            \]
+            So $\lambda\ll\lambda_2$.
+            \item Let $\lambda_3$ be the Borel-Stieltjes measure generated by $g_3(x)$. Then 
+            \[
+            \lambda_3(a,b)=\begin{cases}
+                0, & \text{ if } ab>0 \text{ or }a=0,\\
+                1, & \text{ if } ab<0 \text{ or }b=0.
+            \end{cases}
+            \]
+            We have $\lambda_3(0)=\inf\{\lambda_3(G):0\in G, G \text{ open }\} = 1$, which $\lambda(0)=0$. So $\lambda_3\not\ll\lambda$. Because $\lambda_3((-\infty,0)\cup (0,\infty))=\lambda_3(-\infty,0)+\lambda_3(0,\infty)=0$, and $\lambda(0)=0$, we get $\lambda\perp\lambda_3$. Clearly this measure is finite, but $\lambda\not\ll\lambda_3$ because $\lambda_3(0,1)=0$.
+            \item Let $\lambda_4$ be the Borel-Stieltjes measure generated by $g_4(x)$. Then it is not hard to see that 
+            \[
+            \lambda_4(E) = \lambda(E\cap [0,\infty))\leq \lambda(E).
+            \]
+            So if $\lambda(E)=0$, then $\lambda_4(E)=0$, which means $\lambda_4\ll\lambda$. The Radon-Nikodym derivative of $\lambda_3$ with respect to $\lambda$ is $\chi_{[0,\infty)}$. However, $\lambda_4\not\perp\lambda$ because $\lambda_4(0,1)$ and $\lambda(0,1)$ are nonzero. This is clearly not a finite measure, and $\lambda\not\ll\lambda_4$ since $\lambda_4(-2,-1)=0$.
+            \end{enumerate}
+    \end{proof}
+
+\begin{exercise}{9.U}
+    Let $\mu$ be a finite measure on the Borel sets $\B$ of $\R$ and let $g(x)=\mu((-\infty,x])$ for $x\in\R$. Show that $g$ is mototone increasing and right continuous, and that 
+    \[
+    \mu((a,b])=g(b)-g(a)
+    \]
+    when $-\infty<a\leq b<\infty$. Show that $\mu(\R)=\lim_{x\to\infty}g(x)$.
+\end{exercise}
+
+\pagebreak
+
+\section{Product Measures}
+
+\begin{exercise}{10.F}
+    If $(\R,\B)$ denotes the measurable space consisting of real numbers together with the Borel sets, show that every open subset of $\R\times\R$ belongs to $\B\times \B$. In fact, this $\sigma$-algebra is the $\sigma$-algebra generated by the open subsets of $\R\times\R$.
+\end{exercise}
+    \begin{proof}
+        We know that the topology of $\R\times \R$ is generated by the set of open rectangles whose vertices have rational coordinates. This set is clearly a countable subset of $\B\times \B$. Thus we claim that each open set of $\R\times\R$ is a countable union of elements of $\B\times\B$.
+    \end{proof}
+
+\begin{exercise}{10.G}
+    Let $f$ and $g$ be real-valued functions on $X$ and $Y$, respectively; suppose that $f$ is $\B_X$-measurable and that $g$ is $\B_Y$-measurable. If $h$ is defined for $(x,y)$ in $X\times Y$ by $h(x,y)=f(x)g(y)$, show that $h$ is $\B_X\times\B_Y$-measurable.
+\end{exercise}
+    \begin{proof}
+        Assume that $a\in \R$ and positive, we will show that $\{(x,y)\in Z:h(x,y)<a\}$ is $\B_X\times\B_Y$-measurable.
+        
+        If $f(x)g(y)<a$, then we consider two cases. First, if $f(x)g(y)>0$, then $|f(x)g(y)|=f(x)g(x)<a$. Second, if $f(x)g(y)\leq 0$, then obviously $f(x)g(y)<a$. Let
+        \[
+        A_1=\{(x,y)\in Z:|f(x)|<p,|g(y)|<q, \text{ s.t. }pq<a,\text{ and } p,q\in \Q\},
+        \]
+        \[
+        A_2=\{(x,y)\in Z: f(x)\geq 0,g(y)\leq 0\},
+        \]
+        and
+        \[
+        A_3=\{(x,y)\in Z: f(x)\leq 0, g(y)\geq 0\}.
+        \]
+        Because $\Q$ is dense in $\R$, we get
+        \[
+        \{(x,y)\in Z:f(x)g(y)<a\} = A_1\cup A_2\cup A_3.
+        \]
+        Notice that $A_1,A_2,A_3$ are countable unions of $\B_Z$-measurable sets, thus $\B_Z$-measurable. So $h$ is $\B_Z$-measurable.
+    \end{proof}
+
+\begin{exercise}{10.I}
+    Let $E$ and $F$ be subsets of $Z=X\times Y$, and let $x\in X$. Show that $(E\setminus F)_x=E_x\setminus F_x$. If $(E_\alpha)$ are subsets of $Z$, then
+    \[
+    (\bigcup E_\alpha)_x = \bigcup (E_\alpha)_x.
+    \]
+\end{exercise}
+    \begin{proof}
+        We have
+        \begin{align*}
+            (E\setminus F)_x &= \{y\in Y: (x,y)\in E\setminus F\}\\
+            &= \{y\in Y:(x,y)\in E\}\setminus\{y\in Y:(x,y)\in F\}\\
+            &= E_x\setminus F_x.
+        \end{align*}
+
+        Moreover, if $y\in (\bigcup E_\alpha)_x$, then there is an $E_0\in \{E_\alpha\}$ such that $(x,y)\in E_0$. So 
+        \[
+        y\in (E_0)_x\subset \bigcup (E_\alpha)_x.
+        \]
+        
+        Conversely, if $y\in \bigcup (E_\alpha)_x$, then $y$ is in some $(E_0)_x$. So $(x,y)\in E_0\subset (\bigcup E_\alpha)$, which implies that $y\in (\bigcup E_\alpha)_x$.
+    \end{proof}
+
+\begin{exercise}{10.J}
+    Let $(X,\B_X,\mu)$ be the measure space on the natural numbers $X=\N$ with the counting measure defined on all subsets of $X=\N$. Let $(Y,\B_Y,\nu)$ be an arbitrary measure space. Show that a set $E$ in $Z=X\times Y$ belongs to $\B_Z=\B_X\times\B_Y$ if and only if each section $E_n$ of $E$ belongs to $\B_Y$. In this case there is a unique product measure $\pi$, and
+    \[
+    \pi(E)=\sum_{n=1}^\infty \nu(E_n),\quad E\in\B_Z.
+    \]
+    A function $f$ on $Z= X\times Y$ to $\R$ is measurable if and only if each section $f_n$ is $\B_Y$-measurable. Moreover, $f$ is integrable with respect to $\pi$ if and only if the series 
+    \[
+    \sum_{n=1}^\infty \int_Y|f_n|\dif\nu
+    \]
+    is convergent, in which case
+    \[
+    \int_Zf\dif\pi = \sum_{n=1}^\infty \left(\int_Yf_n\dif\nu \right) = \int_Y\left(\sum_{n=1}^\infty f_n \right)\dif\nu.
+    \]
+\end{exercise}
+    \begin{proof}
+    If $E\in \B_Z$, then obviously $E_n\in \B_Y$ by Lemma 10.6. Conversely, assume that $E_n\in\B_Y$ for all $n\in\N$. Because $X$ has countably many elements, we get
+    \[
+    E = \bigcup_{n\in N}n\times E_n.
+    \]
+    But $n\times E_n$ is measurable with respect to $\mu\times\nu$, we get $E$ to be measurable. In this case, Lemma 10.8 implies that
+    \[
+    \pi(E) = \int \nu(E_n)\dif\mu = \sum_{n=1}^\infty \nu(E_n).
+    \]
+    Similarly, if $f$ is measurable, then Lemma 10.6 implies that $f_n$ is measurable. Conversely, if $f_n$ is measurable for all $n\in \N$, then $f\chi_n$ is $\B_Z$-measurable. Therefore
+    \[
+    f = \sum_{n\in\N}f\chi_n
+    \]
+    is $\B_Z$-measurable.
+
+    If $f$ is integrable, then $|f|$ is also integrable. Fubini's Theorem implies that
+    \[
+    \sum_{n\in\N}\int_Y|f_n|\dif\nu = \int_Z|f|\dif\pi <\infty.
+    \]
+    So the series is convergent. Conversely, if 
+    \[
+    \sum_{n\in\N}\int_Y|f_n|\dif\nu = \int_X\int_Y|f_n|\dif\nu\dif\mu = \int_Z |f|\dif\pi
+    \]
+    is convergent, then $|f|$ is integrable, thus $f$ is integrable with respect to $\pi$, where $\pi=\mu\times\nu$. The last equation is straight from our previous calculations.
+    \end{proof}
+
+\begin{exercise}{10.K}
+    Let $X$ and $Y$ be the unit interval $[0,1]$ and let $\B_X$ and $\B_Y$ be the Borel subsets of $[0,1]$. Let $\mu$ be Lebesgue measure on $\B_X$ and let $\nu$ be the counting measure on $\B_Y$. If $D=\{(x,y):x=y\}$, show that $D$ is measurable subset of $Z=X\times Y$, but that
+    \[
+    \int \nu(D_x)\dif\mu(x)\neq \int \mu(D^y)\dif\nu(y).
+    \]
+    Hence Lemma 10.8 may fail unless both of the factors are required to be $\sigma$-finite
+\end{exercise}
+    \begin{proof}
+        When both $\mu$ and $\nu$ are Lebesgue measures, there is a famous result saying that any line in $\R^2$ has measure $0$. Since $D$ is a line in $[0,1]^2$, it is in $\B_X\times\B_Y$. (I am literally cheating right now to avoid tedious arguments.) Moreover,
+        \[
+        \int\nu(D_x)\dif\mu(x) = \int 1\dif\mu(x) = \mu([0,1])=1,
+        \]
+        and
+        \[
+        \int \mu(D^y)\dif\nu(y) = \int 0\dif\nu(y) = 0.
+        \]
+        So Lemma 10.8 fails.
+    \end{proof}
+
+\begin{exercise}{10.L}
+    If $F$ is the characteristic function of the set $D$ in the Exercise 10.K, show that Tonelli's Theorem may fail unless both of the factors are required to be $\sigma$-finite.
+\end{exercise}
+    \begin{proof}
+        Let $F=\chi_D$, then the previous exercise implies that
+        \[
+        \int_X\int_Y \chi_D\dif\nu\dif\mu = \int \mu(D^y)\dif\nu(y)=1,
+        \]
+        but
+        \[
+        \int_Y\int_X\chi_D\dif\mu\dif\nu = \int 0\dif\nu(y) = 0.
+        \]
+        So Tonelli fails us.
+    \end{proof}
+
+\begin{exercise}{10.M}
+    Show that the example considered in Exercise 10.J demonstrates that Tonelli's Theorem holds for arbitrary $(Y,\B_Y,\nu)$ when $(X,\B_X,\mu)$ is the set $\N$ of natural numbers with the counting measure on arbitrary subsets of $\N$.
+\end{exercise}
+    \begin{proof}
+        With the above set up, and $f$ is integrable, then exercise 10.J implies that
+        \[
+        \int_X\int_Yf_n\dif\nu\dif\mu = \sum_{n=1}^{\infty}\int_Yf_n\dif\nu = \int_Y\sum_{n=1}^\infty f_n\dif\nu = \int_Y\int_X f_n\dif\mu\dif\nu.
+        \]
+        So Tonelli holds in this case.
+    \end{proof}
+
+\begin{exercise}{10.N}
+    If $a_{mn}\geq 0$ for $m,n\in\N$, then
+    \[
+    \sum_{m=1}^{\infty}\sum_{n=1}^\infty a_{mn} = \sum_{n=1}^\infty \sum_{m=1}^\infty a_{mn} \quad(\leq\infty).
+    \]
+\end{exercise}
+    \begin{proof}
+        Let $X=Y=\N$ and $\mu,\nu$ be the counting measures. Let $F\colon X\times Y\to \bar\R$ by $F(m,n)=a_{mn}$. Because $a_{mn}\geq 0$, the function $F$ is nonnegative. Because $F$ has only countably many value, it is also measurable. Applying Tonelli's Theorem, we get
+        \[
+        \sum_{m=1}^{\infty}\sum_{n=1}^\infty a_{mn} = \sum_{n=1}^\infty \sum_{m=1}^\infty a_{mn}.
+        \]
+    \end{proof}
+
+\begin{exercise}{10.O}
+    Let $a_{mn}$ be defined for $m,n\in\N$ be requiring that $a_{nn}=1, a_{n,n+1}=-1,$ and $a_{mn}=0$ if $m\neq n$ or $m\neq n+1$. Show that 
+    \[
+    \sum_{m=1}^\infty \sum_{n=1}^\infty a_{mn}=0, \quad \sum_{n=1}^\infty\sum_{m=1}^\infty a_{mn} = 1,
+    \]
+    so the hypothesis of integrability in Fubini's Theorem cannot be dropped.
+\end{exercise}
+    \begin{proof}
+        Let $X=Y=\N$ and $\mu,\nu$ be the counting measures. Let $F\colon X\times Y\to \bar\R$ by $F(m,n)=a_{mn}$. With the same reasoning as the above Exercise, $F$ is measurable. Notice that for any $m\in\N$, we have
+        \[
+        \sum_{n\in\N}a_{mn} = 0+\cdots+0+1-1+0+\cdots = 0.
+        \]
+        And for $n\geq 2$, same as above, we get
+        \[
+        \sum_{m\in\N}a_{mn} = 0.
+        \]
+        But 
+        \[
+        \sum_{m\in\N}a_{m1}=1+0+\cdots = 1.
+        \]
+        So 
+         \[
+    \sum_{m=1}^\infty \sum_{n=1}^\infty a_{mn}=0, \quad \sum_{n=1}^\infty\sum_{m=1}^\infty a_{mn} = 1.
+        \]
+        The integrability of $F$ is violated in this case because
+        \[
+        \sum_{m,n\in\N}|a_{mn}|=\infty.
+        \]
+    \end{proof}
+
+\begin{exercise}{10.P}
+    Let $f$ be integrable on $(X,\B_X,\mu)$, let $g$ be integrable on $(Y,\B_Y,\nu)$, and define $h$ on $Z$ be $h(x,y)=f(x)g(y)$. If $\pi$ is a product of $\mu$ and $\nu$, show that $h$ is $\pi$-integrable and
+    \[
+    \int_Z h\dif\pi = \left(\int_Xf\dif\mu\right)\left(\int_Yg\dif\nu\right).
+    \]
+\end{exercise}
+    \begin{proof}
+        From Exercise 10.G, we know that $h(x,y)=f(x)g(y)$ is $\B_Z$ measurable. Notice that 
+        \[
+        h_x = h(x,y)= f(x)g(y) \quad, y\in Y.
+        \]
+        Applying Fubini's Theorem, we get
+        \begin{align*}
+            \int_Z h\dif\pi &= \int_X\left(\int_Y h_x\dif\nu\right)\dif\mu\\
+            &= \int_X\left(\int_Y f(x)g(y)\dif\nu\right)\dif\mu \\
+            &= \int_X f(x)\left(\int_Yg(y)\dif\nu\right)\dif\mu\\
+            &=\left(\int_Yg(y)\dif\mu\right) \left(\int_X f(x)\dif\mu\right).
+        \end{align*}
+        The third equality is because $f(x)$ is a constant with respect to $y$, and the fourth equality is because $\left(\int_Yg(y)\dif\mu\right)$ is a constant with respect to $x$.
+    \end{proof}
+\end{document}

@@ -1,0 +1,175 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{fullpage}
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{exercise}{Exercise}
+\newcustomtheorem{lemma}{Lemma}
+
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\makeatletter
+\newcommand{\opnorm}{\@ifstar\@opnorms\@opnorm}
+\newcommand{\@opnorms}[1]{%
+  \left|\mkern-1.5mu\left|\mkern-1.5mu\left|
+   #1
+  \right|\mkern-1.5mu\right|\mkern-1.5mu\right|
+}
+\newcommand{\@opnorm}[2][]{%
+  \mathopen{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
+  #2
+  \mathclose{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
+}
+\makeatother
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+
+\title{Carothers - Chapter 4\\ Open Sets and Closed Sets}
+\author{Hoang K. Vo}
+\date{\today}
+\begin{document}
+
+\maketitle
+\begin{exercise}{3}
+Some authors say that two metrics $d$ and $p$ on a set $M$ are equivalent if they generate the same open sets. Prove this.
+\end{exercise}
+	\begin{proof}
+	If $d$ and $p$ generate the same open set in $M$, then assume that $x_n\rightarrow x$ respect to $d$, we will prove that $x_n\rightarrow x$ respect to $p$. Indeed, for any $\delta >0$, we have $B_\delta^p(x)$ is an open set in $M$, thus it is also an open set respect to $d$. And since $x$ is in that open set, there exists $\epsilon >0$ such that $B_\epsilon^d(x)\subset B_\delta^p(x)$. But because $x_n\rightarrow x$ respect to $d$, $x_n$ is eventually in $ B_\epsilon^d(x)\subset B_\delta^p(x)$. Therefore, $x_n\rightarrow x$ respect to $p$, which means $d$ and $p$ are equivalent.
+	\end{proof}
+
+\begin{exercise}{5}
+Let $f:\R\rightarrow\R$ be continuous. Show that $\{x:f(x)>0\}$ is an open subset of $\R$ and that $\{x:f(x)=0\}$ is a closed subset of $\R$.
+\end{exercise}
+	\begin{proof}
+	Assume that $f(x)>0$ for some $x$, then because $f$ is continuous, there exists $\delta>0$ such that for any $y\in B_\delta(x)$, we have $f(y)>0$. Thus $B_\delta(x)\in \{x:f(x)>0\}$, which implies $\{x:f(x)>0\}$ to be an open set. Similarly, we have $\{x:f(x)<0\}$ is also an open set, which means
+	\[
+	\{x:f(x)=0\}=\R\setminus (\{x:f(x)>0\}\cup \{x:f(x)<0\})		
+	\]
+	is a close set.
+	\end{proof}
+	
+\begin{exercise}{7}
+Show that every open set in $\R$ is the union of (countably many) open intervals with rational endpoints. Use this to show that the collection $U$ of all open subsets of $\R$ has the same cardinality as $\R$ itself.
+\end{exercise}
+	\begin{proof}
+	First, we will prove that for any open interval $(a,b),\, a,b\in\R$, there is countably many rational endpoint interval whose union is $(a,b)$. Indeed, there exists an increasing sequence of rational numbers $b_n\rightarrow b$ and a decreasing sequence of rational numbers $a_n\rightarrow a$. Clearly, we have $\cup_{n=1}^\infty (a_n,b_n)=(a,b)$. 
+	
+	Therefore, by theorem 4.6, if $M$ is an open set on $\R$, then $M$ can be broken into countably many disjoint interval. We continue to break each interval into countably many unions of rational endpoint intervals. Thus any open set on $\R$ can be written as a union of countably many rational endpoint intervals.
+	
+	Notice that the cardinality of $(a,b)$ where $a,b\in \Q$ is $card(\Q\times\Q )=card(\N)=\aleph_0$. Therefore, the collection $U$ of all open subsets of $\R$ has the cardinality equals $card(\mathcal{P}(\N))=card(\R)$. Thus the two sets have the same cardinality.
+	\end{proof}
+
+\begin{exercise}{8}
+Show that every open interval (and hence every open set) in $\R$ is a countable union of closed intervals and that every closed interval in $\R$ is a countable intersection of open intervals.
+\end{exercise}
+	\begin{proof}
+	Let $(a,b)$ be an open interval in $\R$, there exists an increasing sequence $(b_n)$ and a decreasing function $(a_n)$ such that $b_n\rightarrow b$ and $a_n\rightarrow a$. And since $a<b$, there exists $n_0$ such that $a_n<b_n$ for any $n>n_0$. Therefore, without loss of generality, we can assume that $a_n<b_n$ for all $n$. We will claim that $\cup_{n\in\N}[a_n,b_n]=(a,b)$. Indeed, since $[a_n,b_n]\subset (a,b)$ for all $n$, we have $\cup_{n\in\N}[a_n,b_n]\subset (a,b)$. Now for any $x\in (a,b)$, there exists $m$ such that $a_m<x<b_m$. Thus  $x\in [a_m,b_m]\in \cup_{n\in\N} [a_n,b_n]$, which means $(a,b)\subset \cup_{n\in\N}[a_n,b_n]$. For that reason, $\cup_{n\in\N}[a_n,b_n]=(a,b)$.
+	
+	Now, for any closed interval $[a,b]$, let $a_n,b_n$ be increasing and decreasing sequences respectively, such that $a_n\rightarrow a$ and $b_n\rightarrow b$. We claim that $\cap_{n\in \N}(a_n,b_n)=[a,b]$. Well, it's kinda obvious, the proof is similar to the previous case.
+	\end{proof}
+
+Before doing exercise 10, we first prove a little lemma.
+	\begin{lemma}1
+	For any $x,z\in H^\infty$, if $d(x,z)<2^{-N}t$, then $|x_k-z_k|<t$ for all $k=1,\cdots,N$.
+	\end{lemma}
+		\begin{proof}
+		notice that for any $z\in H^\infty$, we have
+	\[
+	d(x,z)=\sum_{n=1}^{\infty}{2^{-n}|x_n-z_n|}=\sum_{n=1}^{N}{2^{-n}|x_n-z_n|}+\sum_{n=N+1}^{\infty}{2^{-n}|x_n-z_n|}.
+	\]
+	Because $|x_n-z_n|\geq 0$, we have
+	\[
+	\sum_{n=1}^{N}{2^{-n}|x_n-z_n|}\leq \sum_{n=1}^{N}{2^{-n}|x_n-z_n|}+\sum_{n=N+1}^{\infty}{2^{-n}|x_n-z_n|}=d(x,z)\leq 2^{-N}t.
+	\]
+	Therefore, $2^{-k}|x_k-y_k|<2^{-N}t$ for any $k=1,\cdots,N$. That is $|x_k-y_k|<2^{k-N}t$. But $k\leq N$, hence $2^{k-N}\leq 1$, which implies $|x_k-y_k|<t$ for all $k=1,\cdots,N$.
+		\end{proof}
+\begin{exercise}{10}
+Given $y=(y_n)\in H^\infty,N\in\N$, and $\epsilon >0$, show that $\{x=(x_n)\in H^\infty:|x_k-y_k|<\epsilon ,k=1,\cdots ,N\}$ is open in $H^\infty$.
+\end{exercise}
+	
+	\begin{proof}
+	For any $x\in H^\infty$, we will prove that there exists $\delta$ such that $B_\delta(x)\in S=\{x=(x_n)\in H^\infty:|x_k-y_k|<\epsilon, k=1,\cdots ,N\}$, so we can conclude that $S$ is open. Indeed, by the assumption, we have $x\in S$, therefore $|x_k-y_k|<\epsilon$ for $k=1,\cdots N$, which implies $M=\max\{|x_i-y_i|:i=1,\cdots,N\}<\epsilon$. Using the density of real number, there exists $t>0$ such that $M+t<\epsilon$. Now let $\delta=2^{-N}t$, then for any $z\in H^\infty\cap B_\delta(x)$, we have $d(x,z)<2^{-N}t$. By Lemma 1, we conclude that $|x_k-z_k|\leq t$ for all $k=1,\cdots,N$. Notice that for such $k$, using the triangular inequality, we have
+	\[
+	|z_k-y_k|\leq |z_k-x_k|+|x_k-y_k|<t+M<\epsilon.
+	\]
+	Thus, $z\in S$, which implies $B_\delta(x)\in S$. That is $S$ indeed open.
+	\end{proof}
+
+\begin{exercise}{11}
+Let $e^{(k)}=(0,\cdots,0,1,0,\cdots)$, where the $k$th entry is $1$ and the rest are $0$s. Show that $\{e^{(k)}:k\geq 1\}$ is closed as a subset of $\ell_1$.
+\end{exercise}
+	\begin{proof}
+	One thing to notice is that for any $m,n\in \N$, we have 
+	\[
+	\|e^{(m)}-e^{(n)}\|_1=\sum_{i=1}^{\infty}{|e^{(m)}_i-e^{(n)}|}=2
+	\]
+	whenever $m\neq n$. Back to the problem, assume that there exists $(x_n)\rightarrow a$ for some $x_n\in \{e^{(k)}:k\geq 1\}$. It is sufficient to prove that $a\in \{e^{(k)}:k\geq 1\}$. Indeed, by the definition of convergence, there exists $N\in\N$ such that $x_n\in B_{\frac{1}{2}}(a)$ for all $n\geq N$. But then, for any $m,n>N$, we have 
+	\[
+	\|x_m-x_n\|_1\leq \|x_m-a\|_1+\|a-x_n\|_1\leq \frac{1}{2}+\frac{1}{2}=1,
+	\]
+	which implies $e^{(m)}=e^{(n)}$. Therefore, $e^{(n)}$ is a constant when $n\geq N$. That is $a=e^{(N)}\in \{e^{(k)}:k\geq 1\}$.
+	\end{proof}
+
+\begin{exercise}{12}
+Let $F$ be the set of all $x\in \ell_\infty$ such that $x_n=0$ for all but finitely many $n$. Is $F$ closed? open? neither? Explain.
+\end{exercise}
+	\begin{proof}
+	First, notice that $0\in F$, but for any $\epsilon >0$, we have $t=(\epsilon,\epsilon,\cdots)$ where $\|t-0\|_\infty=\epsilon$, that is $t\in B_\epsilon(0)$. However, clearly $t\notin F$. So $F$ is not open.
+	
+	Second, let $x^{(i)}=(1-\frac{1}{i},\frac{1}{2}-\frac{1}{i},\cdots,\frac{1}{i}-\frac{1}{i},0,0,\cdots)$ and $a=(1,\frac{1}{2},\cdots)$. For any $\epsilon>0$, we can find $N\in\N$ such that $\frac{1}{N}<\epsilon$. Then, for $n>N$, we have
+	\[
+	\|a-x^{(n)}\|_\infty=\left\|\left(\frac{1}{n},\cdots,\frac{1}{n},\frac{1}{n+1},\frac{1}{n+2},\cdots\right)\right\|_\infty=\frac{1}{n}<\frac{1}{N}<\epsilon.
+	\]
+	Thus $x^{(i)}\rightarrow a$. But by the definition of $x^{(i)}$ and $a$, we have $x^{(i)}\in F$ but $a\notin F$. Therefore $F$ is not closed.
+	
+	So $F$ is neither closed or open. 
+	\end{proof}
+
+\begin{exercise}{13}
+Show that $c_0$ is a closed subset of $\ell_\infty$
+\end{exercise}
+	\begin{proof}
+	We will prove that $\ell_\infty\setminus c_0$ is an open set. For any $x\in \ell_\infty\setminus c_0$, we get $x\notin c_0$. Remind that $x\in c_0$ means for any $\delta >0$, there exists $N>0$ such that for all $n>N$, we have $|x_n|<\delta$. Therefore, $x\notin c_0$ means exists $\delta>0$ such that for any $N>0$, there exists $n>N$ so that $|x_n|>\delta$.
+	
+	 We will claim that $B_{\delta/2}(x)\cap c_0=\varnothing$, thus $B_{\delta/2}(x)\in \ell_\infty\setminus c_0$, which leads to $\ell_\infty\setminus c_0$ be an open set.
+	
+	 Indeed, if $y\in B_{\delta/2}(x)\cap c_0$, then because $y\in c_0$, there exists $N'$ such that $|y_n|<\frac{\delta}{2}$ for any $n>N'$. And because $y\in B_{\delta/2}(x)$, we get $\max\{|y_n-x_n|:n\in \N\}<\frac{\delta}{2}$. Thus,
+	 \[
+	 |x_n|\leq |y_n-x_n|+|y_n|<\frac{\delta}{2}+\frac{\delta}{2}=\delta,
+	 \]
+	 for any $n>N'$, which contradicts to the fact that there exists $n>N'$ such that $|x_n|>\delta$. So there is no such $y$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{14}
+Show that the set $A=\{x\in\ell_2 : |x_n|\leq 1/n,\; n=1,2,\cdots \}$ is a closed set in $\ell_2$ but that $B=\{x\in\ell_2:|x_n|<1/n,\; n=1,2,\cdots\}$ is not an open set.
+\end{exercise}
+	\begin{proof}
+	Assume that $x^{(k)}\in A$ and $\|x^{(k)}\|_2\rightarrow \|x\|_2$. By exercise 3.33, $\|\bigcdot\|_1$ and $\|\bigcdot\|_2$ on $\R^\infty$ are equivalent, thus $\|x^{(k)}\|_1\rightarrow\|x\|_1$, which implies $|x_n^{(k)}|\rightarrow |x_n|$ for any $n\in\N$. Since $x^{(k)}\in A$, we have $|x_n^{(k)}|\leq \frac{1}{n}$ for all $k$, hence $|x_n|\leq \frac{1}{n}$ too. Thus $x\in A$, which implies $A$ is a closed set.
+	
+	Notice that $0\in B$. For any $\epsilon>0$, there exists $0<\delta <\epsilon$ and $n\in\N$ such that $\frac{1}{n}<\delta$. Let $a=(0,\cdots,\delta,0,\cdots)$, that is $a_n=\delta$ and $0$ everywhere else. Since $\|a\|_2=\delta<\epsilon$, we have $a\in B_\epsilon(0)$. However, because $a_n=\delta>\frac{1}{n}$, we have $a_n\notin B$. Thus for any $\epsilon>0$, we have $B_\epsilon(0)\not\subset B$. That is, $B$ is not an open set.
+	\end{proof}
+
+\begin{exercise}{15}
+The set $A=\{y\in M:d(x,y)\leq r\}$ is sometimes called the closed
+\end{exercise}
+\end{document}

@@ -1,0 +1,777 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{fullpage}
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{exercise}{Exercise}
+\newcustomtheorem{lemma}{Lemma}
+
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\makeatletter
+\newcommand{\opnorm}{\@ifstar\@opnorms\@opnorm}
+\newcommand{\@opnorms}[1]{%
+  \left|\mkern-1.5mu\left|\mkern-1.5mu\left|
+   #1
+  \right|\mkern-1.5mu\right|\mkern-1.5mu\right|
+}
+\newcommand{\@opnorm}[2][]{%
+  \mathopen{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
+  #2
+  \mathclose{#1|\mkern-1.5mu#1|\mkern-1.5mu#1|}
+}
+\makeatother
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\begin{document}
+\begin{exercise}{1}
+Show that 
+\[
+d(x,y)=\left|\frac{1}{x}-\frac{1}{y}\right|
+\]
+defines a metric on $(0,\infty)$.
+\end{exercise}
+	\begin{proof}
+	Clearly, $d(x,y)\geq 0$ for all $x,y\in (0,\infty)$. If $d(x,y)=0$, then $|\frac{1}{x}-\frac{1}{y}|=0\Rightarrow x=y$. Moreover, we have
+	\[
+	d(x,y)=\left|\frac{1}{x}-\frac{1}{y}\right|=\left|\frac{1}{y}-\frac{1}{x}\right|
+	\]
+	and
+	\[
+	d(x,y)+d(y,z)=\left|\frac{1}{x}-\frac{1}{y}\right|+\left|\frac{1}{y}-\frac{1}{z}\right|\geq \left|\frac{1}{x}-\frac{1}{z}\right|=d(x,z).
+	\]
+	Thus $d$ is a metric on $(0,\infty)$.
+	\end{proof}
+	
+\begin{exercise}{2}
+If $d$ is a metric on $M$, show that $|d(x,z)-d(y,z)|\leq d(x,y)$ for any\\ $x,y,z\in M$.
+\end{exercise}
+	\begin{proof}
+	Since $d$ is a metric on $M$, we have $d(x,z)\leq d(x,y)+d(y,z)$, hence $d(x,z)-d(y,z)\leq d(x,y)$. Moreover, we have $d(y,z)\leq d(y,x)+d(x,z)$, hence $-d(x,y)\leq d(x,z)-d(y,z)$. Thus $|d(x,z)-d(y,z)|\leq d(x,y)$.
+	\end{proof}
+	
+\begin{exercise}{3}
+As it happens, some of our requirements for a metric are redundant. To see why
+this is so, let $M$ be a set and suppose that $d : M \times M\rightarrow\R$ satisfies $d(x,y) = 0$ if and only if $x = y$, and $d(x,y) \leq d(x,z) + d(y,z)$ (*) for all $x, y, z \in M$. Prove that
+$d$ is a metric.
+\end{exercise}
+	\begin{proof}
+	First, we will prove that $d(x,y)=d(y,x)$. Indeed, let $z=x$ in (*), we get
+	\[
+	d(x,y)\leq d(x,x)+d(y,x)=d(y,x).
+	\]
+	Similarly, we will get $d(y,x)\leq d(x,y)$. Thus $d(x,y)=d(y,x)$. Notice that
+	\[
+	0=d(x,x)\leq d(x,y)+d(x,y)=2d(x,y),
+	\]
+	thus $0\leq d(x,y)$ for all $x,y\in M$. Thus $d$ is a metric.
+	\end{proof}
+
+\begin{exercise}{6}
+If $d$ is a metric on $M$, show that $\rho(x,y)=\sqrt{d(x,y)}$, $\sigma(x,y)=\frac{d(x,y)}{1+d(x,y)}$, and $\tau(x,y)=\min\{d(x,y),1\}$ are also metrics on $M$. 
+\end{exercise}
+	\begin{proof}
+	\hfill
+		\begin{itemize}
+		\item $\rho(x,y)$.
+		
+Clearly, we have $\rho(x,y)\geq 0$. If $\rho(x,y)=0$, then $\sqrt{d(x,y)}=0$, which leads to $d(x,y)=0$. Thus $x=y$. Otherwise, since $d(x,x)=0$, it's not hard to check that $\rho(x,x)=0$. Moreover, we have $\rho(x,y)=\sqrt{d(x,y)}=\sqrt{d(y,x)}=\rho(y,x)$. Also notice that for $a,b\geq 0$, we have $\sqrt{x+y}\leq \sqrt{x}+\sqrt{y}$. Indeed, since $2\sqrt{xy}\geq 0$, we have
+		\begin{align*}
+		&x+y\leq x+y+2\sqrt{xy}\\
+		\Leftrightarrow &(\sqrt{x+y})^2\leq (\sqrt{x}+\sqrt{y})^2\\
+		\Leftrightarrow & |\sqrt{x+y}|\leq |\sqrt{x}+\sqrt{y}|\\
+		\Leftrightarrow & \sqrt{x+y}\leq \sqrt{x}+\sqrt{y}.
+		\end{align*}		
+		Thus
+		\[
+		\rho(x,z)=\sqrt{d(x,z)}\leq \sqrt{d(x,y)+d(y,z)} \leq \sqrt{d(x,y)}+\sqrt{d(y,z)}=\rho(x,y)+\rho(y,z).
+		\] 
+Thus $\rho$ defines a metrics on $M$.
+		\item $\sigma(x,y)$.
+		
+		Because $d(x,y)\geq 0$, we have $\sigma(x,y)\geq 0$ for all $x,y\in M$. If $\sigma(x,y)=0$, then $\frac{d(x,y)}{1+d(x,y)}=0$, thus $d(x,y)=0$, which means $x=y$. Otherwise, since $d(x,x)=0$, we can easily check that $\sigma(x,x)=0$ too. Moreover,
+		\[
+		\sigma(x,y)=\frac{d(x,y)}{1+d(x,y)}=\frac{d(y,x)}{1+d(y,x)}=\sigma(y,x).
+		\]
+		Now, we have a small lemma as follow. 
+		\begin{lemma}
+		
+		Let $a,b,c\geq 0$, if $c\leq a+b$, then 
+		\[
+		\frac{c}{1+c}\leq \frac{a}{1+a}+\frac{b}{1+b}.
+		\]
+		\end{lemma}
+		
+			\begin{proof}
+			Indeed, we have
+			\begin{align*}
+			&&\frac{c}{1+c}&\leq \frac{a}{1+a}+\frac{b}{1+b}\\
+			&\Leftrightarrow& \frac{c}{1+c}&\leq \frac{a+b+2ab}{1+a+b+ab}\\
+			&\Leftrightarrow& 1-\frac{1}{1+c}&\leq 1-\frac{1-ab}{1+a+b+ab}\\
+			&\Leftrightarrow& \frac{1-ab}{1+a+b+ab}&\leq \frac{1}{1+c}.&(*)
+			\end{align*}
+			If $1-ab\leq 0$, then the left side is smaller or equal then $0$, when the right side is larger or equal then $0$. Thus the inequality is proved.
+		
+			If $1-ab\geq 0$, then
+			\begin{align*}
+			(*)&\Leftrightarrow& 1+c&\leq\frac{1+a+b+ab}{1-ab}\\
+			&\Leftrightarrow& 1+c&\leq 1+\frac{a+b+2ab}{1-ab}\\
+			&\Leftrightarrow& c&\leq \frac{a+b+2ab}{1-ab}\\
+			&\Leftrightarrow& c-abc&\leq a+b+2ab.
+			\end{align*}
+			However, we have $c\leq a+b$ and $-abc\leq 0\leq 2ab$, thus the lemma is proved.
+			\end{proof}
+		Now let $a=d(x,z),b=d(x,y),c=d(y,z)$ in the lemma, we have $\sigma(x,z)\leq \sigma(x,y)+\sigma(y,z)$. Thus $\sigma$ defines a metric on $M$.
+		\item $\tau(x,y)$.
+		
+		Since $d(x,y)\geq 0$, we have $\tau(x,y)=\min\{d(x,y),1\}\geq 0$. If $\tau(x,y)=0$, then $\min\{d(x,y),1\}=0$, hence $d(x,y)=0$, which leads to $x=y$. Moreover, $\tau(x,x)=\min\{d(x,x),1\}=\min\{0,1\}=0$. We also have $\tau(x,y)=\min\{d(x,y),1\}=\min\{d(y,x),1\}=\tau(y,x)$.
+		\begin{lemma}
+		If $a,b\geq 0$, we have $\min\{a+b,1\}\leq \min\{a,1\}+\min\{b,1\}$.
+		\end{lemma}
+			\begin{proof}
+			Indeed, if $a,b>1$, then the lemma becomes $a+b\leq a+b$. If $a>1, b\leq 1$, the lemma becomes $a+b\leq a+1$, which is true, same for the case $b>1, a<1$. And if $a,b\leq 1$, then obviously $a+b\leq 2$. And since $1<2$, we have $\min\{a+b,1\}\leq 2=\min\{a,1\}+\min\{b,1\}$.
+			\end{proof}
+		Using the lemma, we have 
+		\begin{align*}
+		\tau(x,z)&=\min\{d(x,z),1\}\\
+		&\leq \min\{d(x,y)+d(y,z),1\}\\
+		&\leq\min\{d(x,y),1\}+\min\{d(y,z),1\}\\
+		&=\tau(x,y)+\tau(y,z).
+		\end{align*}
+		Thus $\tau(x,y)$ defines a metric on $M$.
+		\end{itemize}
+		
+	\end{proof}
+
+\begin{exercise}{9}
+Recall that $2^N$ denotes the set of all sequences (or "strings'') of $0$s and $1$s. Show
+that $d(a,b)=\
+sum_{n=1}^{\infty}{2^{-n}|a_n-b_n|}$ , where $a = (a_n)$ and $b = (b_n)$ are sequences of
+$0$s and $1$s, defines a metric on $2^N$.
+\end{exercise}
+	\begin{proof}
+	Clearly, $d(a,b)\geq 0$. If $d(a,b)=0$, then $|a_n-b_n|=0$ for all $n$, thus $a=b$. Otherwise, $d(a,a)=\sum_{n=1}^{\infty}{2^{-n}|a_n-a_n|}=0$. Furthermore, we have
+\[
+d(a,b)=\
+sum_{n=1}^{\infty}{2^{-n}|a_n-b_n|}=\sum_{n=1}^{\infty}{2^{-n}|b_n-a_n|}=d(b,a)
+\]
+and
+\begin{align*}
+d(a,c)&=\sum_{n=1}^{\infty}{2^{-n}|a_n-c_n|}\\
+&\leq \sum_{n=1}^{\infty}{2^{-n}(|a_n-b_n|+|b_n-c_n|)}\\
+&=\sum_{n=1}^{\infty}{2^{-n}|a_n-b_n|}+\sum_{n=1}^{\infty}{2^{-n}|b_n-c_n|}\\
+&=d(a,b)+d(b,c).
+\end{align*}
+Thus $d$ defines a metric on $2^N$.
+	\end{proof}
+
+\begin{exercise}{10}
+The \textit{Hilbert cube} $H^\infty$ is the collection of all real sequences $x=(x_n)$ with $|x_n|\leq 1$ for $n=1,2,\cdots$.
+	\begin{enumerate}[label=(\roman*)]
+	\item Show that $d(x,y)=\sum_{n=1}^\infty{2^{-n}|x_n-y_n|}$ defines a metric on $H^\infty$.
+	\begin{proof}
+	Similar to exercise 9, $d$ defines a metric on $\R^\infty$
+	\end{proof}
+	\item Given that $x,y\in H^\infty$ and $k\in\N$, let $M_k=\max\{|x_1-y_1|,\cdots ,|x_k-y_k|\}$. Show that $2^{-k}M_k\leq d(x,y)\leq M_k+2^{1-k}$.
+	\begin{proof}
+	For any $k\in\N$ and $i\leq k$, we have
+	\[
+	2^{-k}|x_i-y_i|\leq 2^{-i}|x_i-y_i|\leq \sum_{i=1}^{\infty}{2^{-i}|x_i-y_i|}.
+	\]
+	Thus for $M_k=\max\{|x_1-y_1|,\cdots ,|x_k-y_k|\}$, we have 
+	\[
+	2^{-k}M_k\leq d(x,y).
+	\]
+	Furthermore, we have 
+	\[
+	\sum_{i=1}^{k}{2^{-i}|x_i-y_i|}\leq \sum_{i=1}^{k}{2^{-i}M_k}= M_k(1-2^{-k})\leq M_k.
+	\]
+	Also notice that $|x_i-y_i|\leq 2$, we also have
+	\[
+	\sum_{i=k+1}^{\infty}{2^{-i}|x_i-y_i|}\leq \sum_{i=k+1}^{\infty}{2^{1-i}}=2^{1-k}.
+	\]
+	Thus 
+	\[
+	d(x,y)\leq M_k+2^{1-k}.
+	\]
+	\end{proof}
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{11}
+Let $\R^\infty$ denote the collection of all real sequences $x=(x_n)$. Show that the expression 
+\[
+d(x,y)=\sum_{n=1}^{\infty}{\frac{1}{n!}\frac{|x_n-y_n|}{1+|x_n-y_n|}}
+\]
+defines a metric on $\R^\infty$.
+\end{exercise}
+	\begin{proof}
+	Since every element of this summation is larger than $0$, $d(x,y)\geq 0$. It's not hard to check that $d(x,x)=0$, let $d(x,y)=0$, then 
+	\[
+	\frac{1}{n!}\frac{|x_n-y_n|}{1+|x_n-y_n|}=0
+	\]
+	for any $n$, thus $x_n=y_n$ for all $n$, which means $x=y$. Moreover, we have
+	\[
+	d(x,y)=\sum_{n=1}^{\infty}{\frac{1}{n!}\frac{|x_n-y_n|}{1+|x_n-y_n|}}=\sum_{n=1}^{\infty}{\frac{1}{n!}\frac{|y_n-x_n|}{1+|y_n-x_n|}}=d(y,x)
+	\]
+	and by exercise 6, we have
+	\begin{align*}
+	d(x,z)&=\sum_{n=1}^{\infty}{\frac{1}{n!}\frac{|x_n-z_n|}{1+|x_n-z_n|}}\\
+	&\leq \sum_{n=1}^{\infty}{\frac{1}{n!}(\frac{|x_n-y_n|}{1+|x_n-y_n|}+\frac{|y_n-z_n|}{1+|y_n-z_n|})}\\
+	&= d(x,y)+d(y,z).
+	\end{align*}
+	What is more, we have $\frac{|a-b|}{1+|a+b|}<1$, thus $d(a,b)\leq \sum_{n=1}^{\infty}{\frac{1}{n!}}$ for all $a,b\in M$. Since $\sum_{n=1}^\infty \frac{1}{n!}$ converges, $\sum_{n=1}^{\infty}{\frac{1}{n!}\frac{|x_n-z_n|}{1+|x_n-z_n|}}$ converges. Thus $d$ defines a metric $M$.
+	\end{proof}
+\begin{exercise}{12}
+Check that $d(f,g)=\max_{a\leq t\leq b}{|f(t)-g(t)|}$ defines a metric on $C[a,b]$, the collection of all continuous, real-value functions defined on the closed interval $[a,b]$.
+\end{exercise}
+	\begin{proof}
+	Clearly, $d(f,g)\geq 0$. We have $d(f,f)=\max_{a\leq t\leq b}|f(t)-f(t)|=0$. If $d(f,g)=0$, then $\max_{a\leq t\leq b}|f(t)-g(t)|=0$. Therefor, $f(t)=g(t)$ for all $a\leq t\leq b$. Moreover, we have
+	\[
+	d(f,g)=\max_{a\leq t\leq b}|f(t)-g(t)|=\max_{a\leq t\leq b}|g(t)-f(t)|=d(g,f)
+	\]
+	and
+	\begin{align*}
+	d(f,h)&=\max_{a\leq t\leq b}|f(t)-h(t)|\\
+	&\leq \max_{a\leq t\leq b}(|f(t)-g(t)|+|g(t)-h(t)|)\\
+	&\leq \max_{a\leq t\leq b}|f(t)-g(t)|+\max_{a\leq t\leq b}|g(t)-h(t)|\\
+	&= d(f,g)+d(g,h).
+	\end{align*}
+	Thus $d$ defines a metric on $C[a,b]$.
+	\end{proof}
+
+\begin{exercise}{14}
+We said that a subset $A$ of a metric space $M$ is bounded if there is some $x_0\in M$ and some constant $C<\infty$ such that $d(a,x_0)\leq C$ for all $a\in A$. Show that a finite union of bounded sets is again bounded.
+\end{exercise}
+	\begin{proof}
+	Let these bounded sets be $A_1,A_2,\cdots ,A_n$ and $x_i\in A_i$ for $i=1,2,\cdots,n$, let $a_1,a_2,\cdots,a_n$ be $n$ constants such that for any $1\leq i\leq n$, we have $d(t,x_i)\leq a_i$ for any $t\in A_i$. Finally, let $A=\cup_{i=1}^{n}{A_i}$.
+	
+	For any set $A_k$, an $t\in A_k\; (1\leq k\leq n)$, we have 
+	\[
+	d(x_1,t)\leq d(x_1,x_k)+d(x_k,t)\leq d(x_1,x_k)+a_k.
+	\]
+	Notice that $d(x_1,x_k)+a_k$ is a constant, let $d_k=d(x_1,x_k)+a_k$, then $d=\max\{d_1,d_2,\cdots,d_n\}$ is an upper bound for $A$. Thus a finite union of bounded sets is bounded.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{15}
+We define the diameter of a nonempty subset $A$ of $M$ by $diam(A)=\sup\{d(a,b):a,b\in A\}$. Show that $A$ is bounded if and only if $diam (A)$ is finite.
+\end{exercise}
+	\begin{proof}
+	If $A$ is bounded, then exist $x\in A$ and a number $c$ such that $d(a,x)\leq c$ for all $a\in A$. Therefor, for any $a,b\in A$, we have
+	\[
+	d(a,b)\leq d(a,x)+d(x,b)\leq 2c.
+	\]
+	Thus the set $\{d(a,b):a,b\in A\}$ has an upper bound, which means $diam(A)=\sup\{d(a,b):a,b\in A\}$ is finite.
+	Moreover, if $diam(A)=c$ a finite number, then $d(a,x)\leq c$ for all $a\in A$ and an $x\in A$.
+	\end{proof}
+	
+\begin{exercise}{16}
+Let $V$ be a vector space, and let $d$ be a metric on $V$ satisfying $d(x,y)=d(x-y,0)$ and $d(ax,ay)=|a|d(x,y)$ for every $x,y\in V$ and every scalar $a$. Show that $||x||=d(x,0)$ defines a norm on $V$. Give an example of a metric on the vector space $\R$ that fails to be associated with a norm in this way.
+\end{exercise}
+	\begin{proof}
+	For any $x\in V$, because $d$ defines a matrix on $V$, thus $||x||=d(x,0)\geq 0$. We have $||0||=d(0,0)=0$ and if $||x||=0$, then $d(x,0)=0$. Therefor, $x=0$ since $d$ is a metric on $V$. We also have 
+	\[
+	||ax||=d(ax,0)=|a|d(x,0)=|a|||x||.
+	\]
+	and
+	\begin{align*}
+	||x+y||&=d(x+y,0)\\
+	&= d(x,-y)\\
+	&\leq d(x,0)+d(0,-y)\\
+	&=d(x,0)+d(y,0)\\
+	&=||x||+||y||.
+	\end{align*}
+	One example of a metric on $\R$ that fails to be associate with a norm this way is 
+	\[
+	d(x)=\left\{
+	\begin{array}{lr}
+	0 \text{ if } x=y\\
+	1 \text{ if } x\neq y
+	\end{array}\right..
+	\]
+	Because if letting $||x||=d(x,0)$, then $||ax||=1\neq |a|=|a|||x||$ for any nonzero vector $x$ and scalar $a$.
+	\end{proof}
+	
+\pagebreak
+
+\begin{exercise}{17}
+Recall that for $x\in\R^n$ we have defined $||x||_1=\sum_{i=1}^{n}|x_i|$ and $||x||_\infty=\max_{1\leq i\leq n}|x_i|$. Check that each of these is indeed a norm on $\R^n$.
+\end{exercise}
+	\begin{proof}
+	Obviously $||x||_1\geq 0$. We have $||0||_1=\sum_{i=1}^{\infty}0=0$, whereas if $||x||_1=0$, then $|x_i|=0$ for all $1\leq i\leq n$. Thus $x=0$. Moreover, $||ax||=\sum_{i=1}^n|ax_i|=|a|\sum_{i=1}^n|x_i|=|a|\cdot ||x_1||$. Last but not least, we have
+	\begin{align*}
+	||x+y||_1&=\sum_{i=1}^n|x_i+y_i|\\
+	&\leq \sum_{i=1}^{n}{|x_i|}+\sum_{i=1}^{n}{|y_i|}\\
+	&=||x||_1+||y||_1.
+	\end{align*}
+	Similarly, $||x||_\infty\geq 0$ is obvious. We have $||0||_\infty=\max_{1\leq i\leq n}|x_i|=0$, and if $||x||_\infty =0$, then $\max_{1\leq i\leq n}|x_i|=0$. Therefore, $|x_i|=0$ for all $i$, which means $x=0$. Moreover, $||ax||_\infty=\max_{1\leq i\leq n}|ax_i|=|a|\max_{1\leq i\leq n}|x_i|=|a|\cdot ||x||_\infty$. Lastly,
+	\begin{align*}
+	||x+y||_\infty &=\max_{1\leq i\leq n}|x_i+y_i|\\
+	&\leq \max_{1\leq i\leq n}(|x_i|+|y_i|)\\
+	&\leq \max_{1\leq i\leq n}|x_i|+\max_{1\leq i\leq n}|y_i|\\
+	&= ||x||_\infty +||y||_\infty.
+	\end{align*}
+	Thus $||x||_1$ and $||x||_\infty$ defines two metrics on $\R^n$.
+	\end{proof}
+	
+\begin{exercise}{18}
+Show that $||x||_\infty\leq ||x||_2\leq ||x||_1$ for any $x\in\R^n$. Also check that $||x||_1\leq n||x||_\infty$ and $||x||_1\leq \sqrt{n}||x||_2$.
+\end{exercise}
+	\begin{proof}
+	We have 
+	\begin{align*}
+	&&||x||_\infty &\leq ||x||_2\\
+	&\Leftrightarrow &\max_{1\leq i\leq n}|x_i|&\leq \sqrt{\sum_{i=1}^{n}{x_i^2}}\\
+	&\Leftrightarrow &\max_{1\leq i\leq n}x_i^2&\leq \sum_{i=1}^{n}{x_i^2} \text{ (square both sides)},
+	\end{align*}
+	which is obvious since $x_i^2\geq 0$ for all $x_i$ and one of the addends on the right side equals $\max_{1\leq i\leq n}{x_i^2}$. Therefore, $||x||_\infty\leq ||x||_2$. Very similarly, we have 
+	\begin{align*}
+	&&||x||_2&\leq ||x||_1\\
+	&\Leftrightarrow& \sqrt{\sum_{i=1}^{n}{x_i^2}}&\leq \sum_{i=1}^{n}{|x_i|}\\
+	&\Leftrightarrow& \sum_{i=1}^{n}{x_i^2}&\leq \sum_{i=1}^{n}{x_i^2}+\sum_{i\neq j}{|x_i||x_j|},
+	\end{align*}
+	which is obvious since $|x_i||x_j|\geq 0$. Hence, $||x||_\infty\leq ||x||_2\leq ||x||_1$ for any $x\in \R^n$. 
+	
+	What is more, because $|x_i|\leq \max_{1\leq i\leq n}|x_i|$ for all $1\leq i\leq n$, we have
+	\[
+	\sum_{i=1}^{n}{|x_i|}\leq n\max_{1\leq i\leq n}|x_i|.
+	\]
+	Hence $||x||_1\leq n||x||_\infty$. Moreover, by Cauchy Schwarz inequality, we have
+	\[
+	1|x_1|+1|x_2|+\cdots +1|x_n|\leq \sqrt{(1^2+1^2+\cdots +1^2)(x_1^2+x_2^2+\cdots +x_n^2)}.
+	\]
+	Thus
+	\[
+	\sum_{i=1}^{n}{x_i}\leq \sqrt{n\sum_{i=1}^{n}{x_i^2}},
+	\]
+	which is synonymous to $||x||_1\leq \sqrt{n}||x||_2$.
+	\end{proof}
+
+\begin{exercise}{19}
+Show that we have $\sum_{i=1}^{n}{x_iy_i}=||x||_2||y||_2$ if and only if $x$ and $y$ are proportional, that is, if and only if $x=\alpha y$ or $y=\alpha x$ for some $\alpha \leq 0$.	
+\end{exercise}
+	\begin{proof}
+	We will prove a stronger result, that is $\sum_{i=1}^{n}{x_iy_i}\leq ||x||_2||y||_2$ and the equality is if $x$ and $y$ are proportional by mathematical induction. Let $x_{k}$ be a random vector in $\R^k$. If $n=1$, the inequality becomes $x_1y_1\leq |x_1||y_1|$, which is obvious. And since both $x$ and $y$ are in $\R$, they are obviously proportional. Now assume that the result holds for $n-1$, notice that by AM-GM inequality, we have
+	\begin{align*}
+	&&2x_ny_n\sqrt{(x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)}\\
+	&\leq& 2|x_n||y_n|\sqrt{(x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)}\\
+	&\leq& x_n^2(y_1^2+\cdots +y_{n-1}^2)+y_n^2(x_1^2+\cdots +x_{n-1}^2).
+	\end{align*}
+	Thus
+	\begin{align*}
+	(x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)+2x_ny_n\sqrt{(x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)}+x_n^2y_n^2\\
+	\leq  (x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)+x_n^2(y_1^2+\cdots +y_{n-1}^2)+y_n^2(x_1^2+\cdots +x_{n-1}^2)+x_n^2y_n^2.
+	\end{align*}
+	After cleaning this mess, we reach something that is not very messy.
+	\[
+	\left(x_ny_n+\sqrt{(x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)}\right)^2\leq (x_1^2+\cdots +x_{n}^2)(y_1^2+\cdots +y_{n}^2).
+	\]
+	Take the square root both sides, we get
+	\[
+	|x_ny_n|+\sqrt{(x_1^2+\cdots +x_{n-1}^2)(y_1^2+\cdots +y_{n-1}^2)}\leq \sqrt{(x_1^2+\cdots +x_{n}^2)(y_1^2+\cdots +y_{n}^2)},
+	\]
+	or 
+	\[
+	x_ny_n+||x_{n-1}||_2\cdot ||y_{n-1}||_2\leq |x_ny_n|+||x_{n-1}||_2\cdot ||y_{n-1}||_2\leq ||x_{n}||_2\cdot ||y_{n}||_2.
+	\]
+	But thanks to the induction assumption, we have $\sum_{i=1}^{n-1}{x_iy_i}\leq ||x_{n-1}||_2\cdot ||y_{n-1}||_2$. Thus
+	\[
+	\sum_{i=1}^{n}{x_iy_i}\leq ||x_n||_2||y_n||_2.
+	\]
+	The equality is when equality happens in every inequality that we used, which are $x_ny_n\leq |x_ny_n|$ and the AM-GM inequality. The first equality is equivalent to $x_n$ and $y_n$ have the same sign. The second one is equivalent to 
+	\[
+	x_n\sqrt{y_1^2+\cdots y_{n-1}^2}=y_n\sqrt{x_1^2+\cdots x_{n-1}^2},
+	\]
+	Hence
+	\[
+	\frac{x_n}{y_n}=\frac{\sqrt{x_1^2+\cdots x_{n-1}^2}}{\sqrt{y_1^2+\cdots y_{n-1}^2}}=\alpha
+	\]
+	by the induction assumption. Thus $x=\alpha y$ for $\alpha \geq 0$.
+	\end{proof}
+
+\begin{exercise}{22}
+Show that $||x||_\infty\leq ||x||_2$ for any $x\in \ell_2$, and that $||x||_2\leq ||x||_1$ for any $x\in\ell _1$.
+\end{exercise}
+	\begin{proof}
+	Let $x\in\ell_1$, then $\sum_{i=1}^{\infty}{|x_1|}$ exists. Notice that $\sqrt{\sum_{i=1}^{n}{x_i^2}}\leq \sum_{i=1}^{n}{|x_i|}$ for all $n$, thus the sequence $\sqrt{\sum_{i=1}^{n}{x_i^2}}$ is both increasing and upper bounded. Thus $\sqrt{\sum_{i=1}^{n}{x_i^2}}$ is also exists. Thus by the inequality above, we get $||x||_2\leq ||x||_1$.
+	
+	Now let $x\in \ell_2$, we have $\sqrt{\sum_{i=1}^{\infty}{x_i^2}}$ exists. Similar to the upper case, we have $\max_{1\leq i\leq n}x_i$ is both increasing and upper bounded, thus $\lim_{n\rightarrow \infty}(\max_{1\leq i\leq n}x_i)$ exists. Since $\max_{1\leq i\leq n}x_i\leq \sqrt{\sum_{i=1}^{n}{x_i^2}}$, we have $||x||_\infty\leq ||x||_2$ for any $x\in\ell_2$.
+	\end{proof}
+
+\begin{exercise}{23}
+The subset of $\ell_\infty$ consisting of all sequences that converge to $0$ is denoted by $c_0$. Show that we have the following proper set inclusions: $\ell_1\subset\ell_2\subset c_0\subset\ell_\infty$.
+\end{exercise}
+	\begin{proof}
+	As we already checked in exercise 22, for any $x\in\ell_1$, then $||x||_2$ is finite. Therefore, $x\in\ell_2$ too, which means $\ell_1\subset\ell_2$. Moreover $c_0\subset\ell_\infty$ is by definition. Thus all we have to check left is $\ell_2\subset c_0$. Notice that if $x=(x_1,x_2,\cdots)\in\ell_2$, then $\sqrt{\sum_{i=1}^{\infty}{x_i^2}}$ exists. Therefore, $x_n\rightarrow 0$, which leads to $x\in c_0$. Thus $\ell_1\subset\ell_2\subset c_0\subset\ell_\infty$.
+	\end{proof}
+
+\begin{exercise}{24}
+Prove that Holder's Inequality is also holds in the case $p=1$ and $q=\infty$.
+\end{exercise}
+	\begin{proof}
+	For $p=1$ and $q=\infty$, the inequality becomes $\sum_{i=1}^{\infty}{|x_iy_i|}\leq ||x||_1\cdot ||y||_\infty$, which means $\sum_{i=1}^{\infty}{|x_iy_i|}\leq \sum_{i=1}^{\infty}{|x_i|\cdot\sup_i|y_i|}$. However, this result is obvious because $|y_n|\leq \sup_i|y_i|$ for any $n$. Thus the Holder's inequality is also holds in the case $p=1$ and $q=\infty$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{25}
+The same techniques can be used to show that $||f||_p=(\int_{0}^{1}{|f(t)|^p dt})^{\frac{1}{p}}$ defines a norm on $C[0,1]$ for any $1<p<\infty$. State and prove the analogues of lemma 3.7 (Holder's Inequality) and Theorem 3.8 (Minkowski's Inequality) in this case.
+\end{exercise}
+	\begin{proof}
+	First, notice that
+	\begin{align*}
+	||f^{p-1}||_q&= \left(\int_{0}^{1}{|f(x)^{p-1}|^q}\right)^\frac{1}{q}\\
+	&=\left(\int_{0}^{1}{|f(x)|^p}\right)^\frac{1}{q}\\
+	&=\left(\int_{0}^{1}{|f(x)|^p}\right)^\frac{p-1}{p}\\
+	&= ||f||^{p-1}_p.
+	\end{align*}
+	Now it's time to restate Lemma 3.7.
+	\begin{lemma}{3.7}(Holder's Inequality)
+	Let $1<p<\infty$ and let $q$ be defined by $\frac{1}{p}+\frac{1}{q}=1$. Given $f$ and $g$ in $C[0,1]$, we have
+	\[
+	\int_{0}^{1}{|f(t)g(t)|dt}\leq ||f||_p||g||_q.
+	\]
+	\end{lemma}
+	
+		\begin{proof}
+		By Young's inequality, we have
+		\[
+		\frac{|f(t)|\cdot |g(t)|}{||f||_p||g||_q}\leq \frac{1}{p}\left|\frac{|f(t)|}{||f||_p}\right|^p + \frac{1}{q}\left|\frac{|g(t)|}{||g||_q}\right|^q.
+		\]
+		Therefore
+		\[
+		\int_{0}^{1}{\frac{|f(t)|\cdot |g(t)|}{||f||_p||g||_q}dt} \leq \frac{1}{p}\int_{0}^{1}{\frac{|f(t)|^p}{||f||_p^p}dt} + \frac{1}{q}\int_{0}^{1}{\frac{|g(t)|^q}{||g||_q^q}dt} = \frac{1}{p}+\frac{1}{q}=1.
+		\]
+		Thus we have the Holder's inequality.
+		\end{proof}
+	With lemma 3.7, we can restate and prove theorem 3.8 as follow.
+	
+		\begin{lemma}{3.8}
+		Let $1<p<\infty$, then we have $||f+g||_p \leq ||f||_p + ||g||_p$ for $f,g\in C[0,1]$.
+		\end{lemma}
+		\begin{proof}
+		Indeed, we have
+		\begin{align*}
+		||f+g||_p^p&=\int_{0}^{1}{|f+g|^p}\\
+		&=\int_{0}^{1}{|f+g|^{p-1}|f+g|}\\
+		&\leq \int_{0}^{1}{|f+g|^{p-1}|f|}+\int_{0}^{1}{|f+g|^{p-1}|g|}\\
+		&\leq ||(|f+g|)^{p-1}||_q ||f||_p + ||(|f+g|)^{p-1}||_q ||g||_p\\
+		&= ||(f+g)||_p^{p-1}(||f||_p + ||g||_p).
+		\end{align*}
+		Thus $||f+g||_p\leq ||f||_p + ||g||_p$.
+		\end{proof}
+		So $||f||_p$ satisfies the triangular inequality. Moreover, it's easy to check that $||f||_p\geq 0$. If $||f||_p=0$, then $\int_{0}^{1}{f(t)^pdt}=0$. And since $f$ is continuous on $[0,1]$, we have $f(t)=0$ for all $t\in [0,1]$. If $f(t)=0$, then it's also easy to check that $||f||_p=0$. Moreover, for a scalar $a$, then
+		\[
+		||af||_p=\left(\int_{0}^{1}{|af(t)|^pdt}\right)^\frac{1}{p} =|a|\left(\int_{0}^{1}{|f(t)|^pdt}\right)^\frac{1}{p}=|a|\cdot ||f||_p.
+		\]
+	Thus $||f||_p$ is a norm on $C[0,1]$.
+	\end{proof}
+	
+\begin{exercise}{26}
+Given $a,b>0$, show that $\lim_{p\rightarrow\infty}(a^p+b^p)^\frac{1}{p}=\max\{a,b\}$. What happens as $p\rightarrow 0$? as $p\rightarrow -1$? as $p\rightarrow\infty$?
+\end{exercise}
+	\begin{proof}
+	Assume that $a<b$, let $r=\frac{a}{b}$, we have 
+	\begin{align*}
+	{(a^p + b^p)^\frac{1}{p}} &= b\cdot \left( 1+\left(\frac{a}{b}\right) ^p\right) ^\frac{1}{p}\\
+	&= b\cdot\left(1+r^p\right)^\frac{1}{p}\\
+	&=b\cdot e^{\log(1+r^p)^\frac{1}{p}}.
+	\end{align*}
+	Notice that as $p\rightarrow\infty$, we have $\log(1+r^p)^\frac{1}{p}\rightarrow 0\cdot \log(1)\cdot 0=0$. Thus $(a^p+b^p)^\frac{1}{p}\rightarrow b\cdot 1=b=\max\{a,b\}$.
+	\end{proof}
+
+\begin{exercise}{27}
+Show that $diam(B_r(x))\leq 2r$, and give an example where strict inequality occurs.
+\end{exercise}
+	\begin{proof}
+	For any $a,b\in B_r(x)$, we have $d(a,b)\leq d(a,x)+d(x,b)<2r$. Thus $diam(B_r(x))=\sup\{d(a,b):a,b\in B_r(x)\leq 2r$. An example for strict inequality is the discrete space because $diam(B_1(0))=0<2$.
+	\end{proof}		
+	
+\begin{exercise}{28}
+If $diam(A)<r$, show that $A\subset B_r(a)$ for some $a\in A$.
+\end{exercise}
+	\begin{proof}
+	For any $x\in A$, because $diam(A)<r$, we have $d(a,x)<r$. Therefore, $x\in B_r(a)$. Thus $A\subset B_r(a)$.
+	\end{proof}
+	
+\begin{exercise}{30}
+If $A\subset B$, show that $diam(A)\leq diam(B)$.
+\end{exercise}
+	\begin{proof}
+
+
+	Since $A\subset B$, we have $\{d(a,b):a,b\in A\}\subset \{d(a,b):a,b\in B\}$. Thus $diam(A) = \sup\{d(a,b):a,b\in A\}\leq \sup\{d(a,b):a,b\in B\} = diam(B)$.
+	\end{proof}
+	
+\begin{exercise}{32}
+In a normed vector space $(V,||\cdot ||)$ show that $B_r(x)=x+B_r(0)=\{x+y:||y||<r\}$ and that $B_r(0)=rB_1(0)=\{rx:||x||<1\}$.
+\end{exercise}
+	\begin{proof}
+	For any $a\in B_r(x)$, we have $||a-x||<r$. Therefore $a=x-(a-x)\in x+B_r(0)$. Thus $B_r(x)\subset x+B_r(0)$. And for any $a\in x+B_r(0)$, then there exists $y\in B_r(0)$ such that $a=x+y$. Thus $||a-x||=||y||<r$. Thus $a\in B_r(x)$, which means $x+B_r(0)\subset B_r(x)$. Hence $B_r(x)=x+B_r(0)$.
+	
+	Similarly, if $a\in B_r(0)$, then $||a||<r$. Notice that because $r>0$, we have $||\frac{a}{r}||=\frac{1}{r}||a||=1$. And since $a=r\cdot \frac{a}{r}$, we have $a\in rB_1(0)$. Thus $B_r(0)\subset rB_1(0)$. Moreover, if $a\in rB_1(0)$, then there exists $x\in B_1(0)$ such that $a=rx$. Then $||a||=||rx||=|r|\cdot ||x||<r$. Thus $a\in B_r(0)$, which leads to $rB_1(0)\subset B_r(0)$. Thus $B_r(0)=rB_1(0)$.
+	\end{proof}
+
+\begin{exercise}{33}
+Limits are unique.
+\end{exercise}
+	\begin{proof}
+	Assume that $x$ and $y$ are two identical limits of $(x_n)$, then $d(x,y)>0$. Let $\epsilon>0$ such that $2\epsilon<d(x,y)$, there exists $N$ such that if $n>N$, then $x_n\in B_\epsilon(x)\cap B_\epsilon (y)$. Therefore, $2\epsilon<d(x,y)\leq d(x,x_n)+d(x_n,y)<2\epsilon$, contradiction. Thus the limit of $(x_n)$ must be unique.
+	\end{proof}
+
+\begin{exercise}{34}
+If $x_n\rightarrow x$ in $(M,d)$, show that $d(x_n,y)\rightarrow d(x,y)$ for any $y\in M$. More generally, if $x_n\rightarrow x$ and $y_n\rightarrow y$, show that $d(x_n,y_n)\rightarrow d(x,y)$.
+\end{exercise}
+	First, we will prove a small lemma.
+	\begin{lemma}
+	
+	For $a,b,c\in M$, we have $|d(a,b)-d(b,c)|\leq d(a,c)$.
+	\end{lemma}
+	\begin{proof}
+	Indeed, since $d(a,b)\leq d(a,c)+d(b,c)$, we have $d(a,b)-d(b,c)\leq d(a,c)$. Moreover $d(b,c)\leq d(b,a)+d(a,c)$, hence $-d(a,c)\leq d(a,b)-d(b,c)$. Thus $|d(a,b)-d(b,c)|\leq d(a,c)$.
+	\end{proof}
+	Now back to the problem.
+	\begin{proof}
+	By the lemma, we have $|d(x_n,y)-d(x,y)|\leq d(x,x_n)$. Since $x_n\rightarrow x$, $d(x,x_n)$ can be sufficiently small. Thus $d(x_n,y)\rightarrow d(x,y)$. 
+	
+	Also by the lemma, we have $|d(x_n,y_n)-d(x,y)|\leq |d(x_n,y_n)-d(x_n,y)|+|d(x_n,y)-d(x,y)|\leq d(y_n,y)+d(x,x_n)$. Similarly, since we can make $d(x_n,x)$ and $d(y_n,y)$ sufficiently small, we have $d(x_n,y_n)\rightarrow d(x,y)$.
+	\end{proof}
+
+\begin{exercise}{35}
+If $x_n\rightarrow x$, then $x_{n_k}\rightarrow x$ for any subsequence $(x_{n_k})$ of $(x_n)$.
+\end{exercise}
+	\begin{proof}
+	For any $\epsilon >0$, there exists $N\in \N$ such that for any $n>N$, we have $d(x_n,x)<\epsilon$. Since $\{1,2,\cdots ,N\}$ is finite, there exists some $k_0\in\N$ such that $\{1,2,\cdots ,N\}\cap\{n_{k_0+1},n_{k_0+2},\cdots\}=\varnothing$. Let $K=k_0$, then if $k>K$, because $n_k>N$, we have $d(x_{n_k},x)<\epsilon$. Thus $x_{n_k}\rightarrow x$.
+	\end{proof}
+
+\begin{exercise}{36}
+A convergent sequence in Cauchy, and a Cauchy sequence is bounded.
+\end{exercise}
+	\begin{proof}
+	Let $x_n\rightarrow x$, we will prove that $(x_n)$ is Cauchy. For any $\epsilon >0$, we can find $N$ such that if $n>N$, then $x_n\in B_\frac{\epsilon}{2}(x)$. And because $diam(B_\frac{\epsilon}{2}(x))<2\frac{\epsilon}{2}=\epsilon$, for any $m,n>N$, $d(x_m,x_n)<\epsilon$. Thus $(x_n)$ is Cauchy.
+	
+	If $(x_n)$ is Cauchy, then there exists $N\in \N$ such that for any $m,n>N$, $d(x_m,x_n)<1$. Fix $m$, let $t=\max(\{d(x_k,x_m):1\leq k\leq N\}\cup \{1\})$. Then clearly $x_n\in B_t(x_m)$ for any $n\in N$. Thus $(x_n)$ is bounded.
+	\end{proof}
+
+\begin{exercise}{37}
+A Cauchy sequence with a convergent subsequence converges.
+\end{exercise}
+	\begin{proof}
+	Let $(x_n)$ be Cauchy and $x_n\rightarrow x$, where $(x_{n_k})$ is a subsequence of $(x_n)$. For any $\epsilon >0$, we can find $N_1$ and $N_2$ such that for all $m,n>N_1$ and $n_p>N_2$, then $d(x_m,x_n)<\frac{\epsilon}{2}$ and $d(x,x_{n_p})<\frac{\epsilon}{2}$. Let $N=\max\{N_1,N_2\}$ and a natural number $n_{k_0}>N$. For any $n>N$, we have
+	\[
+	d(x_n,x_{n_{k_0}})<\frac{\epsilon}{2} \text{ and } d(x_{n_{k_0}},x)<\frac{\epsilon}{2}.
+	\]
+	Therefor,
+	\[
+	d(x_n,x)\leq d(x_n,x_{n_{k_0}})+d(x_{n_{k_0}},x)<\frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon.
+	\]
+	Thus $x_n\rightarrow x$.
+	\end{proof}
+	
+\begin{exercise}{40}
+Given any fixed element $x\in\ell_1$, show that the sequence $x^{(k)}=(x_1,\cdots,x_k,0,\cdots)\in\ell_1$ converges to $x$ in $\ell_1$-norm. Show that the same holds true in $\ell_2$, but give an example showing that it fails in $\ell_\infty$.
+\end{exercise}
+	\begin{proof}
+	Since $x\in\ell_1$, we have $\sum_{i=1}^{\infty}{|x_i|}<\infty$, thus $\lim_{k\rightarrow\infty}\sum_{i=k}^{\infty}{|x_i|}=0$. Now, for any $\epsilon >0$, there exists $K$ such that if $k>K$, then
+	\[
+	||x-x^{(k)}||_1=\sum_{i=k+1}^{\infty}{|x_i|}<\epsilon.
+	\]
+	Thus $x^{(k)}\rightarrow x$ in $\ell_1$.
+	
+	Similarly, if $x\in\ell_2$, then $\lim_{k\rightarrow\infty}(\sum_{i=k}^{\infty}{x_i^2})^\frac{1}{2}=0$. Thus for any $\epsilon>0$, there exists $K$ such that if $k>K$, then 
+	\[
+	||x-x^{(k)}||_2=\left(\sum_{i=k+1}^{\infty}{x_i^2}\right)^\frac{1}{2}<\epsilon.
+	\]
+	Thus $x^{(k)}\rightarrow x$ in $\ell_2$.
+	
+	One example showing that $\ell_\infty$ false is $x=(1,1,\cdots)$. We have $||x-x^{(k)}||_\infty=\max\{0,1\}=1$. Thus no matter how large $k$ is, $d(x,x^{(k)})=1$, which means $x^{(k)}$ does not converge to $x$.
+	\end{proof}
+
+\begin{exercise}{41}
+Given $x,y\in\ell_2$, show that if $x^{(k)}\rightarrow x$ and $y^{(k)}\rightarrow y$ in $\ell_2$, then $\langle x^{(k)},y^{(k)}\rangle\rightarrow \langle x,y \rangle$.
+\end{exercise}
+	\begin{proof}
+	Assume that for some $k_0$, $\|x^{(k_0)}-x\|_2<\epsilon$ and $\|x^{(k_0)}-x\|_2<\delta$, then applying the Cauchy-Schwarz, we have
+	\begin{align*}
+	|\langle x^{(k_0)},y^{(k_0)}\rangle - \langle x,y\rangle | &=|\langle{x^{(k_0)}-x,y^{(k_0)}-y}\rangle+\langle{x,y^{(k_0)}-y}\rangle+\langle{y,x^{(k_0)}-x}\rangle|\\
+	&=|\langle{x^{(k_0)}-x,y^{(k_0)}-y}\rangle |+|\langle{x,y^{(k_0)}-y}\rangle|+|\langle{y,x^{(k_0)}-x}\rangle|\\
+	&\leq \|x^{(k_0)}-x\|_2\|y^{(k_0)}-y\|_2+\|x\|_2\|y^{(k_0)}-y\|_2+\|y\|_2\|x^{(k_0)}-x\|_2\\
+	&\leq \epsilon\delta +\delta	\|x\|_2+\epsilon\|y\|_2.
+	\end{align*}
+	Because $x,y\in \ell_2$, $\|x\|_2$ and $\|y\|_2$ are finite. Moreover, because $x^{(k)}\rightarrow x$ and $y^{(k)}\rightarrow y$, $\epsilon$ and $\delta$ can be as small as possible. Therefore $|\langle{x^{(k)},y^{(k_0)}}\rangle - \langle{x,y}\rangle|$ can be as small as possible, thus 
+	$\langle{x^{(k)},y^{(k_0)}}\rangle\rightarrow\langle{x,y}\rangle$
+	\end{proof}
+
+\begin{exercise}{42}
+Two metrics $d$ and $\rho$ on a set $M$ is said to be equivalent if they generate the same convergent sequences; that is, $d(x_n,x)\rightarrow 0$ if and only if $\rho(x_n,x)\rightarrow 0$. If $d$ is any metric on $M$, show that the metrics $\rho,\sigma,\tau$ are all equivalent to $d$.
+\end{exercise}
+	\begin{proof}
+	Assume that there exists $x_n$ and $x\in M$ such that $d(x_n,x)\rightarrow 0$, then for any $0<\epsilon<1$, there exists $N$ such that if $n>N$, then $d(x_n,x)<\epsilon$. Thus 
+	\[
+	\rho(x_n,x)=\sqrt{d(x_n,x)}<\sqrt{\epsilon}<\epsilon,
+	\]
+	\[
+	\sigma(x_n,x)=\frac{d(x_n,x)}{1+d(x_n,x)}<\frac{d(x_n,x)}{1}<\epsilon,
+	\]
+	and
+	\[
+	\tau(x_n,x)=\min\{d(x_n,x),1\}=d(x_n,x)<\epsilon.
+	\]
+	Therefore, we have $\rho(x_n,x)\rightarrow 0,\sigma(x_n,x)\rightarrow 0,$ and $\tau(x_n,x)\rightarrow 0$. 
+	
+	Now assume that $\rho(x_n,x)\rightarrow 0$, we have 
+	\[
+	d(x_n,x)=\rho(x_n,x)^2\rightarrow 0.
+	\]
+	If $\sigma(x_n,x)\rightarrow 0$, first, we will calculate $d(x_n,x)$ respect to $\sigma(x_n,x)$. We have
+	\begin{align*}
+	\sigma(x_n,x)&=\frac{d(x_n,x)}{1+d(x_n,x)}\\
+	\frac{1}{\sigma(x_n,x)}&=\frac{1+d(x_n,x)}{d(x_n,x)}=1+\frac{1}{d(x_n,x)}\\
+	\frac{1}{\sigma(x_n,x)}-1&=\frac{1}{d(x_n,x)}\\
+	\frac{1}{\frac{1}{\sigma(x_x,x)}-1}&=d(x_n,x).
+	\end{align*}
+	As $\sigma(x_n,x)\rightarrow 0$, we have $\frac{1}{\sigma(x_n,x)}\rightarrow \infty$, hence $d(x_n,x)=\frac{1}{\frac{1}{\sigma(x_x,x)}-1}\rightarrow 0$. Now, if $\tau(x_n,x)\rightarrow 0$, then $\min\{d(x_n,x),1\}\rightarrow 0$, thus $d(x_n,x)\rightarrow 0$.
+	\end{proof}
+
+\begin{exercise}{43}
+Show that the usual metric on $\N$ is equivalent to the discrete metric. Show that any metric on a finite set is equivalent to the discrete metric.
+\end{exercise}
+	\begin{proof}
+	For any $x_n,x\in\N$, if $|x_n-x|\rightarrow 0$, then let $\epsilon = \frac{1}{2}$, then there exists $N$ such that if $n>N$, then $|x_n-x|<\frac{1}{2}$, therefore $x_n=x$. Let $d$ be the discrete metric on $N$, then $d(x_n,x)=0$ for $n>N$. Thus $d(x_n,x)\rightarrow 0$.
+	
+	If $d(x_n,x)\rightarrow 0$, then for $\epsilon<1$, there exist $N$ such that if $n>N$, then $d(x_n,x)<\epsilon<1$. Hence $d(x_n,x)=0$, which means $x_n=x$. Thus $|x_n-x|\rightarrow 0$. Thus the usual metric on $\N$ is equivalent to the discrete metric.
+	
+	Let $M$ be a finite set and $d,m$ defines a discrete metric and a random metric on $M$. Since metric is positive, let $0<\epsilon<\min\{m(x,y):x,y\in M,x\neq y\}.$ For $x_n,x\in M$, if $m(x_n,x)\rightarrow 0$, then there exists $N$ such that for any $n>N$, then $m(x_n,x)<\epsilon$. But by the definition of $\epsilon$, we have $x_n=x$. Therefore, $d(x_n,x)=0$ for any $n>N$. So $d(x_n,x)\rightarrow 0$.
+	
+	If $d(x_n,x)\rightarrow 0$, then similar to the $\N$ case, there exists $N$ such that for any $n>N$, we have $x_n=x$. Thus $m(x_n,x)=0$ for $n>N$. Thus $m(x_n,x)\rightarrow 0$.
+	\end{proof}
+	
+\begin{exercise}{44}
+Show that the metrics induced by $\|\bigcdot\|_1,\|\bigcdot\|_2,$ and $\|\bigcdot\|_\infty$ on $\R^n$ are all equivalent.
+\end{exercise}
+	\begin{proof}
+	Assume that $\|x-x_k\|\rightarrow 0$ for some $x,x_k\in\R^n$. By exercise 18, we have $0\leq\|x-x_k\|_\infty\leq\|x-x_k\|_2\leq\|x-x_k\|_1$. Thus, we also have $\|x-x_k\|_\infty\rightarrow 0$ and $\|x-x_k\|_2\rightarrow 0$.
+	
+	Now, assume that $\|x-x_k\|_2\rightarrow 0$, then $\sqrt{n}\|x-x_k\|_2\rightarrow 0$. Also by exercise 18, we have $\|x-x_k\|\leq \sqrt{n}\|x-x_k\|_2$. Thus $\|x-x_k\|_1\rightarrow 0$.
+	
+	Similarly, if $\|x-x_k\|_\infty \rightarrow 0$, then $n\|x-x_k\|_\infty\rightarrow 0$. By exercise 18, we have $\|x-x_k\|_1\leq n\|x-x_k\|_\infty$. Thus $\|x-x_k\|_1\rightarrow 0$.
+	
+	Therefore, $\|\bigcdot\|_1,\|\bigcdot\|_2$, and $\|\bigcdot\|_\infty$ are equivalent.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{45}
+We say that two norms on the same vector space $X$ are equivalent if the metrics they induce are equivalent. Show that $\|\bigcdot\|$ and $\opnorm{\bigcdot}$ are equivalent of $X$ if and only if they generate the same sequences tending to $0$; that is, $\|x_n\|\rightarrow 0$ if and only if $\opnorm{x_n}\rightarrow 0$.
+\end{exercise}
+	\begin{proof}
+	Assume that $\|x_n\|\rightarrow 0$ if and only if $\opnorm{x_n}\rightarrow 0$, we will prove that $\|\bigcdot\|$ and $\opnorm{\bigcdot}$ are equivalent. Indeed, if $x_n,x\in X$ such that $\|x_n-x\|\rightarrow 0$, then notice that $y_n=x_n-x\in X$, we have $\|y_n\|\rightarrow 0$. However, by the assumption, we have $\opnorm{y_n}\rightarrow 0$, which is synonymous with $\opnorm{x_n-x}\rightarrow 0$. Similarly, if $\opnorm{x_n-x}\rightarrow 0$, we also have $\|x_n-x\|\rightarrow 0$. Thus $\|\bigcdot\|$ and $\opnorm{\bigcdot}$ are equivalent.
+	
+	If $\|\bigcdot\|$ and $\opnorm{\bigcdot}$ are equivalent, then obviously $\|x_n\|\rightarrow 0$ if and only if $\opnorm{x_n}\rightarrow 0$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{46}
+Given two metric spaces $(M,d)$ and $(N,p)$, we can define a metric on the product $M\times N$ in a variety of ways. Our only requirement is that a sequence of pairs $(a_n,x_n)$ in $M\times N$ should converge precisely when both coordinate sequences $(a_n)$ and $(x_n)$ converge. Show that each of the following define metrics on $M\times N$ that enjoy this property and that all three are equivalent:
+\[
+d_1((a,x),(b,y))=d(a,b)+p(x,y),
+\]
+\[
+d_2((a,x),(b,y))=(d(a,b)^2+p(x,y)^2)^{1/2},
+\]
+\[
+d_\infty((a,x),(b,y))=\max\{d(a,b),p(x,y)\}.
+\]
+\end{exercise}
+	\begin{proof}
+	First we will prove that $d_1,d_2,d_\infty$ define metrics on $M\times N$. For any $(a,x),(b,y)\in M\times N$, we have 
+	\[
+d_1((a,x),(b,y))=d(a,b)+p(x,y)\geq 0,
+\]
+\[
+d_2((a,x),(b,y))=(d(a,b)^2+p(x,y)^2)^{1/2}\geq 0,
+\]
+\[
+d_\infty((a,x),(b,y))=\max\{d(a,b),p(x,y)\}\geq 0.
+\]
+	The equality is when $d(a,b)=d(x,y)=0$. Thus $d_1((a,x),(b,y))=d_2((a,x),(b,y))=d_\infty((a,x),(b,y))=0$ if any only if $d(a,x)=p(b,y)=0$. We also have
+	\[
+d_1((a,x),(b,y))=d(a,b)+p(x,y)=d(b,a)+p(y,x)=d_1((b,y),(a,x)),
+\]
+\[
+d_2((a,x),(b,y))=(d(a,b)^2+p(x,y)^2)^{1/2}=(d(b,a)^2+p(y,x)^{1/2}=d_2((b,y),(a,x)),
+\]
+\[
+d_\infty((a,x),(b,y))=\max\{d(a,b),p(x,y)\}=\max\{d(b,a),p(y,x)\}=d_\infty((b,y),(a,x)).
+\]
+	
+	Now, for any $i\geq 1$, applying the triangular inequality for $d$ and $p$, and norm inequality, we have 
+	\[
+	\|(d(a,b),p(x,y))\|_i\leq \|(d(a,c)+d(c,b),p(x,z)+p(z,y))\|_i\leq \|(d(a,c),p(x,z))\|_i+\|(d(c,b),p(z,y))\|_i
+	\]
+	Thus for $i=1,2,\infty$, we have three triangular inequalities in $d_1,d_2$, and $d_\infty$. Thus $d_1,d_2,$ and $d_\infty$ defines metrics on $M\times N$.
+	Let $(a_n,x_n)\in M\times N$ such that $a_n\rightarrow a$ and $x_n\rightarrow x$ in $(M,d)$ and $(N,p)$ respectively. Then $d(a_n,a)\rightarrow 0$ and $p(x_n,x)\rightarrow 0$. Thus we easily have 
+	\[
+	d_1((a_n,x_n),(a,x))=d(a_n,a)+p(x_n,x)\rightarrow 0,
+	\]
+	\[
+d_2((a_n,x_n),(a,x))=(d(a_n,a)^2+p(x_n,x)^2)^{1/2},\rightarrow 0,
+\]
+and
+\[
+d_\infty((a_n,x_n),(a,x))=\max\{d(a_n,a),p(x_n,x)\}\rightarrow 0.
+\]
+Thus, $d_1,d_2,d_\infty$ enjoy the property of this exercise. Now if $(a_n,x_n)\rightarrow (a,x)$ in $(M\times N,d_1$, that is $d_1((a_n,x_n),(a,x))\rightarrow 0$, then we have $d(a_n,a)+p(x_n,x)\rightarrow 0$, thus $d(a_n,a)$ and $p(x_n,x)$ converge to $0$. Because $d_2$ defines a metric on $M\times N$, we also have $d_2((a_n,a),(x_n,x))\rightarrow 0$, thus $(a_n,x_n)\rightarrow (a,x)$ in $(M\times N,d_2)$. Similarly, if $(a_n,x_n)\rightarrow (a,x)$ in $(M\times N,d_2)$, then we have $(a_n,x_n)\rightarrow (a,x)$ in $(M\times N,d_\infty)$, and if $(a_n,x_n)\rightarrow (a,x)$ in $(M\times N,d_\infty)$, then we have $(a_n,x_n)\rightarrow (a,x)$ in $(M\times N,d_1)$. Thus $d_1,d_2$, and $d_3$ are equivalent.
+
+	\end{proof}
+
+\pagebreak
+
+\begin{lemma}1
+Let $a,b,c,d\in \R+$, if $a\leq c$ and $b\leq d$, then for any $i\geq 1$, we have $\|(a,b)\|_i\leq \|(c,d)\|_i$.
+\end{lemma}
+	\begin{proof}
+	Indeed, if $i\geq 1$, then $a^i\leq c^i$ and $b^i\leq d^i$. And since $\frac{1}{i}>0$, we have 
+	\[
+	\|(a,b)\|_i = (|a|^i+|b|^i)^{1/i}\leq (|c|^i+|d|^i)^{1/i}=\|(c,d)\|_i.
+	\]
+	Thus $\|(a,b)\|_i\leq \|(c,d)\|_i$.
+	\end{proof}
+	
+\begin{exercise}{Hint}
+Let $f:\R^2\rightarrow\R$ defines by $f(x,y)=xy$, prove that $f$ is continuous.
+\end{exercise}
+	\begin{proof}
+	For $(x_0,y_0)\in \R^2$, assume that $|x-x_0|<\epsilon$ and $|y-y_0|<\delta$, then we have
+	\begin{align*}
+	|xy-x_0y_0|&=|(x-x_0)(y-y_0)+x_0y+y_0x-2y_0x_0)|\\
+	&=|(x-x_0)(y-y_0)+x_0(y-y_0)+y_0(x-x_0)|\\
+	&\leq |(x-x_0)||(y-y_0)|+|x_0||(y-y_0)|+|y_0||(x-x_0)|\\
+	&\leq \epsilon\delta+|x_0|\delta +|y_0|\epsilon.	
+	\end{align*}
+	Because $|xy-x_0y_0|$ can be as small as possible by letting $\epsilon$ and $\delta$ super small, $f$ is continuous at $(x_0,y_0$. Therefore, $f$ is continuous everywhere.
+	\end{proof}
+
+\end{document}
+

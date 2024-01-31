@@ -1,0 +1,444 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{exercise}{Exercise}
+\newcustomtheorem{lemma}{Lemma}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+
+\begin{document}
+
+\begin{exercise}{4.1}
+Label the following statements as true or false.
+	\begin{enumerate}[label=(\alph*)]
+	\item The function $\det :M_{2\times 2}(F)\rightarrow F$ is a linear transformation.
+		\begin{proof}
+		False. The $\det$ is not a linear transformation.
+		\end{proof}
+	\item The determinant of a $2\times 2$ matrix is a linear function of each row of the matrix when the other row is held fixed.
+		\begin{proof}
+		True. This is theorem 4.1.
+		\end{proof}
+	\item If $A\in M_{2\times 2}(F)$ and $\det (A)=0$, then $A$ is invertible.
+		\begin{proof}
+		False. It should be the opposite.
+		\end{proof}
+	\item If $u$ and $v$ are vectors in $R^2$ emanating from the origin, then the area of the parallelogram having $u$ and $v$ as adjacent sides is 
+	\[
+	\det\begin{pmatrix}
+	u\\
+	v
+	\end{pmatrix}.
+	\]
+		\begin{proof}
+		False. The determinant can be negative when the area cannot.
+		\end{proof}
+	\item A coordinate system is right-handed if and only if its orientation equals $1$.
+		\begin{proof}
+		True, that is the definition of orientation.
+		\end{proof}
+	\end{enumerate}
+\end{exercise}
+
+\pagebreak
+
+\begin{exercise}{4.2.1}
+Label the following statements as true or false.
+	\begin{enumerate}[label=(\alph*)]
+	\item The function $\det:M_{n\times n}(F)\rightarrow F$ is a linear transformation.
+		\begin{proof}
+		False, clearly.
+		\end{proof}
+	\item The determinant of a square matrix can be evaluated by cofactor expansion along any row.
+		\begin{proof}
+		True. This is theorem 4.4.
+		\end{proof}
+	\item If two rows of a square matrix $A$ are identical, then $det(A)=0$.
+		\begin{proof}
+		True, this is the corollary for theorem 4.4.
+		\end{proof}
+	\item If $B$ is a matrix obtained from a square matrix $A$  by interchanging any two rows, then $\det(B)=-\det(A)$
+		\begin{proof}
+		True. Theorem 4.5
+		\end{proof}
+	\item If $B$ is a matrix obtained from a square $A$ by multiplying a row of $A$ by a scalar, then $\det(B)=\det(A)$.
+		\begin{proof}
+		False, $\det(B)=k\det(A)$.
+		\end{proof}
+	\item If $B$ is a matrix obtained from a square matrix $A$ by adding $k$ times row $i$ to row $j$, then $\det(B)=k\det(A)$.
+		\begin{proof}
+		False, $\det(A)=\det(B)$.
+		\end{proof}
+	\item If $A\in M_{n\times n}(F)$ has rank $n$, then $\det(A)=0$.
+		\begin{proof}
+		False, look at the $n\times n$ identical matrix. Its rank is $n$ and its $\det$ is 1.
+		\end{proof}
+	\item The determinant of an upper triangular matrix equals the product of its diagonal entries.
+		\begin{proof}
+		True. 
+		\end{proof}
+	\end{enumerate}
+\end{exercise}
+
+\pagebreak
+
+\begin{exercise}{4.2.23}
+Prove that the determinant of an upper triangular matrix is the product of its diagonal entries.
+\end{exercise}
+	\begin{proof}
+	The proof is by mathematical induction. Assume that this result holds for $(n-1)\times (n-1)$ matrices, consider a $n\times n$ triangular matrix
+	\[
+	\begin{pmatrix}
+	a_11 & B\\
+	O & C
+	\end{pmatrix}
+	\]
+	where $B$ is a $1\times (n-1)$ matrix, $O$ is a $(n-1)\times 1$ zero matrix and $C$ is an $(n-1)\times (n-1)$ triangular matrix. Now applying the determinant formula for the first column, we get 
+	\[
+	\det(A)=a_{11} \det(C).
+	\]
+	By the induction assumption, $\det(C)$ is the product of $(n-1)$ diagonal entries. Thus $\det(A)$ is the product of its diagonal entries.
+	\end{proof}
+
+\begin{exercise}{4.2.24}
+Prove that if $A\in M_{n\times n}(F)$ has a row consisting entirely of zeros, then $\det(A)=0$.
+\end{exercise}
+	\begin{proof}
+	Assume that the $r$th row of $A$ contains only zeros. Multiply row $r$ by a scalar $k$, the matrix doesn't change. However, the determination of $A$ increase $k$ time. Therefor
+	\[
+	\det(A)=k\det(A)
+	\]
+	for all $k$. Thus $\det(A)=0$.
+	\end{proof}
+	
+\begin{exercise}{4.2.25}
+Prove that $\det(kA)=k^n\det(A)$ for any $A\in M_{n\times n}(F)$.
+\end{exercise}
+	\begin{proof}
+	What to prove? Multiply one row by $k$, the determinant increase $k$ times. So Multiply $n$ rows by $k$, the determinant increase by $k^n$ times.
+	\end{proof}
+	
+\begin{exercise}{4.2.26}
+Let $A\in M_{n\times n}(F)$. Under what conditions is $\det(-A)=\det(A)$.
+\end{exercise}
+	\begin{proof}
+	If $n$ is even, by exercise 25, we have
+	\[
+	\det(-A)=(-1)^{n}\det(A)=\det(A).
+	\]
+	If $n$ is odd, similar to the case above, we get $\det(A)=-\det(A)$, therefor $\det(A)=0$. 
+	\end{proof}
+	
+\begin{exercise}{4.2.27}
+Prove that if $A\in M_{n\times n}(F)$ has two identical columns, then $\det(A)=0$.
+\end{exercise}
+	\begin{proof}
+	Clearly, $rank(A)<n$, thus by the corollary of theorem 4.6, we have $\det (A)=0$.
+	\end{proof}
+
+\pagebreak
+	
+\begin{exercise}{4.3.1}
+Label the following statements as true or false.
+	\begin{enumerate}[label=(\roman*)]
+	\item If $E$ is an elementary matrix, then $\det(E)=\pm 1$.
+	\begin{proof}
+	False. In the case of multiplying one row to $k$, $\det(E)=k$.
+	\end{proof}
+	\item For any $A,B\in M_{n\times n}(F)$, $\det(AB)=\det(A)\cdot \det(B)$.
+	\begin{proof}
+	True. Theorem 4.7.
+	\end{proof}
+	\item A matrix $M\in M_{n\times n}(F)$ is invertible if and only if $\det(M)=0$.
+	\begin{proof}
+	False. If $\det(A)=0$, then $A$ is not invertible.
+	\end{proof}
+	\item A matrix $M\in M_{n\times n}(F)$ has rank $n$ if and only if $\det(M)\neq 0$.
+	\begin{proof}
+	True. The matrix $M$ has rank $n$, $M$ is invertible and $\det(M)=0$ are the same if $M$ is a square matrix.
+	\end{proof}
+	\item For any $A\in M_{n\times n}(F)$, $\det(A^t)=-\det(A)$.
+	\begin{proof}
+	False, because $\det(A^t)=\det(A)$.
+	\end{proof}
+	\item The determinant of a square matrix can be evaluated by cofactor expansion along any column.
+	\begin{proof}
+	True.
+	\end{proof}
+	\item Every system of $n$ linear equations in $n$ unknowns can be solved by Cramer's rule.
+	\begin{proof}
+	False. We can use Cramer's rule only if its determinant is nonzero.
+	\end{proof}
+	\item Let $Ax=b$ be the matrix form of a system of $n$ linear equations in $n$ unknowns, where $x=(x_1,x_2,\cdots ,x_n)^t$. If $\det(A)\neq 0$ and if $M_k$ is the $n\times n$ matrix obtained from $A$ by replacing row $k$ of $A$ by $b^t$, then the unique solution of $Ax=b$ is 
+	\[
+	x_k=\frac{\det(M_k)}{\det(A)}\quad \text{for $k=1,2,\cdots ,n.$}
+	\]
+	\begin{proof}
+	False. By Cramer's rule, if $M_k$ is the $n\times n$ matrix obtained from $A$ by replacing \textbf{column} $k$ of $A$ by $b$, then you get a solution. If we define $M_k$ this way, in most cases, we will get an identical solution. But since $\det(A)\neq 0$, the solution must be unique. Thus this statement is false.
+	\end{proof}
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{9}
+Prove that an upper triangular $n\times n$ matrix is invertible if and only if all its diagonal entries are nonzero.
+\end{exercise}
+	\begin{proof}
+	Let $M$ be that upper triangular $n\times n$ matrix. If $M$ is invertible, then $\det(M)\neq 0$. Let's remind that $\det(M)$ is the product of the diagonal entries. Since their product is nonzero, each entry must be nonzero itself. Conversely, if all the diagonal entries are nonzero, then $\det(M)\neq 0$. Hence, $M$ is invertible.
+	\end{proof}
+	
+\begin{exercise}{10}
+A matrix $M\in M_{n\times n}(C)$ is called nilpotent if, for some positive integer $k$, $M^k=O$, where $O$ is the $n\times n$ zero matrix. Prove that if $M$ is nilpotent, then $\det(M)=0$. 
+\end{exercise}
+	\begin{proof}
+	Since $M^k=O$, we have $\det(M)^k=\det(M^k)=0$. Thus $\det(M)=0$.
+	\end{proof}
+	
+\begin{exercise}{11}
+A matrix $M\in M_{n\times n}(C)$ is called skew-symmetric if $M^t=-M$. Prove that if $M$ is skew-symmetric and $n$ is odd, then $M$ is not inverible. What happens if $n$ is even? 
+\end{exercise}
+	\begin{proof}
+	We have $\det(M)=\det(M^t)=\det(-M)=(-1)^n\det(M)$. If $n$ is odd, then $\det(M)=-\det(M)$, which easily leads to $\det(M)=0$. Therefore, $M$ is invertible. Otherwise, if $n$ is even, $M$ isn't necessarily invertible. One example is 
+	$\begin{pmatrix}
+	0&-1\\
+	1&0
+	\end{pmatrix}$.
+	\end{proof}
+	
+\begin{exercise}{12}
+A matrix $Q\in M_{n\times n}(R)$ is called orthogonal if $QQ^t=I$. Prove that if $Q$ is orthogonal, then $\det(Q)=\pm 1$.
+\end{exercise}
+	\begin{proof}
+	We have $1=\det(I)=\det(QQ^t)=\det(Q)\det(Q^t)=\det(Q)^2$. Thus $\det(Q)=\pm 1$.
+	\end{proof}
+	
+\begin{exercise}{13}
+For $M\in M_{n\times n}(C)$, let $\overline{M}$ be the matrix such that $(\overline{M})_{ij}=\overline{M_{ij}}$ for all $i,j$, where $\overline{M_{ij}}$ is the complex conjugate of $M_{ij}$.
+	\begin{enumerate}[label=(\alph*)]
+	\item Prove that $\det(\overline{M})=\overline{\det(M)}$.
+		\begin{proof}
+		First, we have a few properties about complex conjugate as follow:
+		\begin{align*}
+		\overline{ab}&=\overline{a}\overline{b}\\
+		\overline{a+b}&=\overline{a}+\overline{b}
+		\end{align*}
+		for any $a,b\in\C$. Indeed, let $a=x+yi$ and $b=z+ti$, then
+		\begin{align*}
+		\overline{ab}&=\overline{(x+yi)(z+ti)}\\
+		&=\overline{xz-yt+(xt+yz)i}\\
+		&=xz-yt-(xt+yz)i\\
+		&=xz-yzi-yt-xti\\
+		&=z(x-yi)-ti(x-yi)\\
+		&=(x-yi)(z-ti)\\
+		&=\overline{a}\cdot\overline{b}.
+		\end{align*}
+		Moreover, we have
+		\begin{align*}
+		\overline{a+b}&=\overline{x+z+(y+t)i}\\
+		&=x+z-(y+t)i\\
+		&=x-yi+z-ti\\
+		&=\overline{a}+\overline{b}.
+		\end{align*}
+		Now the proof of (a) is by mathematical induction on $n$. For $n=1$, the result is trivial. Assume that this result holds for $n-1$ and let $A\in M_{n\times n}(C)$. Let $\tilde{A}_{ij}$ denote the $(n-1)\times (n-1)$ matrix obtained from $A$ by deleting row $i$ and column $j$, then we have
+		\begin{align*}
+		\overline{\det(A)}&=\overline{\sum_{i=1}^{n}{A_{1i}\det(\tilde{A}_{1i}})}\\
+		&=\sum_{i=1}^{n}{\overline{A_{1i}\det(\tilde{A}_{1i}})}\\
+		&=\sum_{i=1}^{n}{\overline{A_{1i}}\cdot \overline{\det(\tilde{A}_{1i}})}\\
+		&=\sum_{i=1}^{n}{\overline{A_{1,i}}\cdot\det\left(\overline{\tilde{A}}\right)}\\
+		&=\det(\overline{A}).
+		\end{align*}
+		\end{proof}
+	\item A matrix $Q\in M_{n\times n}(C)$ is called unitary if $QQ^*=I$, where $Q^*=\overline{Q^t}$. Prove that if $Q$ is a unitary matrix, then $|\det(Q)|=1$.
+		\begin{proof}
+		Since $Q$ is a unitary matrix, we have $\det(QQ^*)=\det(I)=1$. Thus $\det(Q)\det(Q^*)=1$. Notice that 
+		\begin{align*}
+		\det(Q^*)&=\det(\overline{Q^t})\\
+		&=\overline{\det(Q^t)}\\
+		&=\overline{\det(Q^t)}\\
+		&=\overline{\det(Q)}.
+		\end{align*}
+		Remind that for a complex number $c$, we have $c\cdot \overline{c}=|c|$, using the calculation above, we have 
+		\[
+		1=\det(Q)\det(Q^*)=\det(Q)\overline{\det(Q)}=|\det(Q)|.
+		\]
+		\end{proof}
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{15}
+Prove that if $A,B\in M_{n\times n}(F)$ are similar, then $\det(A)=\det(B)$.
+\end{exercise}
+	\begin{proof}
+	If $A$ and $B$ are similar, then there exists a matrix $Q$ such that 
+	\[
+	A=Q^{-1}BQ.
+	\]
+	Thus
+	\begin{align*}
+	\det(A)&=\det(Q^{-1}BQ)\\
+	&= \det(Q^{-1})\det(B)\det(Q)\\
+	&=\det(Q^{-1}Q)\det(B)\\
+	&=\det(I)\det(B)\\
+	&=\det(B).
+	\end{align*}
+	\end{proof}
+
+\begin{exercise}{16}
+Use determinants to prove that if $A,B\in M_{n\times n}(F)$ are such that $AB=I$, them $A$ is invertible (and hence $B=A^{-1}$).
+\end{exercise}
+	\begin{proof}
+	Since $\det(A)\det(B)=\det(AB)=\det(I)=1$, we have $\det(A)\neq 0$. Thus $A$ is invertible. Notice that the matrix $B$ such that $AB=I$ is unique. Because $AA^{-1}=I$ too, we have $B=A^{-1}$.
+	
+	Indeed, if there exists $B$ and $C$ such that $AB=AC$, then $A^{-1}AB=A^{-1}AC$. Thus $B=C$, which means such $B$ is unique. 
+	\end{proof}
+	
+\begin{exercise}{18}
+Complete the proof of Theorem 4.7 by showing that if $A$ is an elementary matrix of type $2$ or type $3$, then $\det(AB)=\det(A)\cdot \det(B)$.
+\end{exercise}
+	\begin{proof}
+	If $A$ is an elementary matrix obtained by multiplying row $j$th to $k$, then $\det(A)=k$. But $AB$ is also obtained from $B$ by multiplying $k$ to $j$th row. Thus $\det(AB)=k\det(B)=\det(A)\det(B)$.
+	
+	If $A$ is an elementary matrix obtained by adding a multiply of some row of $I$ to another row, then $\det(A)=1$. We can easily see that $\det(AB)=\det(B)$ because type 3 elementary row operation doesn't change the determinant. Thus $\det(AB)=\det(B)=\det(A)\det(B)$.
+	\end{proof}
+	
+\pagebreak
+
+\begin{exercise}{4.4.1}
+Label the following statements as true or false.
+\begin{enumerate}[label=(\alph*)]
+\item The determinant of a square matrix may be computed by expanding the matrix along any row or column.
+	\begin{proof}
+	True.
+	\end{proof}
+
+\item In evaluating the determinant of a matrix, it is wise to expand along a row or column containing the largest number of zero entries.
+	\begin{proof}
+	True. If there are $k$ zeros, then we will calculate $k$ less determinant. And since calculating determinant is a nightmare, wise people will try to avoid that.
+	\end{proof}
+\item If two rows or columns of $A$ are identical, then $\det(A)=0$.
+	\begin{proof}
+	True.
+	\end{proof}
+\item If $B$ is a matrix obtained by interchanging two rows or two columns of $A$, then $\det(B)=\det(A)$.
+	\begin{proof}
+	False, $\det(A)=-\det(B)$.
+	\end{proof}
+\item If $B$ is a matrix obtained by multiplying each entry of some row or column of $A$ by a scalar, then $\det(B)=\det(A)$.
+	\begin{proof}
+	False. If that scalar is $k$, then $\det(B)=k\det(A)$.
+	\end{proof}
+\item If $B$ is a matrix obtained from $A$ by adding a multiple of some row to a different row, then $\det(B)=\det(A)$.
+	\begin{proof}
+	True.
+	\end{proof}
+\item The determinant of an upper triangular $n\times n$ matrix is the product of its diagonal entries.
+	\begin{proof}
+	True.
+	\end{proof}
+\item For every $A\in M_{n\times n}(F)$, $\det(A^t)=-\det(A)$.
+	\begin{proof}
+	False, $\det(A)=\det(A^t)$.
+	\end{proof}
+\item If $A,B\in M_{n\times n}(F)$, then $\det(AB)=\det(A)\det(B)$.
+	\begin{proof}
+	True.
+	\end{proof}
+\item If $Q$ is an invertible matrix, then $\det(Q^{-1})=[\det(Q)]^{-1}$.
+	\begin{proof}
+	True. Another way to write this is $\det(Q^{-1})=\frac{1}{\det(Q)}$.
+	\end{proof}
+\item A matrix $Q$ is invertible if and only if $\det(Q)\neq 0$.
+	\begin{proof}
+	True.
+	\end{proof}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{4.5.1}
+Label the following statements as true or false.
+	\begin{enumerate}[label=(\alph*)]
+	\item Any $n$-linear function $\delta:M_{n\times n}(F)\rightarrow F$ is a linear transformation.
+	\begin{proof}
+	False. By the definition, it is linear of each row, when the other $(n-1)$ rows are fixed.
+	\end{proof}
+	
+	\item Any $n$-linear function $\delta:M_{n\times n}(F)\rightarrow F$ is a linear function of each row of an $n\times n$ matrix when the other $n-1$ rows are held fixed.
+	\begin{proof}
+	True.
+	\end{proof}
+	\item If $\delta:M_{n\times n}(F)\rightarrow F$ is an alternating $n$-linear function and the matrix $A\in M_{n\times n}(F)$ has two identical rows, then $\delta(A)=0$.	
+	\begin{proof}
+	True.
+	\end{proof}
+	\item If $\delta:M_{n\times n}(F)\rightarrow F$ is an alternating $n$-linear function and $B$ is obtained from $A\in M_{n\times n}(F)$ by interchanging two rows of $A$, then $\delta(B)=\delta(A)$.
+	\begin{proof}
+	False because $\delta(B)=-\delta(A)$.
+	\end{proof}
+	\item There is a unique alternating $n$-linear function $\delta:M_{n\times n}(F)\rightarrow F$.
+	\begin{proof}
+	False because $\delta(x)=k\det(x)$ is a unique alternating $n$-linear function for each scalar $k$. Thus $\delta$ is not unique.
+	\end{proof}
+	\item The function $\delta:M_{n\times n}(F)\rightarrow F$ defined by $\delta (A)=0$ for every $A\in M_{n\times n}(F)$ is an alternating $n$-linear function.
+	\begin{proof}
+	True.
+	\end{proof}
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{4.5.2}
+Determine all the $1$-linear function $\delta:M_{1\times 1}(F)\rightarrow F$.
+\end{exercise}
+	\begin{proof}
+	Since $f$ is a $1$-linear function, we have $f(ka)=kf(a)$ for a vector $a$ and a scalar $k$. Now let $a=1$, then we have $f(k)=kf(1)$ for all $k$. Thus all the $1$-linear functions $\delta:M_{1\times 1}(F)\rightarrow F$ has the form $f(x)=ax$ for a scalar $a$.
+	\end{proof}
+\begin{exercise}{4.5.11}
+Prove Corollaries 2 and 3 of Theorem 4.10. That is, let $\delta:M_{n\times n}(F)\rightarrow F$ be an alternating $n$-linear function. If $M\in M_{n\times n}(F)$ has rank less than $n$, then $\delta (M)=0$. Moreover, let $E_1,E_2$, and $E_3$ in $M_{n\times n}(F)$ be elementary matrices of type 1,2, and 3, respectively. Suppose that $E_2$ is obtained by multiplying some row of $I$ by the nonzero scalar $k$. Then $\delta(E_1)=-\delta(I)$, $\delta(E_2)=k\cdot \delta(I)$, and $\delta(E_3)=\delta(I)$.
+\end{exercise}
+	\begin{proof}
+	By Corollary 1, we have $\det(B)=\det(A)$ if $B$ is obtained from $A$ by adding a multiple of some row of $A$ to another row of $A$. Also by theorem 4.10. if $B$ is obtained from $A$ by interchanging two any two rows of $A$, then $\delta(B)=-\delta(A)$. And since $\delta$ is a $n$-linear function, if $B$ is obtained from $A$ by multiply a row of $A$ by $k$, then $\delta(B)=k\delta(A)$. 
+	
+	Back to the problem, because rank $M$ is less than $M$, after a finite number of elementary operations on $M$, we can obtain a matrix $M'$ where $M'$ has two identical rows. Thus, by Theorem 4.10, $\delta(M')=0$, which leads to $\delta(M)=0$.
+	
+	Moreover, in the first paragraph, let $A=I$, then we have $\delta(E_1)=-\delta(I), \delta(E_2)=k\delta(I)$ and $\delta(E_3)=\delta(I)$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{4.5.12}
+Prove Theorem 4.11. 
+\end{exercise}
+	\begin{proof}
+	If $rank(B)=0$, then $rank(AB)=0$. Thus by Corollary 2, we have $\delta(AB)=0=\delta(A)\cdot\delta(B)$. If $rank(B)>0$, then $B$ can be written as a product of elementary matrices. Thus we only need to check $\delta(AB)=\delta(A)\cdot\delta(B)$ in case $B$ is an elementary matrix. Indeed, if $B$ is an elementary matrix type 1, then $\delta(AE_1)=-\delta(A)$ by theorem 4.10. Moreover, we have $\delta(E_1)=-\delta(I)=-1$. Thus $\delta(AE_1)=\delta(A)\cdot\delta(E_1)$. If $B$ is an elementary matrix type 2, then $\delta(AE_2)=k\delta(A)$. Moreover, $\delta(E_2)=k\delta(I)=k$. Thus $\delta(AE_2)=\delta(A)\cdot\delta(E_2)$. Similarly, if $B$ is a type 3 elementary matrix, then $\delta(AE_3)=\delta(A)$ and $\delta(E_3)=\delta(I)=1$. Thus $\delta(AE_3)=\delta(A)\cdot\delta(E_3)$. To sum up, $\delta(AB)=\delta(A)\cdot\delta(B)$ for any $A,B\in M_{n\times n}(F)\rightarrow F$.
+	\end{proof}
+	
+\begin{exercise}{4.5.19}
+Let $\delta:M_{n\times n}(F)\rightarrow F$ be an $n$-linear function and $F$ a field that does not have characteristic two. Prove that if $\delta(B)=-\delta(A)$ whenever $B$ is obtained from $A\in M_{n\times n}(F)$ by interchanging any two rows of $A$, then $\delta(M)=0$ whenever $M\in M_{n\times n}(F)$ has two identical rows.
+\end{exercise}
+	\begin{proof}
+	First, we will prove that if $F$ is even characteristic, then $F$ is characteristic 2. Indeed, for any $a\in F$, we have $1=a\cdot a^{-1}=a(0+a^{-1})=a.0+1$. Thus $0=a\cdot 0$. Assume that $char(F)=2\beta$, then let $\gamma$ equals to $1+1+\cdots +1$ $\beta$ times. Then $\gamma + \gamma =0$, hence $\gamma^{-1}(\gamma+\gamma)=\gamma^{-1}\cdot 0=0$. Thus $1+1=0$. So if $F$ has even characteristic, $char(F)=2$.
+	
+	If $M$ has two identical rows, let $M'$ is a matrix obtained from $M$ by interchanging two identical rows of $M$. Thus $\delta(M)=-\delta(M')=-\delta(M)$. Thus $\delta(M)+\delta(M)=0$. Because $F$ have characteristic 2, we have $\delta(M)=0$.
+	\end{proof}
+
+\begin{exercise}{Ramdom}
+Let $A,B\in M_{n\times n}(F)$ and $AB=I
+\end{exercise}
+\begin{proof}
+Because $AB=I$, thus $rank(I)=ma
+\end{proof}
+\end{document}

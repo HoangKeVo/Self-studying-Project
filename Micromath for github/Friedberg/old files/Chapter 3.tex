@@ -1,0 +1,184 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{exercise}{Exercise}
+\newcustomtheorem{lemma}{Lemma}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+
+\begin{document}
+\begin{exercise}{3.2.1}
+\hfill
+	\begin{enumerate}[label=(\alph*)]
+	\item The rank of a matrix is equal to the number of its nonzero columns.
+		\begin{proof}
+		False. The matrix$\begin{pmatrix}
+		1&2\\
+		1&2
+		\end{pmatrix}$ has rank 1.
+		\end{proof}
+	\item The product of two matrices always has rank equal to the lesser of the ranks of the two matrices.
+		\begin{proof}
+		False. We have $\begin{pmatrix}
+		0&2\\
+		0&0
+		\end{pmatrix}\begin{pmatrix}
+		0&2\\
+		0&0
+		\end{pmatrix}=\begin{pmatrix}
+		0&0\\
+		0&0
+		\end{pmatrix}$. However, $rank\left(\begin{pmatrix}
+		0&2\\
+		0&0
+		\end{pmatrix}\right)=2$ and $rank\left(\begin{pmatrix}
+		0&0\\
+		0&0
+		\end{pmatrix}\right)=0$
+		\end{proof}
+	\item The $m\times n$ zero matrix is the only $m\times n$ matrix having rank $0$.
+	\item Elementary row operations preserve rank.
+	\item Elementary column operations do not necessarily preserve rank.
+	\item The rank of a matrix is equal to the maximum number of linearly independent rows in the matrix.
+	\item The inverse of a matrix can be computed exclusively by means of elementary row operations.
+	\item The rank of an $n\times n$ matrix having rank $n$ is invertible.
+	\end{enumerate}
+\end{exercise}
+
+\pagebreak
+	
+\begin{exercise}{3.2.14}
+Let $T,U:V\rightarrow W$ be linear transformations.
+\begin{enumerate}[label=(\alph*)]
+\item Prove that $R(T+U)\subseteq R(T)+R(U)$.
+	\begin{proof}
+	If $t\in R(T+U)$, then there exists $v\in V$ such that $T(v)+U(v)=t$. Thus $t\in R(T)+R(U)$. Thus $R(T+U)\subseteq R(T)+R(U)$.
+	\end{proof}
+\item Prove that if $W$ is finite-dimensional, then $rank(T+U)\leq rank(T)+rank(U)$.
+	\begin{proof}
+	Since $W$ is finite-dimensional, there exist $n,m$ such that $\{v_1,v_2,\cdots ,v_n\}$ is a basis for $R(T)$ and $\{u_1,u_2,\cdots ,u_m\}$ is a basis for $R(U)$. Thus $rank(T)=n$ and $rank(U)=m$. Moreover, $\{v_1,v_2,\cdots ,v_n,u_1,\cdots ,u_m\}$ spans $R(T+U)$. Thus $rank(T+U)\leq m+n = rank(T)+rank(U)$.
+	\end{proof}
+\item Deduce from (b) that $rank(A+B)\leq rank(A)+rank(B)$ for any $m\times n$ matrices $A$ and $B$.
+	\begin{proof}
+	Since a matrix represent a linear transformation, we have $rank(A+B)\leq rank(A)+rank(B)$ for any $m\times n$ matrices $A$ and $B$.
+	\end{proof}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{3.3.1}
+Label the following statements as true or false.
+\begin{enumerate}[label=(\alph*)]
+\item Any system of linear equation has at least one solution.
+	\begin{proof}
+	False, because $\begin{pmatrix}
+	1&2\\
+	1&2
+	\end{pmatrix}
+	\begin{pmatrix}
+	x\\
+	y
+	\end{pmatrix}=
+	\begin{pmatrix}
+	1\\
+	2
+	\end{pmatrix}$ has no solution.
+	\end{proof}
+\item Any system of linear equation has at most one solution.
+	\begin{proof}
+	False because $0x=0$ has infinitely many solutions.
+	\end{proof}
+\item Any homogeneous system of linear equations has at least one solution.
+	\begin{proof}
+	True, when all the unknowns equal $0$.
+	\end{proof}
+\item Any system of $n$ linear equations in $n$ unknowns has at most one solution
+	False, because $\begin{pmatrix}
+	1&2\\
+	1&2
+	\end{pmatrix}
+	\begin{pmatrix}
+	x\\
+	y
+	\end{pmatrix}=
+	\begin{pmatrix}
+	1\\
+	1
+	\end{pmatrix}$ has infinitely many solutions.
+\item Any system of $n$ linear equations in $n$ unknowns has at least one solution.
+	\begin{proof}
+	False. It can have no solution too.
+	\end{proof}
+\item If the homogeneous system corresponding to a given system of linear equations has a solution, then the given system has a solution.
+	\begin{proof}
+	False. A homogeneous system always have a solution, but system of linear equations is not.
+	\end{proof}
+\item If the coefficient matrix of a homogeneous system of $n$ linear equations in $n$ unknowns is invertible, then the system has no nonzero solutions.
+	\begin{proof}
+	True. If the coefficient matrix is invertible, then the system has exactly one solution and since it is homogeneous, all unknowns should equal to $0$.
+	\end{proof}
+\item The solution set of any system of $m$ linear equations in $n$ unknowns is a subspace of $F^n$.
+	\begin{proof}
+	False. This only holds for homogeneous system of linear equations.
+	\end{proof}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{3.3.9}
+Prove that the system of linear equations $Ax=b$ has a solution if and only if $b\in R(L_A)$.
+\end{exercise}
+	\begin{proof}
+	If $Ax=b$ has a solution, then there exists a vector $v$ such that $Av=b$ or $L_A(v)=b$. Thus $b\in R(L_A)$. Conversely, if $b\in R(L_A)$, then there exists a vector $v$ such that $L_A(v)=b$ or $Av=b$. Thus $Ax=b$ has at least one solution.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{3.4.1}
+\hfill
+	\begin{enumerate}[label=(\alph*)]
+	\item If $(A'|b')$ is obtained from $(A|b)$ by a finite sequence of elementary column operations, then the systems $Ax=b$ and $A'x=b'$ are equivalent.
+		\begin{proof}
+		False. It should be row operations.
+		\end{proof}
+	\item If $(A'|b')$ is obtained from $(A|b)$ by a finite sequence of elementary row operations, then the systems $Ax=b$ and $A'x=b'$ are equivalent.
+		\begin{proof}
+		True.
+		\end{proof}
+	\item If $A$ is an $n\times n$ matrix with rank $n$, then the reduced row echelon form of $A$ is $I_n$.
+		\begin{proof}
+		True. Because it's rank $n$, there are $n$ 1's in each row. Thus $A$ is $I_n$.
+		\end{proof}
+	\item Any matrix can be put in reduced row echelon form by means of a finite sequence of elementary row operations.
+		\begin{proof}
+		True.
+		\end{proof}
+	\item If $(A|b)$ is in reduced row echelon form, then the system $Ax=b$ is consistent.
+		\begin{proof}
+		False. Any augmented matrix has a reduced row echelon form, but not all system of linear equations are consistent.
+		\end{proof}
+	\item Let $Ax=b$ be a system of $m$ linear equations in $n$ unknowns for which the augmented matrix is in reduced row echelon form. If this system is consistent, then the dimension of the solution set of $Ax=0$ is $n-r$, where $r$ equals the number of nonzero rows in $A$.
+		\begin{proof}
+		True. The dimension of the solution space i.e. $rank$ is the number of nonzero rows of the reduced echelon matrix.
+		\end{proof}
+	\item If a matrix $A$ is transformed by elementary row operations into a matrix $A'$ in reduced row echelon form, then the number of nonzero rows in $A'$ equals the rank of $A$.
+		\begin{proof}
+		True. That's what f said.
+		\end{proof}
+	\end{enumerate}
+\end{exercise}
+\end{document}

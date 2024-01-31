@@ -1,0 +1,1304 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{fullpage}
+\usepackage{mathrsfs}
+\theoremstyle{plain}
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+\newenvironment{#1}[1]{
+\renewcommand\customgenericname{#2}%
+\renewcommand\theinnercustomgeneric{##1}%
+\innercustomgeneric
+}
+{\endinnercustomgeneric}
+}
+\newcustomtheorem{lemma}{Lemma}
+
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\setcounter{section}{1}
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+\makeatletter
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Hs}{\mathbb{H}}
+\newcommand{\A}{\mathscr{A}}
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\U}{\mathscr{U}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\set}[1]{\mathbb{#1}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\card}{\mathbf{card}}
+\DeclareMathOperator{\inter}{Int} 
+
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\newenvironment{exercise}[2][Exercise]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+    
+\newenvironment{problem}[2][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+
+
+\title{Answer to Introduction to Functional Analysis by Kreyszig}
+\author{Hoang Vo Ke}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Chapter 2}
+\subsection*{2.1}
+
+\begin{exercise}{5}
+Show that $\{x_1,\cdots,x_n\}$, where $x_j(t) = t^j$, is a linearly independent set in the space $C[a,b]$.
+\end{exercise}
+	\begin{proof}
+	We will show that for any $x_{k+1}$ is not a linear combination of $\{x_1,\cdots,x_k\}$. So by induction, we get $\{x_1,\cdots, x_n\}$ is linearly independent. Indeed, assume that there exists scalars $a_i$ such that
+	\[
+	t^{k+1} = x_{k+1}(t) = \sum_{i=1}^{k}{a_ix_i(t)} = \sum_{i=1}^{k}{a_it^i}.
+	\]
+	Take the $k$-th derivative both sides of the expression, we get $(k+1)!t = k!$. But this implies $t$ is a constant, contradiction. So $\{x_1,\cdots,x_{k+1}\}$ is linearly independent, which complete the proof.
+	\end{proof}
+
+\subsection*{2.2}
+\begin{exercise}{11}
+A subset $A$ of a vector space $X$ is said to be convex if $x,y\in A$ implies 
+\[
+M=\{z\in X |z=ax+(1-a)y, 0\leq a\leq 1\}\subset A.
+\]
+$M$ is called a closed segment with boundary points $x$ and $y$; any other $z\in M$ is called an interior point of $M$. Show that the closed unit ball $\tilde{B}(0;1)=\{x\in X|\|x\|\leq 1\}$ in a normed space $X$ is convex.
+\end{exercise}
+	\begin{proof}
+	let $x,y\in \tilde{B}(0,1)$, then we have $\|x\|\leq 1$ and $\|y\|\leq 1$. Therefore, for any $\lambda \in [0,1]$, we have
+	\[
+	\|\lambda x+(1-\lambda)y\|\leq \|\lambda x\|+\|(1-\lambda)y\|=\lambda\|x\|+(1-\lambda)\|y\|\leq \lambda + (1-\lambda) = 1.
+	\]
+	So $\lambda x+(1-\lambda)y\in\tilde{B}(0;1)$, which implies the closed unit ball is convex in a normed space $X$.
+	\end{proof}
+	
+\begin{exercise}{12}
+Using Prob. 11, show that 
+\[
+\varphi (x) = (\sqrt{|\epsilon_1|}+\sqrt{|\epsilon_2|})^2
+\]
+does not define a norm on the vector space of all ordered pairs $x=(\epsilon_1,\epsilon_2),\cdots$ of real numbers.
+\end{exercise}
+	\begin{proof}
+	We have $\varphi(1,0)+\varphi(0,1) = (1+0)^2+(0+1)^2=2$. But $\varphi(1,0)+\varphi(0,1) = \varphi(1,1) = (1+1)^2 = 4$. So $\varphi((1,0)+(0,1))>\varphi(1,0)+\varphi(0,1)$. Contradiction. So $\varphi$ cannot be a norm.
+	\end{proof}
+
+\begin{exercise}{13}
+Show that the discrete metric on a vector space $X\neq \{0\}$ cannot be obtained from a norm.
+\end{exercise}
+	\begin{proof}
+	The proof is by mathematical contradiction. Let $d$ be a discrete metric that is obtained from a norm $\|\bigcdot\|$, then for any two vectors $v\neq u$, we have $1=d(v,u)=\|v-u\|$. So $d(2v,2u)=\|2v-2u\|=2\|v-u\|=2$, which is impossible since the image of $d$ is $\{0,1\|$. Contradiction. So the discrete metric cannot be obtained from a norm.
+	\end{proof}
+	
+\subsection*{2.3}
+
+\begin{exercise}{2}
+Show that $c_0$ in Prob. 1 is a closed subspace of $l^\infty$, so that $c_0$ is complete by $1.5-2$ and $1.4-7$.
+\end{exercise}
+	\begin{proof}
+	Assume that $(x_n^{(k)})\in c_0$ for each $n\in \N$ and $(x_n^{(k)})\rightarrow (y_n)$, then by the proof of completeness of $l^\infty$, we get $x_n^{(k)}\rightarrow y_n$ as $k\rightarrow \infty$. Using the triangular inequality, we get
+	\[
+	|y_n|\leq |y_n - x_n^{(k)}|+|x_n^{(k)}|.
+	\]
+	But when $k\rightarrow \infty$, we get $|y_n-x_n^{(k)}|$ efficiently small. And because $(x_n^{(k)})\in c_0$, $|x_n^{(k)}$ is efficiently small when $n\rightarrow \infty$. Therefore, $|y_n|\rightarrow O$ as $n\rightarrow 0$. So $c_0$ is closed, which yields $c_0$ is complete.
+	\end{proof}
+
+\begin{exercise}{3}
+In $l^\infty$, let $Y$ be the subset of all sequences with only finitely many nonzero terms. Show that $Y$ is a subspace of $l^\infty$ but not a closed subspace.
+\end{exercise}
+	\begin{proof}
+	Let $a_n=(1,\frac{1}{2},\cdots,\frac{1}{n},0,\cdots)$, then obviously $a_n\in Y$. let $a=(1,\frac{1}{2},\cdots)$, then we have
+	\[
+	\|a_n-a\|_\infty = \sup_{k\in \N}\{|a_n^{(k)}-a^{(k)}|\}=\frac{1}{n+1},
+	\]
+	which converge to $0$ as $n\rightarrow\infty$. Hence $a_n\rightarrow a$. But $a$ is not eventually $0$, we get $a\notin Y$, or $Y$ is not closed.
+	\end{proof}
+
+\begin{exercise}{4}
+Show that in a normed space $X$, vector addition and multiplication by scalars are continuous operations with respect to the norm; that is, the mappings defined by $(x,y)\mapsto x+y$ and $(a,x)\mapsto ax$ are continuous.
+\end{exercise}
+	\begin{proof}
+	Let $(x_n),(y_n)\in X$ and $x_n\rightarrow x,y_n\rightarrow y$, then using the triangular inequality, we have
+	\[
+	\|x_n+y_n-x-y\|\leq \|x_n-x\|+\|y_n-y\|,
+	\]
+	which is sufficiently small when $n\rightarrow \infty$. So vector addition is continuous. Moreover, let $a_n\rightarrow a$ for some scalars $a_n,a$, then by the triangular inequality, we have
+	\begin{align*}
+	\|a_nx_n-ax\|&=\|a_nx_n-a_nx+a_nx-ax\|\\
+	&\leq \|a_nx_n-a_nx\|+\|a_nx-ax\|\\
+	&=|a_n|\|x_n-x\|+|a_n-a|\|x\|.
+	\end{align*}
+	But when $n$ large enough, $\|x_n-x\|$ and $|a_n-a|$ are sufficiently small. So vector multiplication by a scalar is continuous.
+	\end{proof}
+
+\begin{exercise}{5}
+Show that $x_n\rightarrow x$ and $y_n\rightarrow y$ implies $x_n+y_n\rightarrow x+y$. Show that $a_n\rightarrow a$ and $x_n\rightarrow x$ implies $a_nx_n\rightarrow ax$.
+\end{exercise}
+	\begin{proof}
+	Like exercise 4.
+	\end{proof}
+
+\begin{exercise}{6}
+Show that the closure $\overline{Y}$ of a subspace $Y$ of a normed space $X$ is again a vector subspace.
+\end{exercise}
+	\begin{proof}
+	We will check the closeness of $\overline{Y}$. Let $x,y\in \overline{Y}$, then there exists $x_n,y_n\in Y$ such that $x_n\rightarrow x$ and $y_n\rightarrow y$. Because $Y$ is a subspace, we get $x_n+y_n\in Y$ and $ax\in Y$ for a scalar $a$. Using exercise 4, we get $x_n+y_n\rightarrow x+y$, which implies $x+y\in \overline{Y}$. Also by Exercise 4, we get $ax_n\rightarrow ax$, which means $ax_n\in \overline{Y}$. So $\overline{Y}$ is closed under vector addition and scalar multiplication. So $\overline{Y}$ is a subspace.
+	\end{proof}
+
+\begin{exercise}{7}
+Show that convergence of $\|y_1\|+\|y_2\|+\cdots$ may not imply convergence of $y_1+y_2+\cdots$.
+\end{exercise}
+	\begin{proof}
+	Consider the space $Y\subset l^\infty$ be the space of sequences that will eventually $0$, let $a_n=(0,\cdots,0,\frac{1}{n^2},0,\cdots\}$, then 
+	\[
+	\sum_{n\in\N}{\|a_n\|_\infty}=\sum_{n\in\N}{\frac{1}{n^2}}<\infty.
+	\]
+	However, by Exercise 3, we have $\sum_{n\in\N}{a_n}\rightarrow (1,\frac{1}{2^2},\cdots$, which is not in $Y$. So $y_1+y_2+\cdots$ isn't convergent.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{10}
+Show that if a normed space has a Schauder basis, it is separable.
+\end{exercise}
+	\begin{proof}
+	Let $\beta = \{e_1,e_2,\cdots\}$ be a Schauder basis of a normed space $X$. Let $A=\{a_1e_1+a_2e_2+\cdots +a_ke_k| a_i\in \Q \text{ for all i },k\in \N\}$, we will show that $A$ separate $X$. Firstly, we will show that $A$ is countable. Indeed, let $A_n=\{a_1e_1+\cdots +a_ne_n|a_i\in \Q\}$, then $A_n=\Q\times\cdots\times \Q$ ($n$-times), thus countable. And since $A = \bigcup_{n\in\N}A_n$, which is a countable union of countable sets, thus countable.
+	
+	Now we will show that $A$ is dense in $X$. Let $D = \{a_1e_1+\cdots +a_ke_k|a_i\in \R \text{ for all }i, k\in \N\}$. We will show that $A$ is dense in $D$ and $D$ is dense in $X$, thus $A$ is dense in $X$.
+	
+	For any $x\in X$, by the definition of the Schauder basis, there exists a sequence $a_n\in \R$ such that 
+	\[
+	\|a_1e_1+\cdots a_ne_n-x\|\rightarrow 0
+	\]
+	as $n\rightarrow \infty$. But $a_1e_1+\cdots a_ne_n\in D$ for all $n$, we get $D$ dense in $X$. Now, for any $a_1e_1+\cdots a_ne_n \in D$, Let $a_i^(k)\rightarrow a_i$ as $k\rightarrow\infty$ where $a_i\in \Q$. Such $a_i^{(k)}$ exists because $Q$ is dense in $\R$. It is not hard to see that
+	\begin{align*}
+	\|(a_1^{(k)}e_1+\cdots+a_n^{(k)}e_n)-(a_1e_1+\cdots a_ne_n)\|&\leq |a_1^{(k)}-a_1|\cdot \|e_1\|+\cdots+|a_n^{(k)}-a_n|\cdot \|e_n\|\\
+	&\leq n\max\{|a_i^{(k)}-a_i|\}\cdot \max\{\|e_i\|\}.
+	\end{align*}
+	But both $\max$ converge to $0$ as $k\rightarrow \infty$, we get 
+	\[
+	a_1^{(k)}e_1+\cdots+a_n^{(k)}e_n\rightarrow a_1e_1+\cdots a_ne_n.
+	\]
+	So $A$ is dense in $D$, which complete our proof.
+	\end{proof}
+
+\begin{exercise}{11}
+Show that $(e_n)$, where $e_n=(\delta_{nj})$, is a Schauder basis for $l^p$, where $1\leq p<+\infty$.
+\end{exercise}
+	\begin{proof}
+	Let $x=(x_1,x_2,\cdots)\in l^p$, then $\sum_{i=1}^{\infty}{|x_i|^p}<\infty$. That is $\|x\|_p^p-\sum_{n=1}^{k-1}{|x_i|^p}\rightarrow 0$ as $k\rightarrow\infty$. Let $s_k = \sum_{i=k}^{\infty}{|x_i|^p}$, then $s_k\rightarrow 0$ as $k\rightarrow \infty$. So
+	\[
+	\|x-x_1e_1-\cdots-x_ne_n\|_p^p = \sum_{i=n+1}^{\infty}{|x_i|^p} = s_{n+1} \rightarrow 0
+	\]
+	as $n\rightarrow \infty$. This implies $(e_n)$ is a Schauder basis for $l^p$.
+	\end{proof}
+	
+\pagebreak
+\subsection*{2.4}
+\begin{exercise}{7}
+Let $\|\cdot\|_2$ be as in Prob. 8, Sec, 2.2, and let $\|\cdot\|$ be any norm on that vector space, call it $X$. Show directly (without using 2.4-5 Theorem of Equivalent norms) that there is a $b>0$ such that $\|x\|\leq b\|x\|_2$ for all $x$.
+\end{exercise}
+	\begin{proof}
+	Let $\{e_1,\cdots,e_n\}$ be the stander basis for $X = F^n$, the vector space of $n$-tuples of number. Then for any $x=(x_1,\cdots,x_n)\in X$, using the triangular inequality, we get
+	\[
+	\|x\|=\|x_1e_1+\cdots+x_ne_n\|\leq |x_1|\cdot\|e_1\|+\cdots +|x_n|\cdot\|e_n\|.
+	\]
+	Using the Cauchy Schwartz inequality for the right side, we get
+	\begin{align*}
+	|x_1|\cdot\|e_1\|+\cdots +|x_n|\cdot\|e_n\|&\leq (x_1^2+\cdots+x_n^2)^{1/2}(\|e_1\|^2+\cdots+\|e_n\|^2)^{1/2}\\
+	&=(\|e_1\|^2+\cdots+\|e_n\|^2)^{1/2}\|x\|_2
+	\end{align*}
+	Let $b=(\|e_1\|^2+\cdots+\|e_n\|^2)^{1/2}$ and we get the $\|x\|\leq b\|x\|_2$ for all $x$.
+	\end{proof}
+
+\subsection*{2.5}
+
+\begin{exercise}{7}
+If $\dim Y<\infty$ in Riesz's lemma 2.5-4, show that one can even choose $\theta = 1$.
+\end{exercise}
+	\begin{proof}
+	Let $Y$ and $Z$ be subspaces of a normed space $X$, and $Y$ is a closed proper subspace of $Z$. Let $\{a_1,\cdots,a_n\}$ be a basis for $Y$. Because $Y$ is a proper subset of $Z$, there exists an $a_{n+1}\in Z\setminus Y$. Let $A$ be the subspace generated by $\{a_1,\cdots,a_{n+1}\}$, we will show that there is a $z\in A\subset Z$ such that $\|z\| = 1$ and $\|z-y\|\geq 1$ for all $y\in Y$. Let $\theta_n = \frac{n-1}{n}$, applying the Riesz's Lemma for $\theta_n$, we get $\|z_n\|=1$ such that $\|z_n-y\|\geq \theta_n$ for all $y\in Y$. Because $A$ is a finite dimensional space, $\overline{B_1(0)}$ is compact, thus $z_n$ has convergent subsequence. Let $z_n\rightarrow z$, then clearly $\|z\|=1$ (since $\|z_n\|=1$). Moreover, we have
+	\[
+	\|z-y\|\geq \|z_n-y\| - \|z-zn\|\geq \theta_n - \|z-z_n\|.
+	\]
+	Notice that $\theta_n$ is sufficiently close to $1$ and $\|z-z_n\|$ is sufficiently close to $0$, we get $\|z-y\|\geq 1$. (I can give further detail if you want).
+	\end{proof}
+	
+%Use the fact that the closed unit ball is compact.
+
+\begin{exercise}{8}
+In Prob. 7, Sec. 2.4, show directly (without using 2.4-5) that there is an $a>0$ such that $a\|x\|_2\leq \|x\|$
+\end{exercise}
+	\begin{proof}
+	Let $\{e_1,\cdots,e_n\}$ be the stander basis for $X=F^n$, then for any $x = a_1e_1+\cdots+a_ne_n$, we have
+	\[
+	\|x\|_2^2 = a_1^2+\cdots+a_n^2\leq (|a_1|+\cdots+|a_n|)^2 = \|x\|^2.
+	\]
+	So $a=1$ works.
+	\end{proof}
+
+\subsection*{2.6}
+\begin{exercise}{14}
+Let $T:X\rightarrow Y$ be a linear operator and $\dim X = \dim Y = n<\infty$. Show that $R(T)=Y$ if and only if $T^{-1}$ exists.
+\end{exercise}
+	\begin{proof}
+	If $R(T)=Y$, then obviously $T$ is surjective. If $T$ is not injective, then $n = \dim R(T)< \dim X = n$. Hence $T$ is both injective and surjective, which implies $T$ is a bijective and $T^{-1}$ exists.
+	
+	Conversely, if $T^{-1}$ exists, then $T$ is a bijective, thus $\dim R(T) = \dim X =n$. But $R(T)\subset Y$, thus $R(T)=Y$.
+	\end{proof}
+
+\begin{exercise}{15}
+Consider the vector space $X$ of all real-valued functions which are defined on $\R$ and have derivatives of all orders everywhere on $\R$. Define $T:X\rightarrow X$ by $y(t) = Tx(t) = x'(t)$. Show that $R(T)$ is all of $X$ but $T^{-1}$ does not exist. Compare with Prob. 14 and comment.
+\end{exercise}
+	\begin{proof}
+	For any $x(t)\in X$, let $y(t) = \int_{0}^{t}{x(\tau)d\tau}$, then obviously $Ty(t) = y'(t) = x(t)$. So $T$ is surjective, or $R(T)$ is all of $X$. However this map is not injective since both $y(t)$ and $y(t)+1$ have the same image under $T$. So $T^{-1}$ doesn't exists.
+	\end{proof}
+
+\subsection*{2.7}
+
+\begin{exercise}{1}
+Prove (7), that is for $T_2:X\rightarrow Y$, $T_1:Y\rightarrow Z$ and $T:X\rightarrow X$, then
+\[
+\|T_1T_2\|\leq \|T_1\|\|T_2\|\quad \|T^n\|\leq \|T\|^n.
+\]
+\end{exercise}
+	\begin{proof}
+	For any $x\in X$, we have $\|T_1T_2(x)\|\leq \|T_1\|\|T_2(x)\|\leq \|T_1\|\|T_2\|\|x\|$. Thus 
+	\[
+	\|T_1T_2\| = \sup_{x\in X\setminus\{0\}}\frac{\|T_1T_2(x)\|}{\|x\|}\leq\|T_1\|\|T_2\|.
+	\]
+	Applying the previous result $n$ times, we get $\|T^n\|\leq \|T\|^n$.
+	\end{proof}
+	
+\begin{exercise}{2}
+Let $X$ and $Y$ be normed spaces. Show that a linear operator $T:X\rightarrow Y$ is bounded if and only if $T$ maps bounded sets in $X$ into bounded sets in $Y$.
+\end{exercise}
+	\begin{proof}
+	If $T$ is bounded, then $\|T(x)\|\leq M\cdot \|x\|$ for some $M>0$. Let $A$ be a bounded set of $X$, then $\|a\| \leq N$ for some $N>0$ and for all $a\in A$. Hence $\|T(a)\|\leq M\cdot N$, which means $T(A)$ is bounded.
+	
+	Conversely, if $T$ maps bounded sets into bounded sets, then $T(\overline{B_1(0)})$ is bounded, which implies $T$ is a bounded linear operator.
+	\end{proof}
+
+\begin{exercise}{3}
+If $T\neq 0$ is a bounded linear operator, show that for any $x\in D(T)$ such that $\|x\|<1$ we have the strict inequality $\|Tx\|<\|T\|$.
+\end{exercise}
+	\begin{proof}
+	Clearly, since $\|Tx\|\leq \|T\|\cdot\|x\| < \|T\|$.
+	\end{proof}
+
+\begin{exercise}{5}
+Show that the operator $T: \ell^\infty\rightarrow \ell^\infty$ defined by $y=(n_j)=Tx, n_j = \frac{\epsilon_j}{j}, x=(\epsilon_j)$, is linear and bounded.
+\end{exercise}
+	\begin{proof}
+	Let $a = (a_n),b=(b_n)\in \ell^\infty$, and $c$ be a scalar, then
+	\[
+	T(a+cb)=\left(\frac{a_n+cb_n}{n}\right)= \left(\frac{a_n}{n}\right) + c\left(\frac{b_n}{n}\right)=T(a)+cT(b).
+	\]
+	So $T$ is linear. Moreover, for any $x\in \ell^\infty$ such that $\|x\|\leq 1$, we have 
+	\[
+	\|T(x)\| = \sup\{x_i/i:i\in \N\} \leq \sup\{x_i\} = \|x\|.
+	\]
+	So $T$ is linear and bounded.
+	\end{proof}
+
+\begin{exercise}{6}
+Show that the range $R(T)$ of a bounded linear operator $T:X\rightarrow Y$ need not be closed in $Y$.
+\end{exercise}
+	\begin{proof}
+	Let $A\subset \ell^\infty$ be the set of sequences that is eventually $0$. Let $T:A\rightarrow \ell^\infty$ maps $x\mapsto x$, then clearly this map is linear and bounded by $1$. However, $R(T) = A$, which is not closed in $\ell^\infty$.
+	\end{proof}
+
+\begin{exercise}{7}
+Let $T$ be a bounded linear operator from a normed space $X$ onto a normed space $Y$. If there is a positive $b$ such that 
+\[
+\|Tx\|\geq b\|x\| \quad \text{for all } x\in X,
+\]
+show that then $T^{-1}:Y\rightarrow X$ exists and is bounded.
+\end{exercise}
+	\begin{proof}
+	If $Tx=0$, then we have $0=\|Tx\|\geq b\|x\|\geq 0$. But $b$ is positive, therefore, $\|x\|=0$. So $T^{-1}$ exists and by the hypothesis, we get
+	\[
+	\|y\|\geq b\|T^{-1}(y)\|,
+	\]
+	which means $T^{-1}$ is bounded.
+	\end{proof}
+	
+\pagebreak
+
+\begin{exercise}{8}
+Show that the inverse $T^{-1}:R(T)\rightarrow X$ of a bounded linear operator $T:X\rightarrow Y$ need not be bounded.
+\end{exercise}
+	\begin{proof}
+	Let $T:\ell^\infty\rightarrow \ell^{\infty}$ maps $(x_n)\mapsto (x_n/n)$. Exercise 5 shows that this map is linear and bounded. However, $T^{-1}:R(T)\rightarrow \ell^{\infty}$ maps $(x_n)\mapsto (nx_n)$, which is not bounded since for $y_n = (0,\cdots,0,1,0,\cdots)$ (the n-th entry is $1$), we have
+	\[
+	\frac{\|Ty_n\|}{\|y_n\|} = n.
+	\]
+	So the inverse of a bounded linear operator need not be bounded.
+	\end{proof}
+\begin{exercise}{9}
+Let $T:C[0,1]\rightarrow C[0,1]$ be defined by
+\[
+y(t) = \int_{0}^{t}{x(\tau)d\tau}.\quad (1)
+\]
+Find $R(T)$ and $T^{-1}:R(T)\rightarrow C[0,1]$. Is $T^{-1}$ linear and bounded?
+\end{exercise}
+	\begin{proof}
+	If $y(t)\in R(T)$, then $y'(t) = x(t)$, which is continuous. So $y(t)\in C^2[0,1]$. If $y\in C^2[0,1]$, then $y'(t)\in C[0,1]$ and thus $y(t) = \int_{0}^{t}{x(\tau)d\tau}\in R(T)$. So $R(T) = C^2[0,1]$. Take the derivative respect to $t$ both sides of (1), we get
+	\[
+	y'(t) = x(t).
+	\]
+	So $T^{-1}:C^2[0,1]\rightarrow C[0,1]$ maps $y(t)\mapsto y'(t)$. It is not hard to see that $T^{-1}$ is linear, however this map is not bounded because for $y_n(t)=e^{nt}$, we have
+	\[
+	\frac{\|Ty_n\|}{\|y_n\|} = \frac{ne^{nt}}{e^{nt}} = n.
+	\]
+	\end{proof}
+Is this just another example for Ex. 8?
+
+\begin{exercise}{13}
+Show that in 2.7-7 with $r=n$, a compatible norm is defined by 
+\[
+\|A\|=\left(\sum_{j=1}^{n}\sum_{k=1}^{n}{a_{jk}^2}\right)^{1/2},
+\]
+but for $n>1$ this is not the natural norm defined by the Euclidean norm on $\R^n$.
+\end{exercise}
+	\begin{proof}
+	
+	\end{proof}
+
+\begin{exercise}{14}
+If in Prob. 12 we choose
+\[
+\|x\|_1=\sum_{k=1}^{n}{|e_k|},\quad \|y\|_2=\sum_{j=1}^{r}{|n_j|},
+\]
+show that a compatible norm is defined by 
+\[
+\|A\|=\max_{k}\sum_{j=1}^{r}{|a_{jk}|}.
+\]
+\end{exercise}
+
+\begin{exercise}{15}
+Show that for $r=n$, the norm in Prob. 14 is the natural norm corresponding to $\|\cdot\|_1$ and $\|\cdot\|_2$ as defined in that problem.
+\end{exercise}
+
+\subsection*{2.8 Linear Functionals}
+
+\begin{exercise}{9}
+Let $f\neq 0$ be any linear functional on a vector space $X$ and $x_0$ any fixed element of $X-N(f)$, where $N(f)$ is the null space of $f$. Show that any $x\in X$ has a unique representation $x=\alpha x_0+y$, where $y\in N(f)$.
+\end{exercise}
+
+\begin{exercise}{10}
+Show that in Prob. 9, two elements $x_1,x_2\in X$ belong to the same element of the quotient space $X/N(f)$ if and only if $f(x_1)=f(x_2)$; show that codim $N(f)=1$.
+\end{exercise}
+
+\begin{exercise}{11}
+Show that two linear functionals $f_1\neq 0$ and $f_2\neq 0$ which are defined on the same vector space and have the same null space are proportional.
+\end{exercise}
+
+\begin{exercise}{12}
+If $Y$ is a subspace of a vector space $X$ and codim $Y=1$, then every element of $X/Y$ is called a hyperplane parallel to $Y$. Show that for any linear 
+\end{exercise}
+
+\pagebreak
+
+\section*{Chapter 3. Inner Product spaces. Hilbert Spaces}
+
+\subsection*{3.1 Inner Product Space. Hilbert Space}
+
+\begin{exercise}{1}
+Prove that $\|x+y\|^2 + \|x-y\|^2 = 2(\|x\|^2+\|y\|^2)$.
+\end{exercise}
+	\begin{proof}
+	We have 
+	\begin{align*}
+	\|x+y\|^2+\|x-y\|^2 &= \langle{x+y,x+y}\rangle +\langle{x-y,x-y}\rangle\\
+	&= 2\langle{x,x}\rangle + 2\langle{y,y}\rangle\\
+	&= 2(\|x\|^2+\|y\|^2).
+	\end{align*}
+	\end{proof}
+	
+\begin{exercise}{2}
+If $x\perp y$ in an inner product space $X$, show that 
+\[
+\|x+y\|^2 = \|x\|^2+\|y\|^2.
+\]
+Extend the formula to $m$ mutually orthogonal vectors.
+\end{exercise}
+	\begin{proof}
+	If $x\perp y$, then $\langle{x,y}\rangle = \langle{y,x}\rangle = 0$. Hence
+	\[
+	\|x+y\|^2 = \langle{x+y,x+y}\rangle = \langle{x,x}\rangle +\langle{x,y}\rangle + \langle{y,x}\rangle +\langle{y,y}\rangle = \|x\|^2+\|y\|^2.
+	\]
+	For $m$ mutually orthogonal vectors $x_1,\cdots,x_m$, using the same technique as above, we get
+	\[
+	\|x_1+\cdots+x_m\|^2 = \|x_1\|^2+\cdots +\|x_m\|^2.
+	\]
+	\end{proof}
+
+\begin{exercise}{3}
+If $X$ in Exercise 2 is real, show that, conversely, the given relation implies that $x\perp y$. Show that this may not hold if $X$ is complex. Give examples.
+\end{exercise}
+	\begin{proof}
+	If $\|x+y\|^2 = \|x\|^2+\|y\|^2$ (1), then because $X$ is real, we get $\langle{x,y}\rangle = \langle{y,x}\rangle$. So (1) implies $2\langle{x,y}\rangle =0$, or $x\perp y$. 
+	
+	If $X$ is complex, then the converse isn't true in general. For example, take the Unitary space $C^1$ with the normal inner product, then
+	\[
+	\|1+i\|^2 = \langle{1+i,1+i}\rangle = 2 + \langle{1,i}\rangle + \langle{i,1}\rangle = 2 -i+i = 2 = \|i\|^2+\|1\|^2.
+	\]
+	But $\langle{i,1}\rangle = i\neq 0$, therefore $i$ and $1$ are not perpendicular.
+	\end{proof}
+	
+\begin{exercise}{4}
+If an inner product space $X$ is real, show that the condition $\|x\| = \|y\|$ implies $\langle{x+y,x-y}\rangle=0$. What does this mean geometrically if $X=\R^2$? What does the condition imply if $X$ is complex?
+\end{exercise}
+	\begin{proof}
+	Assume that $\|x\|=\|y\|$, then we have
+	\begin{align*}
+	\langle{x+y,x-y}\rangle &= \langle{x,x}\rangle +\langle{y,x}\rangle - \langle{x,y}\rangle -\langle{y,y}\rangle\\
+	&= \|x\|^2 + \langle{y,x}\rangle - \langle{y,x}\rangle -\|y\|^2\\
+	&=0.
+	\end{align*}
+	Geometrically, when $X=\R^2$, this means the two diagonals of a rhombus are perpendicular. When $X$ is complex, what we get is $\langle{x,y}\rangle = \langle{y,x}\rangle$, or $\langle{x,y}\rangle = \overline{\langle{x,y}\rangle}$. So $\langle{x,y}\rangle$ is a real number.
+	\end{proof}
+
+\begin{exercise}{6}
+Let $x\neq 0$ and $y\neq 0$. (a) If $x\perp y$, show that $\{x,y\}$ is linearly independent set. (b) Extend the result to mutually orthogonal nonzero vectors $x_1,\cdots,x_m$.
+\end{exercise}
+	\begin{proof}
+	If $x\perp y$, then $\langle{x,y}\rangle = \langle{y,x}\rangle = 0$. Assume that there exist $a_1,a_2\in \C$ such that $a_1x+a_2y=0$, then we have
+	\begin{align*}
+	0&=\langle{a_1x+a_2y,a_1x+a_2y}\rangle\\
+	&= \langle{a_1x,a_1x}\rangle + \langle{a_1x,a_2y}\rangle + \langle{a_2y,a_1x}\rangle +\langle{a_2y,a_2y}\rangle\\
+	&= |a_1|^2\|x\|^2 + |a_2|^2\|y\|^2.
+	\end{align*}
+	Since $\|x\|^2$ and $\|y\|^2$ are positive, we get $|a_1|=|a_2|=0$, or $a_1=a_2=0$. So $\{x,y\}$ is a linearly independent set. With a similar technique, if $x_1,\cdots,x_m$ are mutually orthogonal nonzero vectors, then $\{x_1,\cdots,x_m\}$ are linearly independent. 
+	\end{proof}
+
+\begin{exercise}{7}
+If in an inner product space, $\langle{x,u}\rangle = \langle{x,v}\rangle$ for all $x$, show that $u=v$.
+\end{exercise}
+	\begin{proof}
+	If $\langle{x,u}\rangle = \langle{x,v}\rangle$ for all $x\in X$, then we would have $\langle{x,u-v}\rangle = 0$ for all $x$. Let $x=u-v$, then we would have $\|u-v\|^2=0$, which implies $u-v=0$ or $u=v$.
+	\end{proof}
+	
+\begin{exercise}{8}
+Prove that for a real inner product space, we have $\langle{x,y}\rangle=\frac{1}{4}(\|x+y\|^2-\|x-y\|^2)$.
+\end{exercise}
+	\begin{proof}
+	We have
+	\begin{align*}
+	\|x+y\|^2-\|x-y\|^2 &= \langle{x+y,x+y}\rangle - \langle{x-y,x-y}\rangle\\
+	&= \|x\|^2 + 2\langle{x,y}\rangle +\|y\|^2 -\|x\|^2 +2\langle{x,y}\rangle -\|y\|^2\\
+	&= 4\langle{x,y}\rangle.
+	\end{align*}
+	Dividing $4$ both sides, we get the desire equality.
+	\end{proof}
+
+\begin{exercise}{9}
+Prove that for a complex inner product space, we have
+\begin{align*}
+\text{Re}\langle{x,y}\rangle &= \frac{1}{4}(\|x+y\|^2-\|x-y\|^2)\\
+\text{Im}\langle{x,y}\rangle &= \frac{1}{4}(\|x+iy\|^2-\|x-iy\|^2).
+\end{align*}
+\end{exercise}
+	\begin{proof}
+	We have 
+	\begin{align*}
+	\|x+y\|^2 - \|x-y\|^2 &= \|x\|^2 + \langle{x,y}\rangle + \langle{y,x}\rangle + \|y\|^2 -\|x\|^2 +\langle{x,y}\rangle +\langle{y,x}\rangle -\|y\|^2\\
+	&= 2\langle{x,y}\rangle + 2\langle{y,x}\rangle\\
+	&= 2\langle{x,y}\rangle + 2 \overline{\langle{x,y}\rangle}\\
+	&= 4\text{Re}\langle{x,y}\rangle.
+	\end{align*}
+	With a similar calculation, we get
+	\begin{align*}
+	\|x+iy\|^2 - \|x-iy\|^2 &= \langle{x,x}\rangle +\langle{x,iy}\rangle +\langle{iy,x}\rangle +\langle{iy,iy}\rangle -\langle{x,x}\rangle +\langle{x,iy}\rangle +\langle{iy,x}\rangle -\langle{iy,iy}\rangle\\
+	&= 2\langle{x,iy}\rangle + 2\langle{iy,x}\rangle\\
+	&= -2i\langle{x,y}\rangle + 2i\langle{y,x}\rangle\\
+	&= -2i(\langle{x,y}\rangle - \overline{\langle{x,y}\rangle})\\
+	&= 4\text{Im}\langle{x,y}\rangle.
+	\end{align*}
+	P/S: I don't understand why this is called the polarization identity.
+	\end{proof}
+	
+
+\begin{exercise}{10}
+Let $z_1$ ad $z_2$ denote complex numbers. Show that $\langle{z_1,z_2}\rangle = z_1\bar z_2$ defines an inner product, which yields the usual metric on the complex plane. Under what condition do we have orthogonality?
+\end{exercise}
+	\begin{proof}
+	For $u,v,w,a\in \C$, we have
+	\begin{align*}
+	\langle{u+v,w}\rangle &= (u+v)\bar w = u\bar w+v\bar w = \langle{u,w}\rangle + \langle{v,w}\rangle,\\
+	\langle{au,v}\rangle &= au\bar v = a\langle{u,v}\rangle,\\
+	\langle{u,v}\rangle &= u\bar v = \overline{v\bar u} = \overline{\langle{v,u}\rangle}.
+	\end{align*}
+	And lastly, we have 	$\langle{v,v}\rangle = v\bar v = \|v\|^2$. Hence $\langle{v,v}\rangle \geq 0$ and $\langle{v,v}\rangle = 0$ if and only if $v=0$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{11}
+Let $X$ be the vector space of all ordered pairs of complex numbers. Can we obtain the norm defined on $X$ by
+\[
+\|x\| = |\epsilon_1|+|\epsilon_2|,\quad [x=(\epsilon_1,\epsilon_2)]
+\]
+from an inner product?
+\end{exercise}
+	\begin{proof}
+	Let $x=(1,0)$ and $y=(0,i)$, then we get $\|x\| = \|y\| = 1$ and $\|x+y\| = \|x-y\| = 2$. Therefore $2(\|x\|^2+\|y\|^2) = 4 \neq 8 = \|x+y\|^2+\|x-y\|^2$. So we cannot obtain this norm from an inner product.
+	\end{proof}
+
+\begin{exercise}{13}
+Verify that for continuous functions the inner product in 3.1-5 satisfies (IP1) to (IP4).
+\end{exercise}
+	\begin{proof}
+	Remind that $\langle{x,y}\rangle = \int_{a}^{b}{x(t)\overline{y(t)}dt}$. We will check that this is an inner product. For the first property, we have
+	\[
+	\langle{x+y,z}\rangle = \int_{a}^{b}{(x(t)+y(t))\overline{z(t)}dt} = \int_{a}^{b}{x(t)\overline{z(t)}dt}+\int_{a}^{b}{y(t)\overline{z(t)}dt} = \langle{x,z}\rangle + \langle{y,z}\rangle.
+	\]
+	For the second, we have
+	\[
+	\langle{\alpha x,y}\rangle = \int_{a}^{b}{\alpha x(t)\overline{y(t)}dt} = \alpha \int_{a}^{b}{x(t)\overline{y(t)}dt} = \alpha\langle{x,y}\rangle.
+	\]
+	For the third, we have
+	\[
+	\langle{x,y}\rangle = \int_{a}^{b}{x(t)\overline{y(t)}} = \int_{a}^{b}{\overline{y(t)\overline{x(t)}}dt} = \overline{\int_{a}^{b}{y(t)\overline{x(t)}dt}} = \overline{\langle{y,x}\rangle}.
+	\]
+	Lastly, we have
+	\[
+	\langle{x,x}\rangle = \int_{a}^{b}{x(t)\overline{x(t)}dt} = \int_{a}^{b}{\|x(t)\|^2} \geq 0,
+	\]
+	and clearly $\langle{x,x}\rangle = 0$ is synonymous with $x=0$. Notice that we need the continuity of $x$ to get $x(t)=0$ from $\langle{x,x}\rangle = 0$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{15}
+If $X$ is a finite dimensional vector space and $(e_j)$ is a basis for $X$, show that an inner product on $X$ is completely determined by its values $\gamma_{jk}=\langle{e_j,e_k}\rangle$. Can we choose such scalars $\gamma_{jk}$ in a completely arbitrary fashion?
+\end{exercise}
+	\begin{proof}
+	Let $a = a_1e_1+\cdots+a_ne_n$ and $b = b_1e_1+\cdots+b_ne_n$ be two vectors in $X$, then by the sesquilinearity of the inner product, we get
+	\[
+	\langle{a_1e_1+\cdots+a_ne_n,b_1e_1+\cdots+b_ne_n}\rangle = \sum_{1\leq j,k\leq n}a_j\overline{b_k}\cdot \gamma_{jk}.
+	\]
+	So an inner product on $X$ is determined by $\gamma_{jk}$. We can't choose $\gamma_{jk}$ completely random lol. At least, $\gamma_{jk}=\langle{e_j,e_k}\rangle = \overline{\langle{e_k,e_j}\rangle} = \overline{\gamma_{kj}}$.
+	\end{proof}
+
+
+\subsection*{3.2 Further Properties of Inner Product Spaces}
+
+\begin{exercise}{2}
+Give examples of subspaces of $\ell^2$.
+\end{exercise}
+	\begin{proof}
+	Errr...the space of sequences that is eventually $0$. Or the space of sequences that is all $0$ save the first element.	
+	\end{proof}
+
+\begin{exercise}{4}
+Show that $y\perp x_n$ and $x_n\rightarrow x$ together imply $x\perp y$.
+\end{exercise}
+	\begin{proof}
+	Using the continuity of the inner product, we get $\langle{x_n,y}\rangle \rightarrow \langle{x,y}\rangle$. Since $\langle{x_n,y}\rangle = 0$ for all $n\in \N$, we get $\langle{x,y}\rangle = 0$ or $x\perp y$.
+	\end{proof}
+
+\begin{exercise}{5}
+Show that for a sequence $(x_n)$ in an inner product space the conditions $\|x_n\|\rightarrow \|x\|$ and $\langle{x_n,x}\rangle\rightarrow \langle{x,x}\rangle$ imply convergence $x_n\rightarrow x$.
+\end{exercise}
+\begin{proof}
+Because $\langle{x_n,x}\rangle\rightarrow \langle{x,x}\rangle$, we get $\overline{\langle{x_n,x}\rangle}\rightarrow \overline{\langle{x,x}\rangle}$, or $\langle{x,x_n}\rangle \rightarrow \langle{x,x}\rangle$. With some calculation, we get
+	\begin{align*}
+	\|x_n-x\| &= \langle{x_n-x,x_n-x}\rangle\\
+	&= \langle{x_n-x,x_n}\rangle - \langle{x_n-x,x}\rangle\\
+	&= \langle{x_n,x_n}\rangle - \langle{x,x_n}\rangle - \langle{x_n-x,x}\rangle\\
+	&= (\langle{x_n,x_n}\rangle -\langle{x,x}\rangle) + (\langle{x,x}\rangle- \langle{x,x_n}\rangle) - \langle{x_n-x,x}\rangle\\
+	&= (\|x_n\|^2-\|x\|^2) + \langle{x,x-x_n}\rangle - \langle{x_n-x,x}\rangle.
+	\end{align*}
+	Notice that all three terms in the last expression is sufficiently close to $0$, therefore $\|x_n-x\|\rightarrow 0$, and $x_n\rightarrow x$.
+
+\end{proof}
+	
+\begin{exercise}{6}
+Prove the statement in Prob. 5 for the special case of the complex plan.
+\end{exercise}
+	\begin{proof}
+	I don't get the question.
+	\end{proof}
+	
+\begin{exercise}{7}
+Show that in an inner product space, $x\perp y$ if and only if we have $\|x+ay\|=\|x-ay\|$ for all scalars $a$.
+\end{exercise}
+	\begin{proof}
+	With some calculations, we get $\|x+ay\|^2=\|x\|^2+\|ay\|^2+\langle{x,ay}\rangle+\langle{ay,x}\rangle = \|x\|^2 +\|ay\|^2 + \bar a\langle{x,y}\rangle + a\langle{y,x}\rangle$
+	\end{proof}
+
+\begin{exercise}{10}
+Let $T:X\rightarrow X$ be a bounded linear operator on a complex inner product space $X$. If $\langle{Tx,x}\rangle = 0$ for all $x\in X$, show that $T=0$. Show that this does not hold in the case of a real inner product space.
+\end{exercise}
+	\begin{proof}
+	This result doesn't hold for real inner product space. For example, let $X=\R^2$ and $T$ is a $90^o$ rotation. Then $\langle{Tx,x}\rangle = 0$ since these two vectors are perpendicular, but $T$ is nonzero.
+	
+	For complex inner product space $X$, if $T$ is nonzero, then there exists $x_0\in X$ such that $Tx_0\neq 0$. Letting $x = a+bi$, we get 
+	\begin{align*}
+	0 &= \langle{T(a+bi),a+ib}\rangle\\
+	&= \langle{Ta+iTb,a+ib}\rangle\\
+	&= \langle{Ta,a}\rangle + \langle{Tb,b}\rangle +i\langle{Tb,a}\rangle -i\langle{Ta,b}\rangle\\
+	&= i\langle{Tb,a}\rangle -i\langle{Ta,b}\rangle.
+	\end{align*}
+	Hence $\langle{Tb,a}\rangle = \langle{Ta,b}\rangle$ for all $a,b\in \C$. Letting $x = a+b$, we get
+	\[
+	0 = \langle{T(a+b),a+b}\rangle = \langle{Ta,b}\rangle +\langle{Tb,a}\rangle = 2\langle{Ta,b}\rangle.
+	\]
+	So $\langle{Ta,b}\rangle = 0$ for all $a,b\in \C$. By letting $b = T(a)$, we get $T=0$.
+	\end{proof}
+	
+	
+\subsection*{3.3 Orthogonal Complement and Direct Sums}
+
+\begin{exercise}{1}
+Let $H$ be a Hilbert space, $M\subset H$ a convex subset, and $(x_n)$ a sequence in $M$ such that $\|x_n\|\rightarrow d$, where $d=\inf_{x\in M}\|x\|$. Show that $(x_n)$ converges in $H$. Give an illustrative example in $\R^2$ or $\R^3$.
+\end{exercise}
+	\begin{proof}
+	We will show that $x_n$ is a Cauchy sequence. For any $a,b\in M$, because $M$ is convex, we have $\frac{a+b}{2}\in M$, which implies $\|a+b\|^2= 4\|\frac{a+b}{2}\|^2 \geq 4d$. So applying the parallelogram equality, we get
+	\[
+	\|x_m-x_n\|^2 = 2\|x_m\|^2+2\|x_n\|^2-\|x_m+x_n\|^2\leq 2\|x_m\|^2+2\|x_n\|^2-4d.
+	\]
+	Notice that the right side can be sufficiently small since $\|x_n\|\rightarrow d$, hence $x_n$ is Cauchy and thus convergent. And there will be no example here.
+	\end{proof}
+
+\begin{exercise}{6}
+Show that $Y=\{x|x=(e_i)\in \ell^2, e_{2n} = 0, n\in \N\}$ is a closed subspace of $\ell^2$ and find $Y^\perp$. What is $Y^\perp$ if $Y=\text{span}\{e_1,\cdots,e_n\}\subset \ell^2$, where $e_i = (\delta_{ik})$?
+\end{exercise}
+	\begin{proof}
+	For any $(a_1,a_2,\cdots), (b_1,b_2,\cdots)\in Y$, we have $(a_1,a_2,\cdots)+(b_1,b_2,\cdots) = (a_1+b_1,a_2+b_2,\cdots)$, which is in $Y$ since $a_{2n}+b_{2n}=0$. Moreover, for $k\in F$, we have $ka_{2n}=k\cdot 0=0$. Hence $k(x_1,x_2,\cdots)=(kx_1,kx_2,\cdots)\in Y$. So $Y$ is a subspace of $\ell^2$. 
+	
+	Let $x_n = (x_n^{(1)},x_n^{(2)},\cdots)$ be a sequence of $Y$. If $x_n\rightarrow x$ as $n\rightarrow \infty$, then $x_{n}^{(2k)}\rightarrow x^{(2k)}$ as $n\rightarrow \infty$. But this implies $x^{(2k)}=0$. Since $x$ is also in $\ell^2$, a closed space, we get $x\in Y$. So $Y$ is a closed subspace of $\ell^2$.
+	
+	Let $A=\{x=(x_i)\in \ell^2:x_{2i-1}=0, i\in\N\}$, we will show that $A=Y^\perp$. For any $x\in A$ and $y\in Y$, we have $\langle{x,y}\rangle = \sum_{i\in \N}{x_iy_i}=0$. So $x\in Y^\perp$ or $A\subset Y^\perp$. For any $x\in Y^\perp$, we have $\langle{x,y}\rangle = 0$ for all $y\in Y$. If there exists $i\in \N$ such that $x_{2i-1}\neq 0$, then let $y'=(0,\cdots,0,1,0,\cdots)$ where every entry is $0$ save the $2i-1$-th. We can see that $y\in Y$ and $\langle{x,y}\rangle = x_{2i-1}\neq 0$, contradiction. Hence $x_{2i-1}=0$ for all $i\in\N$ or $x\in A$. So $Y^\perp\subset A$. Therefore, $Y^\perp=A$.
+	
+	If $Y=\text{span}\{e_1,\cdots,e_n\}$, let $A = \text{span}\{e_{n+1},e_{n+2},\cdots\}$, we will show that $A=Y^\perp$. Any element in $A$ has the form $a_{n+1}e_{n+1}+\cdots+a_me_m$. But $\langle{e_i,e_j}\rangle = 0$ for all $i\neq j$, therefore
+	\[
+	\langle{a_1e_1+\cdots+a_ne_n,a_{n+1}e_{n+1}+\cdots + a_me_m}\rangle=0.
+	\]
+	So $a_{n+1}e_{n+1}+\cdots+a_me_m\in Y^\perp$, which means $A\subset Y^\perp$. For any $x\in perp$, if $x=(x_1,x_2,\cdots)\notin A$, then there exists an $i\leq n$ such that $x_i\neq 0$. But then $\langle{x,e_i}\rangle = x_i\neq 0$, contradiction. So $x\in A$ and we get $A=Y^\perp$.
+	\end{proof}
+
+\begin{exercise}{7}
+Let $A$ and $B\supset A$ be nonempty subsets of an inner product space $X$. Show that 
+\begin{enumerate}[label=(\alph*)]
+\item $A\subset A^{\perp\perp}$,
+\item $B^\perp \subset A^\perp$,
+\item $A^{\perp\perp\perp}=A^\perp$.
+\end{enumerate}
+\end{exercise}
+	\begin{proof}
+	\hfill
+	\begin{enumerate}[label=(\alph*)]
+	\item For any $a\in A$ and $b\in A^\perp$, we get $\langle{a,b}\rangle = 0$. In another word,  $\langle{a,b}\rangle = 0$ for all $b\in A^\perp$, which means $a\in A^{\perp\perp}$.
+	\item If $x\in B^\perp$, then $\langle{x,b}\rangle=0$ for all $b\in B$. But $A\subset B$, hence $\langle{x,a}\rangle=0$ for all $a\in A$. This means $x\in A^\perp$. So $B^\perp\subset A^\perp$.
+	\item Using part (a), we get $A^\perp\subset A^{\perp\perp\perp}$. Moreover, because $A\subset A^{\perp\perp}$, using part (b), we get $A^{\perp\perp\perp}\subset A^\perp$. Hence, $A^\perp=A^{\perp\perp\perp}$.
+	\end{enumerate}
+	\end{proof}
+	
+\begin{exercise}{9}
+Show that a subspace $Y$ of a Hilbert space $H$ is closed in $H$ if and only if $Y=Y^{\perp\perp}$.
+\end{exercise}
+	\begin{proof}
+	If $Y=Y^{\perp\perp}$, then because $Y^{\perp\perp}$ is closed, we get $Y$ is closed. 
+	Conversely, if $Y$ is closed, then by Lemma 3.3-6, we get $Y=Y^{\perp\perp}$.
+	\end{proof}
+
+\begin{exercise}{10}
+If $M\neq \varnothing$ is any subset of a Hilbert space $H$, show that $M^{\perp\perp}$ is the smallest closed subspace of $H$ which contains $M$, that is, $M^{\perp\perp}$ is contained in any closed subspace $Y\subset H$ such that $Y\supset M$.
+\end{exercise}
+	\begin{proof}
+	Let $Y$ be a closed space that contain $M$, then by Exercise 9, $Y=Y^{\perp\perp}$. Because $M\subset Y$, we get $Y^\perp\subset M^\perp$, hence $M^{\perp\perp}\subset Y^{\perp\perp}=Y$. Since $M\subset M^{\perp\perp}$, $M$ is the smallest closed subspace of $H$ which contains $M$.
+	\end{proof}
+
+\subsection*{3.4 Orthonormal Sets and Sequences}
+
+\begin{exercise}{1}
+Show that an inner product space of finite dimension $n$ has a basis $\{b_1,\cdots,b_n\}$ of orthonormal vectors. (The infinite dimensional case will be considered in Sec. 3.6.)
+\end{exercise}
+	\begin{proof}
+	Let $V$ be an $n$ dimensional inner product space, then there exists a basis $\{a_1,\cdots,a_n\}$ of $V$. Applying the Gram-Schmidt process to $\{a_1,\cdots,a_n\}$, we obtain a new set $\{b_1,\cdots,b_n\}$. Because this set is orthonormal, thus independent. But it also has $n$ elements, thus this is an orthonormal basis for $V$.
+	\end{proof}
+
+\begin{exercise}{3}
+Obtain the Schwarz inequality (Sec. 3.2) from (12*).
+\end{exercise}
+	\begin{proof}
+	As a reminder, (12*) stated as follow. 
+	\[
+	\sum_{k=1}^{n}{|\langle{x,e_k}\rangle|^2}\leq \|x\|^2,
+	\]
+	where $\{e_1,\cdots,e_n\}$ is an orthonormal subset of $X$ and $x\in X$ is arbitrary. So for any $x,y\in X$, if $y=0$ then we have
+	\[
+	|\langle{x,y}\rangle| = 0 = \|x\|\cdot 0=\|x\|\cdot\|y\|.
+	\]
+	If $y\neq 0$, we have $\{\frac{y}{\|y\|}$ is an orthonormal set, therefore, applying (12*), we get
+	\[
+	\left|\left\langle{x,\frac{y}{\|y\|}}\right\rangle\right|^2\leq \|x\|^2.
+	\]
+	Multiplying $\|y\|^2$ both sides, notice that $1/\|y\|$ is a real number, we get
+	\[
+	|\langle{x,y}\rangle|^2 = \|y\|^2\left|\left\langle{x,\frac{y}{\|y\|}}\right\rangle\right|^2\leq \|y\|^2\|x\|^2.
+	\]
+	So (12*) implies the Schwarz inequality.
+	\end{proof}
+
+\begin{exercise}{4}
+Give an example of an $x\in\ell^2$ such that we have strict inequality in (12).
+\end{exercise}
+	\begin{proof}
+	Let $e_i=(\delta_{ij})\in \ell^2$, then it is not hard to see that $\{e_2,e_3,\cdots\}$ is an orhtonormal sequence of $\ell_2$. Let $x=e_1$, then $\|x\|=\|e_1\|=1$, but $\langle{x,e_k}\rangle = \langle{e_1,e_k}\rangle = 0$ for all $k>1$. Therefore 
+	\[
+	\sum_{k=2}^{\infty}{\langle{x,e_k}\rangle} = 0 < 1 =\|e_1\| = x.
+	\]
+	So we have strict inequality.
+	\end{proof}
+
+\begin{exercise}{5}
+If $(e_k)$ is an orthonormal sequence in an inner product space $X$, and $x\in X$, show that $x-y$ with $y$ given by
+\[
+y=\sum_{k=1}^{n}{\alpha_ke_k}, \quad \alpha_k=\langle{x,e_k}\rangle
+\]
+is orthogonal to the subspace $Y_n=\text{span}\{e_1,\cdots,e_n\}$.
+\end{exercise}
+	\begin{proof}
+	For any integer $i$ such that $1\leq i\leq n$, we have
+	\begin{align*}
+	\langle{x-y,e_i}\rangle &= \langle{x,e_i}\rangle - \langle{y,e_i}\rangle\\
+	&= \langle{x,e_i}\rangle - \left\langle{\sum_{k=1}^{n}{\alpha_ke_k	},e_1}\right\rangle\\
+	&= \langle{x,e_i}\rangle - \langle{x,e_i}\rangle\\
+	&= 0.
+	\end{align*}
+	So $x-y$ is perpendicular to each $e_i$. Hence, $x-y$ is perpendicular to $Y_n=\text{span}\{e_1,\cdots,e_n\}$.
+	\end{proof}
+
+\begin{exercise}{6}
+Let $\{e_1,\cdots,e_n\}$ be an orthonormal set in an inner product space $X$, where $n$ is fixed. Let $x\in X$ be any fixed element and $y=\beta_1e_1+\cdots+\beta_ne_n$. Then $\|x-y\|$ depends on $\beta_1,\cdots,\beta_n$. Show by direct calculation that $\|x-y\|$ is minimum if and only if $\beta_j=\langle{x,e_j}\rangle$, where $j=1,\cdots,n$.
+\end{exercise}
+	\begin{proof}
+	Let $Y_n=\text{span}\{e_1,\cdots,e_n\}$, which is a finite dimensional inner product space, therefore $Y_n$ is closed. So $X=Y_n\oplus Y_n^\perp$. For a fixed $x\in X$, then there exist unique $a\in Y_n$ and $b\in Y_n^\perp$ such that $x=a+b$. For any $y\in Y_n$, we have $a-y\perp b$, therefore
+	\[
+	\|x-y\|^2=\|(a-y)+b\|^2=\|a-y\|^2+\|b\|^2\geq \|b\|^2.
+	\]
+	So $\|x-y\|$ is minimum if and only if $\|a-y\|=0$, or $y=a=\sum_{k=1}^{n}{\langle{x,e_k}\rangle e_k}$. So $\beta_k=\langle{x,e_k}\rangle$ for $k=1,\cdots,n$.
+	\end{proof}
+
+\begin{exercise}{7}
+Let $(e_k)$ be any orthonormal sequence in an inner product space $X$. Show that for any $x,y\in X$, 
+\[
+\sum_{k=1}^{\infty}{|\langle{x,e_k}\rangle\langle{y,e_k}\rangle}|\leq \|x\|\|y\|.
+\]
+\end{exercise}
+	\begin{proof}
+	Applying the Schwarz inequality and then the Bessel inequality, we get
+	\begin{align*}
+	\left(\sum_{k=1}^{\infty}{|\langle{x,e_k}\rangle\langle{y,e_k}\rangle|}\right)^2 &\leq \sum_{k=1}^{\infty}{|\langle{x,e_k}\rangle|^2}\cdot\sum_{k=1}^{\infty}{|\langle{y,e_k}\rangle|^2}\\
+	&\leq \|x\|^2\|y\|^2.
+	\end{align*}
+	We can apply the Schwarz inequality because the vector $(|\langle{x,e_k}\rangle|)_{k\in\N}$ is in $\ell^2$ by the Bessel inequality. Similar for $(|\langle{x,e_k}\rangle|)_{k\in\N}$. Now, taking the square root both sides, we get 
+	\[
+	\sum_{k=1}^{\infty}{|\langle{x,e_k}\rangle\langle{y,e_k}\rangle|}\leq \|x\|\|y\|.
+	\]
+	\end{proof}
+
+\begin{exercise}{8}
+Show that an element $x$ of an inner product space $X$ cannot have "too many" Fourier coefficients $\langle{x,e_k}\rangle$ which are "big"; here, $(e_k)$ is given orthonormal sequence; more precisely, show that the number $n_m$ of $\langle{x,e_k}\rangle$ such that $|\langle{x,e_k}\rangle|>1/m$ must satisfy $n_m<m^2\|x\|^2$.
+\end{exercise}
+	\begin{proof}
+	
+	\end{proof}
+
+\subsection*{3.5 Total Othonormal Sets and Sequences}
+
+\begin{exercise}{1}
+If $\sum_{k+1}^{\infty}{a_ke_k}$ converges with sum $x$, show that $\sum_{k=1}^{\infty}{|a_k|^2}$ has the sum $\|x\|^2$.
+\end{exercise}
+	\begin{proof}
+	Let $x_n=\sum_{k=1}^{n}{a_ke_k}$, then because $(e_k)$ is orthonormal, we have
+	\[
+	\|x_n\|^2 = \left\langle{\sum_{k=1}^{n}{a_ke_k},\sum_{k=1}^{n}{a_ke_k}}\right\rangle = \sum_{k=1}^{n}{|a_k|^2}.
+	\]
+	Because $x_n\rightarrow x$, we get $\|x_n\|^2\rightarrow \|x\|^2$. Hence $\sum_{k=1}^{n}{|a_k|^2}\rightarrow \|x\|^2$, or $\sum_{k=1}^{\infty}{|a_k|^2} = \|x\|^2$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{3}
+Illustrate with an example that a convergent series $\sum \langle{x,e_k}\rangle e_k$ need not have the sum $x$.
+\end{exercise}
+	\begin{proof}
+	Let $e_k\in \ell^2$ defined by $e_k=(\delta_{nk})_{n\in\N}$, then $\B=\{e_2,e_3,\cdots\}$ is an orthonormal sequence of $\ell^2$. Because $e_1$ is perpendicular to any vector in $\B$, we get
+	\[
+	\sum_{e\in \B}{\langle{e_1,e}\rangle} = 0\neq e_1.
+	\]
+	\end{proof}
+
+\begin{exercise}{4}
+If $(x_j)$ is a sequence in an inner product space $X$ such that the series $\|x_1\|+\|x_2\|+\cdots$ converges, show that $(s_n)$ is a Cauchy sequence, where $s_n=x_1+\cdots+x_n$.
+\end{exercise}
+	\begin{proof}
+	We have
+	\[
+	\|s_m-s_{n-1}\|=\left\|\sum_{k=n}^{m}{x_k}\right\| \leq \sum_{k=n}^{m}{\|x_k\|}.
+	\]
+	\end{proof}
+	Because $\|x_1\|+\|x_2\|+\cdots$ is convergent, the rightest term can be sufficiently small, which implies $s_n$ is Cauchy.
+
+\begin{exercise}{5}
+Show that in a Hilbert space $H$, convergence of $\sum\|x_j\|$ implies convergence of $\sum x_j$.
+\end{exercise}
+	\begin{proof}
+	For any $m,n\in \N$, applying the triangular inequality, we have
+	\[
+	\left\|\sum_{k=m}^{n}{x_k}\right\| \leq \sum_{k=m}^{n}{\|x_k\|}.
+	\]
+	Since $\sum\|x_k\|$ is convergent, the right hand side can be sufficiently small. So $\sum x_k$ is convergent.
+	\end{proof}
+
+\begin{exercise}{6}
+Let $(e_j)$ be an orthonormal sequence in a Hilbert space $H$. Show that if 
+\[
+x  =\sum_{j=1}^{\infty}{\alpha_je_j},\quad y = \sum_{j=1}^{\infty}{\beta_je_j}, \quad \text{then}\quad \langle{x,y}\rangle = \sum_{j=1}^{\infty}{\alpha_j\bar \beta_j},
+\]
+the series being absolutely convergent.
+\end{exercise}
+	\begin{proof}
+	Let $x_n$ and $y_n$ be the partial sum of $x$ and $y$, then $x_n\rightarrow x$ and $y_n\rightarrow y$. Because the inner product is continuous, we get $\langle{x_n,y_n}\rangle\rightarrow \langle{x,y}\rangle$. But
+	\[
+	\langle{x_n,y_n}\rangle = \left\langle{\sum_{i=1}^{n}{\alpha_ie_i},\sum_{j=1}^{n}{\beta_je_j}}\right\rangle = \sum_{i=1}^{n}{\alpha_i\bar\beta_i},
+	\]
+	hence
+	\[
+	\langle{x,y}\rangle = \sum_{j=1}^{\infty}{\alpha_i\bar\beta_i}.
+	\]
+	Now we will show that $\sum_{j=1}^{\infty}{|\alpha_i\bar\beta_i|}$ is convergent. For any $n\in \N$, applying the AM-GM inequality, we have
+	\[
+	\sum_{j=1}^{n}{|a_j\bar\beta_j|}=\sum_{j=1}^{n}{|a_j||\bar\beta_j|} = \sum_{j=1}^{n}{|a_j||\beta_j|} \leq \frac{1}{2}\sum_{j=1}^{n}{|a_j|^2}+\sum_{j=1}^{n}{|\beta|^2}.
+	\]
+	But $\sum_{i=1}^{\infty}{|a_i|^2}$ and $\sum_{i=1}^{\infty}{|b_i|^2}$ are convergent, thus the right hand side is finite. Therefore, $\sum_{j=1}^{\infty}{|\alpha_i\bar\beta_i|}$ is convergent.
+	\end{proof}
+
+\begin{exercise}{7}
+Let $(e_k)$ be an orthonormal sequence in a Hilbert space $H$. Show that for every $x\in H$, the vector
+\[
+y=\sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}
+\]
+exists in $H$ and $x-y$ is orthogonal to every $e_k$.
+\end{exercise}
+	\begin{proof}
+	Using the Bassel inequality, we have 
+	\[
+	\sum_{k=1}^{\infty}{|\langle{x,e_k}\rangle|^2}\leq \|x\|,
+	\]
+	thus $\sum_{k=1}^{\infty}{|\langle{x,e_k}\rangle|^2}$ is convergent. By Theorem 3.5-2, this implies $\sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}$ convergent, hence $y$ exists. For any $k\in \N$, we have
+	\[
+	\langle{e_k,x-y}\rangle = \lim_{n\rightarrow\infty}\left\langle{e_k,x-\sum_{i=1}^{n}{\langle{x,e_i}\rangle e_i}}\right\rangle = \langle{e_k,x}\rangle - \lim_{n\rightarrow \infty}\left\langle{e_k,\sum_{i=1}^{n}{\langle{x,e_i}\rangle e_i}}\right\rangle.
+	\]
+	Notice that when $n>k$, the right hand side equals $0$. Therefore $\langle{e_k,x-y}\rangle = 0$ for all $k\in\N$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{8}
+Let $(e_k)$ be an orthonormal sequence in a Hilbert space $H$, and let $M=\text{span}(e_k)$. Show that for any $x\in H$ we have $x\in \bar M$ if any only if $x$ can be represented by (6) with coefficients $a_k=\langle{x,e_k}\rangle$.
+\end{exercise}
+	\begin{proof}
+	If $x = \sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}$, then for $s_n = \sum_{k=1}^{n}{\langle{x,e_k}\rangle e_k}\in M$, clearly $s_n\rightarrow x$. So $x\in \bar M$. Conversely, if $x\in \bar M$, then consider the sum $\sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}$. The Bessel inequality implies that $\sum_{k=1}^{\infty}{\langle{x,e_k}\rangle^2}$ is convergent. Thus $\sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}$ exists and in $\bar M$. Notice that $x-\sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}$ is perpendicular to all $e_i$, thus it is in $\bar M ^\perp$. But $\bar M\cap \bar M^\perp = \{0\}$, we get $x = \sum_{k=1}^{\infty}{\langle{x,e_k}\rangle e_k}$.
+	\end{proof}
+
+\begin{exercise}{9}
+Let $(e_n)$ and $(\tilde{e}_n)$ be orthonormal sequences in a Hilbert space $H$, and let $M_1=\text{span}(e_n)$ and $M_2=\text{span}(\tilde{e}_n)$. Using Prob. 8, show that $\bar M_1=\bar M_2$ if and only if
+\begin{enumerate}[label=(\alph*)]
+\item $e_n=\sum_{m=1}^{\infty}{a_{nm}\tilde{e}_m}$,
+\item $\tilde{e}_n=\sum_{m=1}^{\infty}{\bar{\alpha}_{mn}e_m}$,
+\end{enumerate}
+$a_{nm}=\langle{e_n,\tilde e_m}\rangle$.
+\end{exercise}
+	\begin{proof}
+	If $\bar M_1 = \bar M_2$, then for any $n\in \N$, by exercise 8, we get 
+	\[
+	e_n=\sum_{m=1}^{\infty}{\langle{e_n,\tilde e_m}\rangle\tilde{e}_m}=\sum_{m=1}^{\infty}{a_{nm}\tilde{e}_m},
+	\]
+	and similarly 
+	\[
+	\tilde e_n=\sum_{m=1}^{\infty}{\langle{\tilde e_n, e_m}\rangle e_m}= \sum_{m=1}^{\infty}{\overline{\langle{e_m,\tilde e_n}\rangle }e_m}=\sum_{m=1}^{\infty}{\bar{\alpha}_{mn}e_m}.
+	\]
+	Conversely, from (a), $e_n$ can be written as $\sum_{m=1}^{\infty}{a_{nm}\tilde{e}_m}$ for all $n\in \N$. Thus $M_1 = \text{span}(e_n)\subset \bar M_2$. But $\bar M_2$ is closed, thus $\bar M_1\subset \bar M_2$. Similarly, we get $\bar M_2\subset \bar M_1$. Hence $\bar M_1 = \bar M_2$.
+	\end{proof}
+
+\pagebreak
+
+\begin{exercise}{10}
+Work out the details of the proof of Lemma 3.5-3. That is, show that any $x$ in an inner product space $X$ can have at most countably many nonzero Fourier coefficients $\langle{x,e_k}\rangle$ with respect to an orthonormal family $(e_k),k\in I$, in $X$.
+\end{exercise}
+	\begin{proof}
+	For any $m\in \N$, we will show that there are finitely many $k\in I$ such that $\langle{x,e_k}\rangle > \frac{1}{m}$. Indeed, if there are infinitely many such $k$, then take out countably many of them, say, $e_{k_i}$, then
+	\[
+	\sum_{i=1}^{\infty}{\langle{x,e_{k_i}}\rangle^2}\rightarrow \infty,
+	\]
+	Contradiction. So there are finitely many $e_k$ such that $|\langle{x,e_k}\rangle| > \frac{1}{m}$. Let $U_m = \{e_k:|\langle{x,e_k}\rangle| > \frac{1}{m}\}$, then 
+	\[
+	\{e_k,\langle{x,e_k}\rangle\neq 0\} = \bigcup_{m\in \N}U_m.
+	\]
+	Notice that the right hand side is a countable union of finite sets, thus countable, we get the desired result.
+	\end{proof}
+	
+\section*{3.6 Total Orthonormal Sets and Sequences}
+
+\begin{exercise}{1}
+If $F$ is an orthonormal basis in an inner product space $X$, can we represent every $x\in X$ as a linear combination of elements of $F$? (By definition, a linear combination consists of finitely many terms.)
+\end{exercise}
+	\begin{proof}
+	No. Take $\ell^2$ and $F=\{(\delta_{in})_{n\in\N}: i\in \N\}$, then $F$ is an orthonormal basis of $\ell^\infty$. However, $(1,1/2,1/3,\cdots)$ cannot be represented as a linear combination of elements of $F$.
+	\end{proof}
+	
+\begin{exercise}{2}
+Show that if the orthogonal dimension of a Hilbert space $H$ is finite, it equals the dimension of $H$ regarded as a vector space; conversely, if the latter is finite, show that so is the former.
+\end{exercise}
+	\begin{proof}
+	If the orthogonal dimension of a Hilbert space $H$ is finite, then there exists a finite orthogonal basis, say, $\B=\{e_1,\cdots, e_n\}$ such that $\overline{\text{span}(\B)}=H$. But $\text{span}(\B)$ is finite dimensional, thus closed. So we get $\text{span}(\B)=H$. Since $\{e_i\}$ are orthogonal, thus linearly independent, we get $\B$ is a basis for the vector space $H$. So $\text{dim}(H) = n$.
+	
+	Conversely, if $H$ is a finite dimensional vector space, say $\text{dim}(H)=n$, then there are at most $n$ vectors that are linearly independent. So for $\B\subset H$ a total orthonormal sets of $H$, $|\B|$ is at most $n$, which means the orhtogonal dimension of the Hilbert space $H$ is finite. Using the first paragraph, we get the Hilbert dimension of $H$ is also $n$.
+	\end{proof}
+	
+\begin{exercise}{3}
+From what theorem of elementary geometry does the Parseval relation follow in the case of Euclidean $n$-space?
+\end{exercise}
+	\begin{proof}
+	Pythagorean
+	\end{proof}
+	
+\begin{exercise}{4}
+Derive from the Parseval relation $\sum_{k}{|\langle{x,e_k}\rangle|^2} = \|x\|^2$ the following formula.
+\[
+\langle{x,y}\rangle = \sum_{k}{\langle{x,e_k}\rangle\overline{\langle{y,e_k}\rangle}}.
+\]
+\end{exercise}
+	\begin{proof}
+	Using the polarization identity, we have
+	\[
+	\langle{x,y}\rangle = \frac{1}{4}(\|x+y\|^2 - \|x-y\|^2 + i\|x+iy\|^2 - i\|x-iy\|^2).
+	\]
+	Using the Parseval relation, we get
+	\begin{align*}
+	\|x+y\|^2 &= \sum_k{|\langle{x+y,e_k}\rangle|^2}\\
+	&= \sum_k{\langle{x+y,e_k}\rangle\overline{\langle{x+y,e_k}\rangle}}\\
+	&= \sum_k{(\langle{x,e_k}\rangle+\langle{y,e_k}\rangle})(\overline{\langle{x,e_k}\rangle}+\overline{\langle{y,e_k}\rangle})\\
+	&= \sum_k{
+	\langle{x,e_k}\rangle\overline{\langle{x,e_k}\rangle} + \langle{y,e_k}\rangle\overline{\langle{x,e_k}\rangle} + \langle{x,e_k}\rangle\overline{\langle{y,e_k}\rangle} + \langle{y,e_k}\rangle\overline{\langle{y,e_k}\rangle}
+	}
+	\end{align*}
+	Similarly, we have
+	\[
+	\|x-y\|^2 = \sum_k\langle{x,e_k}\rangle\overline{\langle{x,e_k}\rangle} - \langle{y,e_k}\rangle\overline{\langle{x,e_k}\rangle} - \langle{x,e_k}\rangle\overline{\langle{y,e_k}\rangle} + \langle{y,e_k}\rangle\overline{\langle{y,e_k}\rangle},
+	\]
+	\[
+	\|x+iy\|^2 = \sum_k\langle{x,e_k}\rangle\overline{\langle{x,e_k}\rangle} + \langle{iy,e_k}\rangle\overline{\langle{x,e_k}\rangle} + \langle{x,e_k}\rangle\overline{\langle{iy,e_k}\rangle} + \langle{iy,e_k}\rangle\overline{\langle{iy,e_k}\rangle},
+	\]
+	\[
+	\|x-iy\|^2 = \sum_k\langle{x,e_k}\rangle\overline{\langle{x,e_k}\rangle} - \langle{iy,e_k}\rangle\overline{\langle{x,e_k}\rangle} - \langle{x,e_k}\rangle\overline{\langle{iy,e_k}\rangle} + \langle{iy,e_k}\rangle\overline{\langle{iy,e_k}\rangle},
+	\]
+	Add everything up side to side, we get
+	\[
+	\langle{x,y}\rangle = \frac{1}{4}(\|x+y\|^2 - \|x-y\|^2 + i\|x+iy\|^2 - i\|x-iy\|^2).
+	\]
+	\end{proof}
+Trust me, I have done the calculation :))
+\begin{exercise}{5}
+Show that an orthonormal family $(e_k),k\in I$, in a Hilbert space $H$ is total if and only if the relation in Exercise 4 holds for every $x$ and $y$ in $H$.
+\end{exercise}
+	\begin{proof}
+	Notice that from the relation in Exercise 4, let $y=x$, we get
+	\[
+	\|x\|^2 = \langle{x,x}\rangle = \sum_{k}{\langle{x,e_k}\rangle\overline{\langle{x,e_k}\rangle}} = \sum_{k}{|\langle{x,e_k}\rangle|^2}.
+	\]
+	So if that relation holds for all $x\in H$, using Theorem 3.6-3 (Totality), we get $(e_k)$ is total in $H$. Conversely, if $(e_k)$ is total, we get the Parseval relation, which implies the relation if Exercise 4.
+	\end{proof}
+	
+\begin{exercise}{6}
+Let $H$ be a separable Hilbert space and $M$ a countable dense subset of $H$. Show that $H$ contains a total orthonormal sequence which can be obtained from $M$ by the Gram-Schmidt process.
+\end{exercise}
+	\begin{proof}
+	Applying the Gram-Schmidt process to $M$ and remove all the zero vectors if there is any, we get an orthonormal set $E = \{e_1,e_2,\cdots\}$ of $H$. Notice that $M\subset \text{span}(E)$, since $M$ is dense in $H$, $E$ is a total set in $H$.
+	\end{proof}
+
+\begin{exercise}{7}
+Show that if a Hilbert space $H$ is separable, the existence of a total orthonormal set in $H$ can be proved without the use of Zorn's lemma.
+\end{exercise}
+	\begin{proof}
+	It is what exercise 6 say lol.
+	\end{proof}
+
+\begin{exercise}{8}
+Show that for any orthonormal sequence $F$ in a separable Hilbert space $H$ there is a total orthonormal sequence $\tilde{F}$ which contains $F$.
+\end{exercise}
+	\begin{proof}
+	Let $F$ be any orthonormal sequence in $H$, and $M = \overline{\text{span} F}$. Let $E$ be a total orthonormal sequence of $M^\perp$, it is not hard to see that $E\cup F$ is an orthonormal set. We will now show that it is total in $X$. Clearly $\overline{\text{span} E\cup F}\subset X$. Conversely, any $x\in X$ can be written as $x_1+x_2$ where $x_1\in M$ and $x_2\in M^\perp$. But $x_1\in \overline{\text{span} E}\subset \overline{\text{span} E\cup F}$, and similarly for $x_2$, we get $x=x_1+x_2\subset \overline{\text{span} E\cup F}$. So $X = \overline{\text{span} E\cup F}$, or $E\cup F$ is total in $X$. Let $\tilde{F} = E\cup F$ and the proof is done.
+	\end{proof}
+
+\begin{exercise}{9}
+Let $M$ be a total set in an inner product space $X$. If $\langle{v,x}\rangle = \langle{w,x}\rangle$ for all $x\in M$, show that $v=w$. 
+\end{exercise}
+	\begin{proof}
+	By the linearity of the inner product, for any $x_1,\cdots,x_n \in M$ and scalars $a_1,\cdots,a_n$, we have
+	\[
+	\langle{v,\sum_{1\leq i\leq n}{a_ix_i}}\rangle = \sum_{1\leq i\leq n}{\overline{a_i}\langle{v,x_i}\rangle} = \sum_{1\leq i\leq n}{\overline{a_i}\langle{w,x_i}\rangle} = \langle{w,\sum_{1\leq i\leq n}{a_ix_i}}\rangle.
+	\]
+	So if $\langle{v,x}\rangle =\langle{w,x}\rangle$ for all $x\in M$, we get $\langle{v,x}\rangle =\langle{w,x}\rangle$ for all $x\in \text{span}(M)$. Using the continuity of the inner product, we get $\langle{v,x}\rangle = \langle{w,x}\rangle$ for all $x\in X$. So $v=w$.
+	\end{proof}
+
+\begin{exercise}{10}
+Let $M$ be a subset of a Hilbert space $H$, and let $v,w\in H$. Suppose that $\langle{v,x}\rangle = \langle{w,x}\rangle$ for all $x\in M$ implies $v=w$. If this holds for all $v,w\in H$, show that $M$ is total in $H$.
+\end{exercise}
+	\begin{proof}
+	The proof is by mathematical contradiction. Assume that $\overline{\text{span }M} \neq H$, then there exists a nonzero vector $x\in \overline{\text{span }M}^\perp$. Therefore $\langle{x,m}\rangle = 0$ for all $m\in M$. But this means $\langle{2x,m}\rangle = \langle{x,m}\rangle$, and $2x\neq x$ since $x$ is nonzero, we get a contradiction.
+	\end{proof}
+\pagebreak
+\section*{Chapter 4. Fundamental theorems for normed and Banach spaces}
+
+\subsection*{4.1 Zorn's Lemma}
+
+\begin{exercise}{5}
+Prove that a finite partially ordered set $A$ has at least one maximal element.
+\end{exercise}
+	\begin{proof}
+	First, we will show that any finite chain has an upper bound. Err... this is like the order of the natural numbers case, so it is kinda obvious. But we can also argue like this. Let that finite chain be $B=\{b_1,\cdots,b_n\}$, and let $m_1 = b_1$. If $m_1$ is the maximal element of $B$, then $m_1$ is also an upper bound for $B$. If $m_1$ is not the maximal element of $B$, then there exists an $m_2\in B$ such that $m_1\leq m_2$ but $m_1 \neq m_2$. So $m_2 \not\leq m_1$, we only have to compare $m_2$ to $n-2$ other elements. In general, if $m_i$ isn't the maximal, we let $m_{i+1}$ be the element that is bigger than $m_{i}$ but not equals $m_i$. This process has at most $n$ steps, thus will stop at some $m_j$, which is the maximal and thus the upper bound of $B$.
+	
+	With that being said, any chain of $A$ has an upper bound, thus using the Zorn's Lemma, there exists a maximal element for $A$.
+	\end{proof}
+
+\subsection*{4.2 Hahn-Banach Theorem}
+\begin{exercise}{1}
+Show that the absolute value of a linear functional has the properties of a sublinear functional.
+\end{exercise}
+	\begin{proof}
+	Let $f:X\rightarrow \R$ be a linear functional, and let $g(x) = |f(x)|$, we will show that $g$ is sublinear. Indeed, by the triangular inequality, we get
+	\[
+	g(x+y) = |f(x+y)| = |f(x)+f(y)|\leq |f(x)|+|f(y)|=g(x)+g(y).
+	\]
+	Moreover, for any $a\in \R$ and $a>0$, we have
+	\[
+	g(ax) = |f(ax)|=a|f(x)|=ag(x).
+	\]
+	So $g$ is sublinear.
+	\end{proof}
+
+\begin{exercise}{2}
+Show that a norm on a vector space $X$ is a sublinear functional on $X$.
+\end{exercise}
+	\begin{proof}
+	Clearly, since $\|x+y\|\leq \|x\|+\|y\|$ by the triangular inequality, and for any $a>0$, we have $\|ax\|=|a|\cdot \|x\|=a\|x\|$.
+	\end{proof}
+	
+\pagebreak
+
+\begin{exercise}{3}
+Show that $p(x)=\overline{\lim_{n\rightarrow \infty}}e_n$, where $x=(e_n)\in\ell^\infty$, $e_n$ real, defines a sublinear functional on $\ell^\infty$.
+\end{exercise}
+	
+\begin{exercise}{4}
+Show that a sublinear functional $p$ satisfies $p(0)=0$ and $p(-x)\geq -p(x)$.
+\end{exercise}
+	\begin{proof}
+	If $p$ is a sublinear functional for any $a\in \R$, $a>0$, we have
+	\[
+	ap(0) = p(a\cdot 0) = p(0).
+	\]
+	Since $a$ is arbitrary, we get $p(0)=0$. Applying the subadditive property for $p$, we get
+	\[
+	0 = p(0) = p(x+(-x))\leq p(x)+p(-x).
+	\]
+	Subtracting $p(x)$ both sides yields $-p(x)\leq p(-x)$.
+	\end{proof}
+I know we can get the first result straight from positive homogeneous by letting $a = 0$, but it is a little unnatural.
+
+\begin{exercise}{5}
+If $p$ is a sublinear functional on a vector space $X$, show that $M=\{x:p(x)\leq \gamma,\gamma >0 \text{ fixed }\}$, is a convex set.
+\end{exercise}
+	\begin{proof}
+	Let $x,y\in M$, we will show that $tx + (1-t)y\in M$ for $t\in [0,1]$. Indeed, since $t\in [0,1]$, we have $t$ and $1-t$ are positive. Hence
+	\[
+	p(tx + (1-t)y)\leq p(tx)+p((1-t)y) = tp(x)+(1-t)p(y)\leq t\gamma + (1-t)\gamma = \gamma.
+	\]
+	So $tx + (1-t)y\in M$, which implies $M$ is convex.
+	\end{proof}
+
+\begin{exercise}{6}
+If a subadditive functional $p$ on a normed space $X$ is continuous at $0$ and $p(0)=0$, show that $p$ is continuous for all $x\in X$.
+\end{exercise}
+	\begin{proof}
+	Let $p:X\rightarrow \R$ be a subadditive functional, which is continuous at $0$ and $p(0)=0$. By the definition of continuity, $a_n\in X$ and $a_n\rightarrow 0$ implies $p(a_n)\rightarrow p(0)=0$. For any $x\in X$ and any sequence $x_n\rightarrow x$, we get $\|x_n-x\|\rightarrow 0$, which means $x_n-x\rightarrow 0$. Therefore, $p(x_n-x)\rightarrow 0$. Notice that
+	\[2
+	p(x_n) = p((x_n-x) +x)\leq p(x_n-x) + p(x),
+	\]
+	Hence 
+	\[
+	p(x_n)-p(x)\leq p(x_n-x).
+	\]
+	Moreover, we have
+	\[
+	p(x) = p(x_n + (x-x_n))\leq p(x_n) + p(x-x_n),
+	\]
+	hence
+	\[
+	-p(x-x_n)\leq p(x_n)-p(x),
+	\]
+	which implies
+	\[
+	|p(x_n)-p(x)|\leq |p(x-x_n)|\rightarrow 0.
+	\]
+	So $p(x_n)\rightarrow p(x)$, or $p$ is continuous at $x$.
+	\end{proof}
+	
+\begin{exercise}{7}
+If $p_1$ and $p_2$ are sublinear functionals on a vector space $X$ and $c_1$ and $c_2$ are positive constants, show that $p=c_1p_1+c_2p_2$ is sublinear on $X$.
+\end{exercise}
+	\begin{proof}
+	For any $x,y\in X$ and a positive scalar $a\in \R$, we get
+	\begin{align*}
+	p(x+y) &= c_1p_1(x+y)+c_2p_2(x+y)\\
+	&\leq c_1(p_1(x)+p_1(y))+c_2(p_2(x)+p_2(y))\\
+	&=c_1p_1(x) + c_2p_2(x) + c_1p_1(y)+c_2p_2(y)\\
+	&=p(x)+p(y).
+	\end{align*}
+	Moreover, 
+	\[
+	p(ax) = c_1p_1(ax)+c_2p_2(ax)  =a(c_1p_1(x)+c_2p_2(x))=ap(x).
+	\]
+	So $p$ is sublinear on $X$.
+	\end{proof}
+	
+	
+\subsection*{4.3 Hahn-Banach Theorem for Complex Vector Spaces and Normed Spaces}
+
+\begin{exercise}{1}
+Show that (1) and (2) imply $p(0)=0$ and $p(x)\geq 0$, so that $p$ is a seminorm.
+\end{exercise}
+	\begin{proof}
+	Let us remind that (1) is $p(x+y)\leq p(x)+p(y)$ and (2) is $p(ax)=|a|p(x)$. From (2), let $a=0$, we get $p(0)=p(0\cdot 1)=0\cdot p(1)=0$. Now applying (1), for any $x\in X$, we get
+	\[
+	0=p(0)=p(x+(-x))\leq p(x)+|-1|\cdot p(x)=2p(x).
+	\]
+	Therefore, we get $0\leq p(x)$ for all $x\in X$. So $p$ is a seminorm. (I guess a seminorm only miss the $\|x\|>0$ if $x>0$) property.
+	\end{proof}
+
+\begin{exercise}{2}
+Show that (1) and (2) imply $|p(x)-p(y)|\leq p(x-y)$.
+\end{exercise}
+	\begin{proof}
+	Applying (1), we have $p(x)\leq p(x-y)+p(y)$, subtracting both sides to $p(y)$, we get $p(x)-p(y)\leq p(x-y)$. Similarly, (1) implies $p(y) \leq p(y-x)+p(x)$, hence $-p(y-x)\leq p(x)-p(y)$. By applying (2), we get $p(y-x)=|-1|p(x-y)=p(x-y)$. So
+	\[
+	-p(x-y)\leq p(x)-p(y) \leq p(x-y),
+	\]
+	or
+	\[
+	|p(x)-p(y)|\leq p(x-y).
+	\]
+	\end{proof}
+
+\begin{exercise}{3}
+It was shown that $\tilde{f}$ defined by (7) is a linear functional on the complex vector space $X$. Show that for this purpose it suffices to prove that $\tilde{f}(ix)=i\tilde{f}(x)$.
+\end{exercise}
+	\begin{proof}
+	Let us remind that (7) defines $\tilde{f}(x) = \tilde{f_1}(x)-i\tilde{f_1}(ix)$. Substitute $x$ be $ix$, we get $\tilde{f}(ix)=\tilde{f_1}(ix)-i\tilde{f_1}(-x) = \tilde{f_1}(ix)+i\tilde{f_1}(x) = i(\tilde{f_1}(x)-i\tilde{f_1}(ix))=i\tilde{f}(x)$.
+	\end{proof}
+
+\begin{exercise}{4}
+Let $p$ be defined on a vector space $X$ and satisfy (1) and (2). Show that for any given $x_0\in X$ there is a linear functional $\tilde{f}$ on $X$ such that $\tilde{f}(x_0)=p(x_0)$ and $|\tilde{f}(x)|\leq p(x)$ for all $x\in X$. 
+\end{exercise}
+	\begin{proof}
+	For any $x_0\in X$, let $Z=\{ax_0:a\in \C\}$. For any $p$ that satisfy (1) and (2), let $f:Z\rightarrow \C$ maps $f(ax_0)\mapsto ap(x_0)$. It's not hard to see that $f$ is well-defined. Moreover, we have $f$ is linear since
+	\[
+	f(a_1x_0 + ca_2x_0)=f((a_1+ca_2)x_0)=(a_1+ca_2)p(x_0) = a_1p(x_0)+ca_2p(x_0)=f(a_1x_0)+cf(a_2x_0).
+	\]
+	Applying the Hahn - Banach theorem, there exists an extension $\tilde{f}:X\rightarrow \C$ such that $\tilde{f}(x_0)=f(x_0)=p(x_0)$ and $|\tilde{f}(x)|\leq p(x)$ for all $x\in X$.
+	\end{proof}
+
+\begin{exercise}{8}
+Let $X$ be a normed space and $X'$ its dual space. If $X\neq \{0\}$, show that $X'$ cannot be $\{0\}$.
+\end{exercise}
+	\begin{proof}
+	If $X\neq \{0\}$, then there exists an $x_0\in X$ such that $\|x_0\|\neq 0$. Applying the Bounded linear functionals Theorem, there exists $\tilde{f}$ such that $\|\tilde{f}\|=1$ and $\tilde{f}(x_0)=\|x_0\|\neq 0$. Since $X'$ contains $\tilde{f}$, $X'\neq \{0\}$.
+	\end{proof}
+
+\begin{exercise}{12}
+To illustrate Theorem 4.3-3, let $X$ be the Euclidean plan $\R^2$ and find the functional $\tilde{f}$.
+\end{exercise}
+	\begin{proof}
+	Let $x_0$ be a vector in $\R^2$, and $f:\R^2\rightarrow \R$ defined by $f(x)=\frac{1}{\|x_0\|}\cdot\langle{x,x_0}\rangle$. We have
+	\[
+	f(x_0)=\frac{1}{\|x_0\|}\langle{x_0,x_0}\rangle = \frac{1}{\|x_0\|}\cdot\|x_0\|^2 = \|x_0\|.
+	\]
+	Because $\langle{x,x_0}\rangle$ is linear, we have $f(x)=\frac{1}{\|x_0\|}\cdot\langle{x,x_0}\rangle$ is linear. Using the Schwarz inequality, we get
+	\[
+	f(x) = \frac{1}{\|x_0\|}\cdot\langle{x,x_0}\rangle\leq \frac{1}{\|x_0\|}\cdot \|x\|\cdot \|x_0\| = \|x\|.
+	\]
+	Hence $\|f\|=1$.
+	\end{proof}
+	
+	
+\section*{4.5 Adjoint Operator}
+
+\begin{exercise}{1}
+Show that the functional defined by (1) is linear.
+\end{exercise}
+
+\begin{exercise}{2}
+What are the adjoints of a zero operator $0$ and an identity operator $I$?
+\end{exercise}
+
+\begin{exercise}{3}
+Prove (9), that is $(S+T)^\times = S^\times + T^\times$.
+\end{exercise}
+
+\begin{exercise}{4}
+Prove (10), that is $(aT)^\times = aT^\times$.
+\end{exercise}
+
+\begin{exercise}{5}
+Prove (11), that is $(ST)^\times = T^\times S^\times$.
+\end{exercise}
+
+\begin{exercise}{6}
+Show that $(T^n)^\times = (T^\times)^n$.
+\end{exercise}
+
+\begin{exercise}{7}
+What formula for matrices do we obtain by combining (11) and Example 4.5-3?
+\end{exercise}
+
+\begin{exercise}{8}
+Prove (12), that is $(T^\times)^{-1} = (T^{-1})^\times$.
+\end{exercise}
+
+\begin{exercise}{9}
+Let $X$ and $Y$ be normed spaces, $T:X\rightarrow Y$ a bounded linear operator and $M=\overline{R(T)}$, the closure of the range of $T$. Show that 
+\[
+M^a = M(T^\times).
+\]
+\end{exercise}
+
+\end{document}
